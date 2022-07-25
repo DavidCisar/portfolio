@@ -1,2 +1,4 @@
 # Spring
 Backend/target/
+.idea
+.DS_Store
