@@ -1,0 +1,15 @@
+.container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(30,84,103,1) 48%, rgba(2,0,36,1) 100%);
+  border-radius: 5px;
+
+  font-family: "OpenSans-Semibold";
+}
+
+h1, h4 {
+  color: white;
+}
