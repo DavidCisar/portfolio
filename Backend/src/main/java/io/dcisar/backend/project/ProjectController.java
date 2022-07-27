@@ -1,8 +1,6 @@
 package io.dcisar.backend.project;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,10 +19,9 @@ public class ProjectController {
         return projectService.getProjects();
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "it works!";
+    @PostMapping("createProject")
+    public String createProject(@RequestBody Project project) {
+        projectService.save(new Project(project.getName(), project.getDescription(), project.getProjectContext()));
+        return "Saved Project!";
     }
-
-
 }

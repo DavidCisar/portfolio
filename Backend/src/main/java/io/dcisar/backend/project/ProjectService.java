@@ -17,5 +17,7 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-
+    public void save(Project project) {
+        projectRepository.save(project);
+    }
 }

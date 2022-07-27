@@ -1,6 +1,6 @@
 package io.dcisar.backend.project;
 
-import io.dcisar.backend.technology.Technology;
+import io.dcisar.backend.technology.Language;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.List;
 public class Project {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private String description;
@@ -17,11 +18,11 @@ public class Project {
 
     @ManyToMany
     @JoinTable(
-            name = "technologiesInProject",
+            name = "languagesInProject",
             joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "technology_id")
+            inverseJoinColumns = @JoinColumn(name = "language_id")
     )
-    private List<Technology> technologiesInProject = new ArrayList<Technology>();
+    private List<Language> languagesInProject = new ArrayList<>();
 
     public Project() {}
 
@@ -34,8 +35,8 @@ public class Project {
         this.projectContext = projectContext;
     }
 
-    public void addTechnologyToProject(Technology technology) {
-        technologiesInProject.add(technology);
+    public void addLanguageToProject(Language language) {
+        languagesInProject.add(language);
     }
 
     public long getId() {
@@ -70,11 +71,11 @@ public class Project {
         this.projectContext = projectContext;
     }
 
-    public List<Technology> getTechnologiesInProject() {
-        return technologiesInProject;
+    public List<Language> getLanguagesInProject() {
+        return languagesInProject;
     }
 
-    public void setTechnologiesInProject(List<Technology> technologiesInProject) {
-        this.technologiesInProject = technologiesInProject;
+    public void setLanguagesInProject(List<Language> languagesInProject) {
+        this.languagesInProject = languagesInProject;
     }
 }
