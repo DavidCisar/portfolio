@@ -15,7 +15,8 @@ public class Framework extends Technology {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
     private Language language;
 
     @ManyToMany(mappedBy = "frameworksInProject")
