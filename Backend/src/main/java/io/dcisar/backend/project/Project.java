@@ -1,6 +1,8 @@
 package io.dcisar.backend.project;
 
-import io.dcisar.backend.technology.Language;
+import io.dcisar.backend.technology.framework.Framework;
+import io.dcisar.backend.technology.language.Language;
+import io.dcisar.backend.technology.topic.Topic;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,6 +26,22 @@ public class Project {
     )
     private List<Language> languagesInProject = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "frameworksInProject",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "framework_id")
+    )
+    private List<Framework> frameworksInProject = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "topicsInProject",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "topic_id")
+    )
+    private List<Topic> topicsInProject = new ArrayList<>();
+
     public Project() {}
 
     public Project(
@@ -36,7 +54,23 @@ public class Project {
     }
 
     public void addLanguageToProject(Language language) {
-        languagesInProject.add(language);
+        if (!languagesInProject.contains(language)) {
+            languagesInProject.add(language);
+        }
+    }
+
+    public void removeLanguageFromProject(Language language) {
+        languagesInProject.remove(language);
+    }
+
+    public void addFrameworkToProject(Framework framework) {
+        if (!frameworksInProject.contains(framework)) {
+            frameworksInProject.add(framework);
+        }
+    }
+
+    public void removeFrameworkFromProject(Framework framework) {
+        frameworksInProject.remove(framework);
     }
 
     public long getId() {
@@ -77,5 +111,21 @@ public class Project {
 
     public void setLanguagesInProject(List<Language> languagesInProject) {
         this.languagesInProject = languagesInProject;
+    }
+
+    public List<Framework> getFrameworksInProject() {
+        return frameworksInProject;
+    }
+
+    public void setFrameworksInProject(List<Framework> frameworksInProject) {
+        this.frameworksInProject = frameworksInProject;
+    }
+
+    public List<Topic> getTopicsInProject() {
+        return topicsInProject;
+    }
+
+    public void setTopicsInProject(List<Topic> topicsInProject) {
+        this.topicsInProject = topicsInProject;
     }
 }
