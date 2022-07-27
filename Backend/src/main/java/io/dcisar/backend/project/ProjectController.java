@@ -19,9 +19,9 @@ public class ProjectController {
         return projectService.getProjects();
     }
 
-    @PostMapping("createProject")
-    public String createProject(@RequestBody Project project) {
-        projectService.save(new Project(project.getName(), project.getDescription(), project.getProjectContext()));
-        return "Saved Project!";
+    @GetMapping("/{projectId}")
+    public Project getProject(@PathVariable Long projectId) {
+        return projectService.getProject(projectId);
     }
+
 }

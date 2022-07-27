@@ -73,6 +73,16 @@ public class Project {
         frameworksInProject.remove(framework);
     }
 
+    public void addTopicToProject(Topic topic) {
+        if (!topicsInProject.contains(topic)) {
+            topicsInProject.add(topic);
+        }
+    }
+
+    public void removeTopicFromProject(Topic topic) {
+        topicsInProject.remove(topic);
+    }
+
     public long getId() {
         return id;
     }
@@ -127,5 +137,18 @@ public class Project {
 
     public void setTopicsInProject(List<Topic> topicsInProject) {
         this.topicsInProject = topicsInProject;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", projectContext='" + projectContext + '\'' +
+                ", languagesInProject=" + languagesInProject +
+                ", frameworksInProject=" + frameworksInProject +
+                ", topicsInProject=" + topicsInProject.size() +
+                '}';
     }
 }
