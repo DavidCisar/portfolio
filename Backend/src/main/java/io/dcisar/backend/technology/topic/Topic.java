@@ -1,5 +1,6 @@
 package io.dcisar.backend.technology.topic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dcisar.backend.project.Project;
 
 import javax.persistence.*;
@@ -13,8 +14,11 @@ public class Topic {
     private long id;
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "topicsInProject")
     private List<Project> projects;
+
+    public Topic() {}
 
     public Topic(String name) {
         this.name = name;
@@ -42,5 +46,21 @@ public class Topic {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public void addProjectToTopic(Project project) {
+        if (!projects.contains(project)) {
+            System.out.println("Project gets added to topic");
+            projects.add(project);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Topic{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", projects=" + projects +
+                '}';
     }
 }
