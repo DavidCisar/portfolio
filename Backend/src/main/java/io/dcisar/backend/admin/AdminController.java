@@ -8,6 +8,8 @@ import io.dcisar.backend.technology.language.Language;
 import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,26 +31,32 @@ public class AdminController {
 
     // Language Management
     @PostMapping("/createLanguage")
-    public String createLanguage(@RequestBody Language language) {
+    public ResponseEntity<String> createLanguage(@RequestBody Language language) {
         Language languageToBeCreated = new Language(language.getName(), language.getDescription(), language.getVersion());
         if (languageService.createLanguage(languageToBeCreated)) {
-            return String.format("Added language %s with id %d to database", languageToBeCreated.getName(), languageToBeCreated.getId());
+            return new ResponseEntity<>(
+                    String.format("Added language %s with id %d to database", languageToBeCreated.getName(), languageToBeCreated.getId()),
+                    HttpStatus.CREATED
+            );
         }
-        return "Already in database";
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeLanguage")
-    public String removeLanguage(@RequestBody Language language) {
+    public ResponseEntity<String> removeLanguage(@RequestBody Language language) {
         if (languageService.removeLanguage(language)) {
-            return String.format("Removed language %s from database", language.getName());
+            return new ResponseEntity<>(
+                    String.format("Removed language %s from database", language.getName()),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Not in database";
+        return new ResponseEntity<>("Not in database", HttpStatus.BAD_REQUEST);
     }
 
 
     // Framework Management
     @PostMapping("/createFramework")
-    public String createFramework(@RequestBody Framework framework) {
+    public ResponseEntity<String> createFramework(@RequestBody Framework framework) {
         Language languageToBeCreated = new Language(
                 framework.getLanguage().getName(),
                 framework.getLanguage().getDescription(),
@@ -58,106 +66,141 @@ public class AdminController {
             Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
             frameworkToBeCreated.setLanguage(languageToBeCreated);
             if (frameworkService.createFramework(frameworkToBeCreated)) {
-                return String.format("Added framework %s with id %d to database and created new language!", frameworkToBeCreated.getName(), frameworkToBeCreated.getId());
+                return new ResponseEntity<>(
+                        String.format("Added framework %s with id %d to database and created new language!", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
+                        HttpStatus.CREATED
+                );
             }
         }
         Language language = languageService.findByName(framework.getLanguage().getName());
         Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
         frameworkToBeCreated.setLanguage(language);
         if (frameworkService.createFramework(frameworkToBeCreated)) {
-            return String.format("Added framework %s with id %d to database", frameworkToBeCreated.getName(), frameworkToBeCreated.getId());
+            return new ResponseEntity<>(
+                    String.format("Added framework %s with id %d to database", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
+                    HttpStatus.CREATED
+            );
         }
-        return "Already in database";
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeFramework")
-    public String removeFramework(@RequestBody Framework framework) {
+    public ResponseEntity<String> removeFramework(@RequestBody Framework framework) {
         if (frameworkService.removeFramework(framework)) {
-            return String.format("Removed framework %s from database", framework.getName());
+            return new ResponseEntity<>(
+                    String.format("Removed framework %s from database", framework.getName()),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Not in database";
+        return new ResponseEntity<>("Not in database", HttpStatus.BAD_REQUEST);
     }
 
 
     // Topic Management
     @PostMapping("/createTopic")
-    public String createTopic(@RequestBody Topic topic) {
+    public ResponseEntity<String> createTopic(@RequestBody Topic topic) {
         Topic topicToBeCreated = new Topic(topic.getName());
         if (topicService.createTopic(topicToBeCreated)) {
-            return String.format("Added topic %s with id %d to database", topicToBeCreated.getName(), topicToBeCreated.getId());
+            return new ResponseEntity<>(
+                    String.format("Added topic %s with id %d to database", topicToBeCreated.getName(), topicToBeCreated.getId()),
+                    HttpStatus.CREATED
+            );
         }
-        return "Already in database";
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeTopic")
-    public String removeTopic(@RequestBody Topic topic) {
+    public ResponseEntity<String> removeTopic(@RequestBody Topic topic) {
         if (topicService.removeTopic(topic)) {
-            return String.format("Removed topic %s from database", topic.getName());
+            return new ResponseEntity<>(
+                    String.format("Removed topic %s from database", topic.getName()),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Not in database";
+        return new ResponseEntity<>("Not in database", HttpStatus.BAD_REQUEST);
     }
 
 
     // Project Management
     @PostMapping("/createProject")
-    public String createProject(@RequestBody Project project) {
-        if (projectService.save(new Project(project.getName(), project.getDescription(), project.getProjectContext()))) {
-            return "Saved Project!";
+    public ResponseEntity<String> createProject(@RequestBody Project project) {
+        if (projectService.createProject(new Project(project.getName(), project.getDescription(), project.getProjectContext()))) {
+            return new ResponseEntity<>("Saved Project!",
+                    HttpStatus.CREATED
+            );
         }
-        return "Project already created!";
+        return new ResponseEntity<>("Project already created!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/addTopicToProject")
-    public String addTopicToProject(@RequestParam Long projectId, @RequestParam Long topicId) {
+    public ResponseEntity<String> addTopicToProject(@RequestParam Long projectId, @RequestParam Long topicId) {
         if (projectService.addTopic(topicId, projectId)) {
-            return String.format("Successfully added topic %d to project #%d", topicId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully added topic %d to project #%d", topicId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Already added to project";
+        return new ResponseEntity<>("Already added to project", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/removeTopicFromProject")
-    public String removeTopicFromProject(@RequestParam Long projectId, @RequestParam Long topicId) {
+    public ResponseEntity<String> removeTopicFromProject(@RequestParam Long projectId, @RequestParam Long topicId) {
         if (projectService.removeTopic(topicId, projectId)) {
-            return String.format("Successfully removed topic with id %d from project #%d", topicId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully removed topic with id %d from project #%d", topicId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Topic not found within project!";
+        return new ResponseEntity<>("Topic not found within project!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/addFrameworkToProject")
-    public String addFrameworkToProject(@RequestParam Long projectId, @RequestParam Long frameworkId) {
+    public ResponseEntity<String> addFrameworkToProject(@RequestParam Long projectId, @RequestParam Long frameworkId) {
         if (projectService.addFramework(frameworkId, projectId)) {
-            return String.format("Successfully added framework %d to project #%d", frameworkId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully added framework %d to project #%d", frameworkId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Already added to project";
+        return new ResponseEntity<>("Already added to project", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/removeFrameworkFromProject")
-    public String removeFrameworkFromProject(@RequestParam Long projectId, @RequestParam Long frameworkId) {
+    public ResponseEntity<String> removeFrameworkFromProject(@RequestParam Long projectId, @RequestParam Long frameworkId) {
         if (projectService.removeFramework(frameworkId, projectId)) {
-            return String.format("Successfully removed framework with id %d from project #%d", frameworkId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully removed framework with id %d from project #%d", frameworkId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Framework not found within project!";
+        return new ResponseEntity<>("Framework not found within project!", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/addLanguageToProject")
-    public String addLanguageToProject(@RequestParam Long projectId, @RequestParam Long languageId) {
+    public ResponseEntity<String> addLanguageToProject(@RequestParam Long projectId, @RequestParam Long languageId) {
         if (projectService.addLanguage(languageId, projectId)) {
-            return String.format("Successfully added language %d to project #%d", languageId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully added language %d to project #%d", languageId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Already added to project";
+        return new ResponseEntity<>("Already added to project", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/removeLanguageFromProject")
-    public String removeLanguageFromProject(@RequestParam Long projectId, @RequestParam Long languageId) {
+    public ResponseEntity<String> removeLanguageFromProject(@RequestParam Long projectId, @RequestParam Long languageId) {
         if (projectService.removeLanguage(languageId, projectId)) {
-            return String.format("Successfully removed language with id %d from project #%d", languageId, projectId);
+            return new ResponseEntity<>(
+                    String.format("Successfully removed language with id %d from project #%d", languageId, projectId),
+                    HttpStatus.ACCEPTED
+            );
         }
-        return "Language not found within project!";
+        return new ResponseEntity<>("Language not found within project!", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/updateProject")
-    public String updateProject(@RequestBody Project project) {
-        return "ToDo!";
+    public ResponseEntity<String> updateProject(@RequestBody Project project) {
+        return new ResponseEntity<>("ToDo!", HttpStatus.BAD_REQUEST);
     }
 
 
