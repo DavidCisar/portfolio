@@ -38,7 +38,7 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public boolean save(Project project) {
+    public boolean createProject(Project project) {
         if (projectRepository.findByName(project.getName()).isPresent()) {
             return false;
         }
