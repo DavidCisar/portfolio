@@ -83,6 +83,10 @@ public class Language {
         this.projects = projects;
     }
 
+    public void addFrameworkToLanguage(Framework framework) {
+        this.frameworks.add(framework);
+    }
+
     public void removeFrameworkFromLanguage(Framework frameworkToBeDeleted) {
         frameworks.remove(frameworkToBeDeleted);
     }

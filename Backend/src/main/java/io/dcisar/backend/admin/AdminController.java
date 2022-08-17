@@ -9,6 +9,7 @@ import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,31 +58,44 @@ public class AdminController {
     // Framework Management
     @PostMapping("/createFramework")
     public ResponseEntity<String> createFramework(@RequestBody Framework framework) {
-        Language languageToBeCreated = new Language(
-                framework.getLanguage().getName(),
-                framework.getLanguage().getDescription(),
-                framework.getLanguage().getVersion());
+        try {
+            Language languageToBeCreated = new Language(
+            framework.getLanguage().getName(),
+            framework.getLanguage().getDescription(),
+            framework.getLanguage().getVersion());
 
-        if (languageService.createLanguage(languageToBeCreated)) {
+            if (languageService.createLanguage(languageToBeCreated)) {
+                Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
+                frameworkToBeCreated.setLanguage(languageToBeCreated);
+                if (frameworkService.createFramework(frameworkToBeCreated)) {
+                    return new ResponseEntity<>(
+                            String.format(
+                                    "Added framework %s with id %d to database and created new language!",
+                                    frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
+                            HttpStatus.CREATED
+                    );
+                }
+            }
+
+            Language language = languageService.findByName(framework.getLanguage().getName());
             Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
-            frameworkToBeCreated.setLanguage(languageToBeCreated);
+            frameworkToBeCreated.setLanguage(language);
+
             if (frameworkService.createFramework(frameworkToBeCreated)) {
                 return new ResponseEntity<>(
-                        String.format("Added framework %s with id %d to database and created new language!", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
+                        String.format("Added framework %s with id %d to database", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
                         HttpStatus.CREATED
                 );
             }
-        }
-        Language language = languageService.findByName(framework.getLanguage().getName());
-        Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
-        frameworkToBeCreated.setLanguage(language);
-        if (frameworkService.createFramework(frameworkToBeCreated)) {
+
+            return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
+
+        } catch (NullPointerException e){
             return new ResponseEntity<>(
-                    String.format("Added framework %s with id %d to database", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
-                    HttpStatus.CREATED
+                    "Framework needs to contain a language!",
+                    HttpStatus.BAD_REQUEST
             );
         }
-        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeFramework")
@@ -122,7 +136,9 @@ public class AdminController {
 
 
     // Project Management
-    @PostMapping("/createProject")
+    @PostMapping(
+            path = "/createProject",
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> createProject(@RequestBody Project project) {
         if (projectService.createProject(new Project(project.getName(), project.getDescription(), project.getProjectContext()))) {
             return new ResponseEntity<>("Saved Project!",
