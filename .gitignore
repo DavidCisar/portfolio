@@ -2,3 +2,7 @@
 Backend/target/
 .idea
 .DS_Store
+
+# IntelliJ
+Backend/Backend.iml
+Frontend/Frontend.iml
