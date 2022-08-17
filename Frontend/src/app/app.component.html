@@ -1,13 +1,16 @@
 <div class="container">
-  <h1>Hier muss noch eine Navbar hin!</h1>
-  <h4>Welcome to the Portfolio Website <br> of David Cisar</h4>
 
+  <div class="navbar">
+    <a routerLink='about'>ABOUT</a>
+    <a routerLink='Skills'>SKILLS</a>
+    <a routerLink='Projects'>PROJECTS</a>
+    <a routerLink='Contact'>CONTACT</a>
+  </div>
 
   <div class="inner-container">
-    <div class="inner-box">
 
-    </div>
+    <router-outlet></router-outlet>
+  
   </div>
-  <div class="inner-container">
-  </div>
+
 </div>

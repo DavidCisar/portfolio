@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+
+  font-family: 'Times New Roman', Times, serif ;
+
+  background: linear-gradient(25deg, rgb(35, 36, 77) 0%, rgb(55, 28, 45) 41%, rgb(15, 45, 53) 100%);
+  background-size: 100vw, 500vh;
+
+  height: 500vh;
+
+  color: white;
+
+  overflow-x: hidden;
+
+}
+
+h1 {
+  font-size: 6rem;
+  letter-spacing: -0.05em;
+
+
+  margin-top: 30vh;
+  margin-bottom: 5vh;
+}
+
+.glass-container {
+  display: flex;
+  flex-direction: column;
+
+  text-align: justify;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, .7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
