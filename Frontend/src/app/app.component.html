@@ -8,17 +8,22 @@
   
     <div class="navbar-middle">
       <a routerLink='about'>ABOUT</a>
-      <a routerLink='Skills'>SKILLS</a>
-      <a routerLink='Projects'>PROJECTS</a>
-      <a routerLink='Contact'>CONTACT</a>
+      <a routerLink='skills'>SKILLS</a>
+      <a routerLink='projects'>PROJECTS</a>
+      <a routerLink='contact'>CONTACT</a>
     </div>
   
     <div class="navbar-right">
       
       <div *ngIf="!loggedIn">
-        <button type="button">LOGIN</button>
-        <button type="button">REGISTER</button>
+        <button>LOGIN</button>
+        <button>REGISTER</button>
       </div>
+      
+      <div *ngIf="loggedIn">">
+        <button>LOGOUT</button>
+      </div>
+    
     </div>
 
   </div>
