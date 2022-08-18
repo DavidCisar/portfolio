@@ -5,8 +5,6 @@ body {
   background: linear-gradient(25deg, rgb(35, 36, 77) 0%, rgb(55, 28, 45) 41%, rgb(15, 45, 53) 100%);
   background-size: 100vw, 500vh;
 
-  height: 500vh;
-
   color: white;
 
   overflow-x: hidden;
@@ -20,6 +18,10 @@ h1 {
 
   margin-top: 30vh;
   margin-bottom: 5vh;
+}
+
+p {
+  font-size: 1.5rem;
 }
 
 .glass-container {

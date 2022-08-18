@@ -1,10 +1,26 @@
 <div class="container">
 
   <div class="navbar">
-    <a routerLink='about'>ABOUT</a>
-    <a routerLink='Skills'>SKILLS</a>
-    <a routerLink='Projects'>PROJECTS</a>
-    <a routerLink='Contact'>CONTACT</a>
+
+    <div class="navbar-left">
+      <a routerLink="">HOME</a>
+    </div>
+  
+    <div class="navbar-middle">
+      <a routerLink='about'>ABOUT</a>
+      <a routerLink='Skills'>SKILLS</a>
+      <a routerLink='Projects'>PROJECTS</a>
+      <a routerLink='Contact'>CONTACT</a>
+    </div>
+  
+    <div class="navbar-right">
+      
+      <div *ngIf="!loggedIn">
+        <button type="button">LOGIN</button>
+        <button type="button">REGISTER</button>
+      </div>
+    </div>
+
   </div>
 
   <div class="inner-container">
