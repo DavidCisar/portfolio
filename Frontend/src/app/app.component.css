@@ -20,11 +20,16 @@
   justify-content: space-between;
 
   position: fixed;
-  top: 5vh;
+  top: 2.5vh;
   left: 10vw;
   right: 10vw;
 
   font-size: 1.25em;
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  background: rgba(33, 76, 88, 0.75);
 }
 
 .navbar-left {
