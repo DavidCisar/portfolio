@@ -1,6 +1,7 @@
 package io.dcisar.backend.admin;
 
 import io.dcisar.backend.project.Project;
+import io.dcisar.backend.project.ProjectDTO;
 import io.dcisar.backend.project.ProjectService;
 import io.dcisar.backend.technology.framework.Framework;
 import io.dcisar.backend.technology.framework.FrameworkService;
@@ -139,8 +140,9 @@ public class AdminController {
     @PostMapping(
             path = "/createProject",
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> createProject(@RequestBody Project project) {
-        if (projectService.createProject(new Project(project.getName(), project.getDescription(), project.getProjectContext()))) {
+    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectdto) {
+        Project projectToBeCreated = projectService.mapProjectDTOToProject(projectdto);
+        if (projectService.createProject(projectToBeCreated)) {
             return new ResponseEntity<>("Saved Project!",
                     HttpStatus.CREATED
             );

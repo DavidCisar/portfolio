@@ -2,10 +2,13 @@ package io.dcisar.backend.project;
 
 import io.dcisar.backend.technology.framework.Framework;
 import io.dcisar.backend.technology.framework.FrameworkRepository;
+import io.dcisar.backend.technology.framework.FrameworkService;
 import io.dcisar.backend.technology.language.Language;
 import io.dcisar.backend.technology.language.LanguageRepository;
+import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicRepository;
+import io.dcisar.backend.technology.topic.TopicService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +20,26 @@ public class ProjectService {
     private final FrameworkRepository frameworkRepository;
     private final TopicRepository topicRepository;
     private final LanguageRepository languageRepository;
+    private final FrameworkService frameworkService;
+    private final LanguageService languageService;
+    private final TopicService topicService;
 
     public ProjectService(
             ProjectRepository projectRepository,
             FrameworkRepository frameworkRepository,
             TopicRepository topicRepository,
-            LanguageRepository languageRepository)
+            LanguageRepository languageRepository,
+            FrameworkService frameworkService,
+            LanguageService languageService,
+            TopicService topicService)
     {
         this.projectRepository = projectRepository;
         this.frameworkRepository = frameworkRepository;
         this.topicRepository = topicRepository;
         this.languageRepository = languageRepository;
+        this.frameworkService = frameworkService;
+        this.languageService = languageService;
+        this.topicService = topicService;
     }
 
     public Project getProject(Long projectId) {
@@ -110,5 +122,26 @@ public class ProjectService {
             return true;
         }
         return false;
+    }
+
+    public Project mapProjectDTOToProject(ProjectDTO projectDTO) {
+        Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext);
+
+        for (Language language : projectDTO.languagesInProject) {
+            languageService.createLanguage(language);
+            project.addLanguageToProject(languageRepository.findByName(language.getName()).orElseThrow());
+        }
+
+        for (Framework framework : projectDTO.frameworksInProject) {
+            frameworkService.createFramework(framework);
+            project.addFrameworkToProject(frameworkRepository.findByName(framework.getName()).orElseThrow());
+        }
+
+        for (Topic topic : projectDTO.topicsInProject) {
+            topicService.createTopic(topic);
+            project.addTopicToProject(topicRepository.findByName(topic.getName()).orElseThrow());
+        }
+
+        return project;
     }
 }
