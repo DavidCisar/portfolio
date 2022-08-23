@@ -1,6 +1,7 @@
 package io.dcisar.backend.technology.language;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.technology.framework.Framework;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Language")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Language {
 
     @Id
