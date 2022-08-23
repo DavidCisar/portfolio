@@ -4,6 +4,7 @@ import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
 import io.dcisar.backend.technology.language.Language;
 import io.dcisar.backend.technology.language.LanguageRepository;
+import io.dcisar.backend.technology.language.LanguageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +15,17 @@ public class FrameworkService {
     private final FrameworkRepository frameworkRepository;
     private final ProjectRepository projectRepository;
     private final LanguageRepository languageRepository;
+    private final LanguageService languageService;
 
-    public FrameworkService(FrameworkRepository frameworkRepository, ProjectRepository projectRepository, LanguageRepository languageRepository) {
+    public FrameworkService(FrameworkRepository frameworkRepository,
+                            ProjectRepository projectRepository,
+                            LanguageRepository languageRepository,
+                            LanguageService languageService)
+    {
         this.frameworkRepository = frameworkRepository;
         this.projectRepository = projectRepository;
         this.languageRepository = languageRepository;
+        this.languageService = languageService;
     }
 
     public boolean createFramework(Framework framework) {
@@ -57,5 +64,13 @@ public class FrameworkService {
 
     public Framework getFramework(Long frameworkId) {
         return frameworkRepository.findById(frameworkId).orElseThrow();
+    }
+
+    public Framework mapFrameworkDTOToFramework(FrameworkDTO frameworkDTO) {
+        Framework framework = new Framework(frameworkDTO.name, frameworkDTO.description, frameworkDTO.version);
+        languageService.createLanguage(frameworkDTO.language);
+        framework.setLanguage(languageRepository.findByName(frameworkDTO.language.getName()).orElseThrow());
+
+        return framework;
     }
 }

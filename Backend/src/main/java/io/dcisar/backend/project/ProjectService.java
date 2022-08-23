@@ -1,9 +1,11 @@
 package io.dcisar.backend.project;
 
 import io.dcisar.backend.technology.framework.Framework;
+import io.dcisar.backend.technology.framework.FrameworkDTO;
 import io.dcisar.backend.technology.framework.FrameworkRepository;
 import io.dcisar.backend.technology.framework.FrameworkService;
 import io.dcisar.backend.technology.language.Language;
+import io.dcisar.backend.technology.language.LanguageDTO;
 import io.dcisar.backend.technology.language.LanguageRepository;
 import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
@@ -61,78 +63,76 @@ public class ProjectService {
     public boolean addTopic(Long topicId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Topic topic = topicRepository.findById(topicId).orElseThrow();
-        if (!project.getTopicsInProject().contains(topic)) {
-            project.addTopicToProject(topic);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.addTopicToProject(topic);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public boolean removeTopic(Long topicId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Topic topic = topicRepository.findById(topicId).orElseThrow();
-        if (project.getTopicsInProject().contains(topic)) {
-            project.removeTopicFromProject(topic);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.removeTopicFromProject(topic);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public boolean addFramework(Long frameworkId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Framework framework = frameworkRepository.findById(frameworkId).orElseThrow();
-        if (!project.getFrameworksInProject().contains(framework)) {
-            project.addFrameworkToProject(framework);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.addFrameworkToProject(framework);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public boolean removeFramework(Long frameworkId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Framework framework = frameworkRepository.findById(frameworkId).orElseThrow();
-        if (project.getFrameworksInProject().contains(framework)) {
-            project.removeFrameworkFromProject(framework);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.removeFrameworkFromProject(framework);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public boolean addLanguage(Long languageId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Language language = languageRepository.findById(languageId).orElseThrow();
-        if (!project.getLanguagesInProject().contains(language)) {
-            project.addLanguageToProject(language);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.addLanguageToProject(language);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public boolean removeLanguage(Long languageId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Language language = languageRepository.findById(languageId).orElseThrow();
-        if (project.getLanguagesInProject().contains(language)) {
-            project.removeLanguageFromProject(language);
-            projectRepository.save(project);
-            return true;
-        }
-        return false;
+
+        Boolean success = project.removeLanguageFromProject(language);
+        projectRepository.save(project);
+
+        return success;
     }
 
     public Project mapProjectDTOToProject(ProjectDTO projectDTO) {
         Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext);
 
-        for (Language language : projectDTO.languagesInProject) {
+        for (LanguageDTO languageDTO : projectDTO.languagesInProject) {
+            Language language = languageService.mapLanguageDTOToLanguage(languageDTO);
+
             languageService.createLanguage(language);
             project.addLanguageToProject(languageRepository.findByName(language.getName()).orElseThrow());
         }
 
-        for (Framework framework : projectDTO.frameworksInProject) {
+        for (FrameworkDTO frameworkDTO : projectDTO.frameworksInProject) {
+            Framework framework = frameworkService.mapFrameworkDTOToFramework(frameworkDTO);
+
             frameworkService.createFramework(framework);
             project.addFrameworkToProject(frameworkRepository.findByName(framework.getName()).orElseThrow());
         }

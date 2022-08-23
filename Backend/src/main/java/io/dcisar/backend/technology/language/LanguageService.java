@@ -52,4 +52,9 @@ public class LanguageService {
     public Language findByName(String name) {
         return languageRepository.findByName(name).orElseThrow();
     }
+
+    public Language mapLanguageDTOToLanguage(LanguageDTO languageDTO) {
+        Language language = new Language(languageDTO.name, languageDTO.description, languageDTO.version);
+        return language;
+    }
 }
