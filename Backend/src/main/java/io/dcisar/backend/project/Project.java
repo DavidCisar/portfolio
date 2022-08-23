@@ -53,34 +53,40 @@ public class Project {
         this.projectContext = projectContext;
     }
 
-    public void addLanguageToProject(Language language) {
+    public boolean addLanguageToProject(Language language) {
         if (!languagesInProject.contains(language)) {
             languagesInProject.add(language);
+            return true;
         }
+        return false;
     }
 
-    public void removeLanguageFromProject(Language language) {
-        languagesInProject.remove(language);
+    public boolean removeLanguageFromProject(Language language) {
+        return languagesInProject.remove(language);
     }
 
-    public void addFrameworkToProject(Framework framework) {
+    public boolean addFrameworkToProject(Framework framework) {
         if (!frameworksInProject.contains(framework)) {
             frameworksInProject.add(framework);
+            return true;
         }
+        return false;
     }
 
-    public void removeFrameworkFromProject(Framework framework) {
-        frameworksInProject.remove(framework);
+    public boolean removeFrameworkFromProject(Framework framework) {
+        return frameworksInProject.remove(framework);
     }
 
-    public void addTopicToProject(Topic topic) {
+    public boolean addTopicToProject(Topic topic) {
         if (!topicsInProject.contains(topic)) {
             topicsInProject.add(topic);
+            return true;
         }
+        return false;
     }
 
-    public void removeTopicFromProject(Topic topic) {
-        topicsInProject.remove(topic);
+    public boolean removeTopicFromProject(Topic topic) {
+        return topicsInProject.remove(topic);
     }
 
     public long getId() {
