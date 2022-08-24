@@ -25,7 +25,7 @@ public class ApplicationSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/api/**");
+        return (web) -> web.ignoring().antMatchers("/api/**", "/admin/**");
     }
 
 
