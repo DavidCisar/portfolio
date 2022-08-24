@@ -13,6 +13,7 @@ import io.dcisar.backend.technology.topic.TopicRepository;
 import io.dcisar.backend.technology.topic.TopicService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,13 +53,64 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public boolean createProject(Project project) {
-        if (projectRepository.findByName(project.getName()).isPresent()) {
+    public boolean createProject(ProjectDTO projectDTO) {
+        if (projectRepository.findByName(projectDTO.name).isPresent()) {
             return false;
         }
-        projectRepository.save(project);
+
+        Project projectToBeCreated = mapProjectDTOToProject(projectDTO);
+        projectRepository.save(projectToBeCreated);
         return true;
     }
+
+    public boolean updateProject(ProjectDTO projectDTO) {
+        if (!projectRepository.findById(projectDTO.id).isPresent()) {
+            return false;
+        }
+
+        List<Language> languagesInProject = new ArrayList<>();
+        for (LanguageDTO languageDTO : projectDTO.languagesInProject) {
+            if (!languageService.createLanguage(languageDTO)) {
+                languageService.updateLanguage(languageDTO);
+            }
+            Language language = languageRepository.findByName(languageDTO.name).orElseThrow();
+            languagesInProject.add(language);
+        }
+
+        List<Framework> frameworksInProject = new ArrayList<>();
+        for (FrameworkDTO frameworkDTO : projectDTO.frameworksInProject) {
+            if (!frameworkService.createFramework(frameworkDTO)) {
+                frameworkService.updateFramework(frameworkDTO);
+            }
+            Framework framework = frameworkRepository.findByName(frameworkDTO.name).orElseThrow();
+            frameworksInProject.add(framework);
+        }
+
+        List<Topic> topicsInProject = new ArrayList<>();
+        for (Topic topicDTO : projectDTO.topicsInProject) {
+            Topic topic = topicRepository.findByName(topicDTO.getName()).orElseThrow();
+            topicsInProject.add(topic);
+        }
+
+        Project projectToBeUpdated = projectRepository.findById(projectDTO.id).orElseThrow();
+        if (projectDTO.name != null) {
+            projectToBeUpdated.setName(projectDTO.name);
+        }
+        if (projectDTO.description != null) {
+            projectToBeUpdated.setDescription(projectDTO.description);
+        }
+        if (projectDTO.projectContext != null) {
+            projectToBeUpdated.setProjectContext(projectDTO.projectContext);
+        }
+        projectToBeUpdated.setLanguagesInProject(languagesInProject);
+        projectToBeUpdated.setFrameworksInProject(frameworksInProject);
+        projectToBeUpdated.setTopicsInProject(topicsInProject);
+
+        projectRepository.save(projectToBeUpdated);
+        return true;
+    }
+
+
 
     public boolean addTopic(Long topicId, Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow();
@@ -124,17 +176,17 @@ public class ProjectService {
         Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext);
 
         for (LanguageDTO languageDTO : projectDTO.languagesInProject) {
-            Language language = languageService.mapLanguageDTOToLanguage(languageDTO);
-
-            languageService.createLanguage(language);
-            project.addLanguageToProject(languageRepository.findByName(language.getName()).orElseThrow());
+            if (!languageService.createLanguage(languageDTO)) {
+                languageService.updateLanguage(languageDTO);
+            }
+            project.addLanguageToProject(languageRepository.findByName(languageDTO.name).orElseThrow());
         }
 
         for (FrameworkDTO frameworkDTO : projectDTO.frameworksInProject) {
-            Framework framework = frameworkService.mapFrameworkDTOToFramework(frameworkDTO);
-
-            frameworkService.createFramework(framework);
-            project.addFrameworkToProject(frameworkRepository.findByName(framework.getName()).orElseThrow());
+            if (!frameworkService.createFramework(frameworkDTO)) {
+                frameworkService.updateFramework(frameworkDTO);
+            }
+            project.addFrameworkToProject(frameworkRepository.findByName(frameworkDTO.name).orElseThrow());
         }
 
         for (Topic topic : projectDTO.topicsInProject) {

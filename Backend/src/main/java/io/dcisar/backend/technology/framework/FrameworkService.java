@@ -28,19 +28,45 @@ public class FrameworkService {
         this.languageService = languageService;
     }
 
-    public boolean createFramework(Framework framework) {
-        if (frameworkRepository.findByName(framework.getName()).isPresent()) {
+    public boolean createFramework(FrameworkDTO frameworkDTO) {
+        if (frameworkRepository.findByName(frameworkDTO.name).isPresent()) {
             return false;
         }
-        frameworkRepository.save(framework);
+        Framework frameworkToBeCreated = mapFrameworkDTOToFramework(frameworkDTO);
+        frameworkRepository.save(frameworkToBeCreated);
         return true;
     }
 
-    public boolean removeFramework(Framework framework) {
-        if (frameworkRepository.findByName(framework.getName()).isEmpty()) {
+    public boolean updateFramework(FrameworkDTO frameworkDTO) {
+        if (!frameworkRepository.findByName(frameworkDTO.name).isPresent()) {
             return false;
         }
-        Framework frameworkToBeDeleted = frameworkRepository.findByName(framework.getName()).orElseThrow();
+
+        if(!languageService.createLanguage(frameworkDTO.languageDTO)) {
+            languageService.updateLanguage(frameworkDTO.languageDTO);
+        }
+        Language language = languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow();
+
+        Framework frameworkToBeUpdated = frameworkRepository.findByName(frameworkDTO.name).orElseThrow();
+        if (frameworkDTO.description != null) {
+            frameworkToBeUpdated.setDescription(frameworkDTO.description);
+        }
+        if (frameworkDTO.version != null) {
+            frameworkToBeUpdated.setVersion(frameworkDTO.version);
+        }
+        if (frameworkDTO.languageDTO != null) {
+            frameworkToBeUpdated.setLanguage(language);
+        }
+
+        frameworkRepository.save(frameworkToBeUpdated);
+        return true;
+    }
+
+    public boolean removeFramework(FrameworkDTO frameworkDTO) {
+        if (frameworkRepository.findByName(frameworkDTO.name).isEmpty()) {
+            return false;
+        }
+        Framework frameworkToBeDeleted = frameworkRepository.findByName(frameworkDTO.name).orElseThrow();
         List<Project> projects = projectRepository.findAll();
         List<Language> languages = languageRepository.findAll();
         for (Project project : projects) {
@@ -68,8 +94,10 @@ public class FrameworkService {
 
     public Framework mapFrameworkDTOToFramework(FrameworkDTO frameworkDTO) {
         Framework framework = new Framework(frameworkDTO.name, frameworkDTO.description, frameworkDTO.version);
-        languageService.createLanguage(frameworkDTO.language);
-        framework.setLanguage(languageRepository.findByName(frameworkDTO.language.getName()).orElseThrow());
+        if (!languageService.createLanguage(frameworkDTO.languageDTO)) {
+            languageService.updateLanguage(frameworkDTO.languageDTO);
+        }
+        framework.setLanguage(languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow());
 
         return framework;
     }

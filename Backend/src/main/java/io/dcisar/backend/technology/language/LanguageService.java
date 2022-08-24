@@ -25,19 +25,37 @@ public class LanguageService {
         return languageRepository.findById(languageId).orElseThrow();
     }
 
-    public boolean createLanguage(Language language) {
-        if (languageRepository.findByName(language.getName()).isPresent()) {
+    public boolean createLanguage(LanguageDTO languageDTO) {
+        if (languageRepository.findByName(languageDTO.name).isPresent()) {
             return false;
         }
-        languageRepository.save(language);
+        Language languageToBeCreated = mapLanguageDTOToLanguage(languageDTO);
+        languageRepository.save(languageToBeCreated);
         return true;
     }
 
-    public boolean removeLanguage(Language language) {
-        if (languageRepository.findByName(language.getName()).isEmpty()) {
+    public boolean updateLanguage(LanguageDTO languageDTO) {
+        if (!languageRepository.findByName(languageDTO.name).isPresent()) {
             return false;
         }
-        Language languageToBeDeleted = languageRepository.findByName(language.getName()).orElseThrow();
+        Language languageToBeUpdated = languageRepository.findByName(languageDTO.name).orElseThrow();
+        if (languageDTO.description != null) {
+            languageToBeUpdated.setDescription(languageDTO.description);
+        }
+
+        if (languageDTO.version != null) {
+            languageToBeUpdated.setVersion(languageDTO.version);
+        }
+
+        languageRepository.save(languageToBeUpdated);
+        return true;
+    }
+
+    public boolean removeLanguage(LanguageDTO languageDTO) {
+        if (languageRepository.findByName(languageDTO.name).isEmpty()) {
+            return false;
+        }
+        Language languageToBeDeleted = languageRepository.findByName(languageDTO.name).orElseThrow();
         List<Project> projects = projectRepository.findAll();
         for (Project project : projects) {
             if (project.getLanguagesInProject().contains(languageToBeDeleted)) {

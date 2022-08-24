@@ -1,11 +1,8 @@
 package io.dcisar.backend.technology.language;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.technology.framework.Framework;
 
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 

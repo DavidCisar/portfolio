@@ -1,11 +1,10 @@
 package io.dcisar.backend.admin;
 
-import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectDTO;
 import io.dcisar.backend.project.ProjectService;
-import io.dcisar.backend.technology.framework.Framework;
+import io.dcisar.backend.technology.framework.FrameworkDTO;
 import io.dcisar.backend.technology.framework.FrameworkService;
-import io.dcisar.backend.technology.language.Language;
+import io.dcisar.backend.technology.language.LanguageDTO;
 import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicService;
@@ -23,7 +22,12 @@ public class AdminController {
     private final LanguageService languageService;
     private final TopicService topicService;
 
-    public AdminController(ProjectService projectService, FrameworkService frameworkService, LanguageService languageService, TopicService topicService) {
+    public AdminController(
+            ProjectService projectService,
+            FrameworkService frameworkService,
+            LanguageService languageService,
+            TopicService topicService)
+    {
         this.projectService = projectService;
         this.frameworkService = frameworkService;
         this.languageService = languageService;
@@ -33,22 +37,32 @@ public class AdminController {
 
     // Language Management
     @PostMapping("/createLanguage")
-    public ResponseEntity<String> createLanguage(@RequestBody Language language) {
-        Language languageToBeCreated = new Language(language.getName(), language.getDescription(), language.getVersion());
-        if (languageService.createLanguage(languageToBeCreated)) {
+    public ResponseEntity<String> createLanguage(@RequestBody LanguageDTO languageDTO) {
+        if (languageService.createLanguage(languageDTO)) {
             return new ResponseEntity<>(
-                    String.format("Added language %s with id %d to database", languageToBeCreated.getName(), languageToBeCreated.getId()),
+                    String.format("Added language %s to database", languageDTO.name),
                     HttpStatus.CREATED
             );
         }
         return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/removeLanguage")
-    public ResponseEntity<String> removeLanguage(@RequestBody Language language) {
-        if (languageService.removeLanguage(language)) {
+    @PutMapping("/updateLanguage")
+    public ResponseEntity<String> updateLanguage(@RequestBody LanguageDTO languageDTO) {
+        if (languageService.updateLanguage(languageDTO)) {
             return new ResponseEntity<>(
-                    String.format("Removed language %s from database", language.getName()),
+                    String.format("Updated language %s", languageDTO.name),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Language not found", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/removeLanguage")
+    public ResponseEntity<String> removeLanguage(@RequestBody LanguageDTO languageDTO) {
+        if (languageService.removeLanguage(languageDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Removed language %s from database", languageDTO.name),
                     HttpStatus.ACCEPTED
             );
         }
@@ -58,52 +72,32 @@ public class AdminController {
 
     // Framework Management
     @PostMapping("/createFramework")
-    public ResponseEntity<String> createFramework(@RequestBody Framework framework) {
-        try {
-            Language languageToBeCreated = new Language(
-            framework.getLanguage().getName(),
-            framework.getLanguage().getDescription(),
-            framework.getLanguage().getVersion());
-
-            if (languageService.createLanguage(languageToBeCreated)) {
-                Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
-                frameworkToBeCreated.setLanguage(languageToBeCreated);
-                if (frameworkService.createFramework(frameworkToBeCreated)) {
-                    return new ResponseEntity<>(
-                            String.format(
-                                    "Added framework %s with id %d to database and created new language!",
-                                    frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
-                            HttpStatus.CREATED
-                    );
-                }
-            }
-
-            Language language = languageService.findByName(framework.getLanguage().getName());
-            Framework frameworkToBeCreated = new Framework(framework.getName(), framework.getDescription(), framework.getVersion());
-            frameworkToBeCreated.setLanguage(language);
-
-            if (frameworkService.createFramework(frameworkToBeCreated)) {
-                return new ResponseEntity<>(
-                        String.format("Added framework %s with id %d to database", frameworkToBeCreated.getName(), frameworkToBeCreated.getId()),
-                        HttpStatus.CREATED
-                );
-            }
-
-            return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
-
-        } catch (NullPointerException e){
+    public ResponseEntity<String> createFramework(@RequestBody FrameworkDTO frameworkDTO) {
+        if (frameworkService.createFramework(frameworkDTO)) {
             return new ResponseEntity<>(
-                    "Framework needs to contain a language!",
-                    HttpStatus.BAD_REQUEST
+                    String.format("Added framework %s to database", frameworkDTO.name),
+                    HttpStatus.CREATED
             );
         }
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/updateFramework")
+    public ResponseEntity<String> updateFramework(@RequestBody FrameworkDTO frameworkDTO) {
+        if (frameworkService.updateFramework(frameworkDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Updated framework %s", frameworkDTO.name),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Framework not found", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeFramework")
-    public ResponseEntity<String> removeFramework(@RequestBody Framework framework) {
-        if (frameworkService.removeFramework(framework)) {
+    public ResponseEntity<String> removeFramework(@RequestBody FrameworkDTO frameworkDTO) {
+        if (frameworkService.removeFramework(frameworkDTO)) {
             return new ResponseEntity<>(
-                    String.format("Removed framework %s from database", framework.getName()),
+                    String.format("Removed framework %s from database", frameworkDTO.name),
                     HttpStatus.ACCEPTED
             );
         }
@@ -140,14 +134,24 @@ public class AdminController {
     @PostMapping(
             path = "/createProject",
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectdto) {
-        Project projectToBeCreated = projectService.mapProjectDTOToProject(projectdto);
-        if (projectService.createProject(projectToBeCreated)) {
+    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) {
+        if (projectService.createProject(projectDTO)) {
             return new ResponseEntity<>("Saved Project!",
                     HttpStatus.CREATED
             );
         }
         return new ResponseEntity<>("Project already created!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/updateProject")
+    public ResponseEntity<String> updateProject(@RequestBody ProjectDTO projectDTO) {
+        if (projectService.updateProject(projectDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Updated project %s", projectDTO.name),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Project not found", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/addTopicToProject")
@@ -215,11 +219,5 @@ public class AdminController {
         }
         return new ResponseEntity<>("Language not found within project!", HttpStatus.BAD_REQUEST);
     }
-
-    @PutMapping("/updateProject")
-    public ResponseEntity<String> updateProject(@RequestBody Project project) {
-        return new ResponseEntity<>("ToDo!", HttpStatus.BAD_REQUEST);
-    }
-
 
 }
