@@ -9,7 +9,10 @@
 }
 
 .inner-container {
-  
+
+  display: flex;
+  flex-direction: column;
+
   margin-top: 10vh;
   margin-left: 10vw;
   margin-right: 10vw;
@@ -35,7 +38,7 @@
 .navbar-left {
   display: flex;
   justify-content: flex-start;
-  align-items: center; 
+  align-items: center;
 
   width: 180px;
 }
