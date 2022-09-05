@@ -12,16 +12,23 @@ public class LanguageDTO {
     public String name;
     public String description;
     public String version;
+    public String documentation;
 
     public List<Framework> frameworks;
     public List<Project> projects = new ArrayList<>();
 
     public LanguageDTO() {}
 
-    public LanguageDTO(String name, String description, String version) {
+    public LanguageDTO(
+            String name,
+            String description,
+            String version,
+            String documentation
+    ) {
         this.name = name;
         this.description = description;
         this.version = version;
+        this.documentation = documentation;
     }
 
 }

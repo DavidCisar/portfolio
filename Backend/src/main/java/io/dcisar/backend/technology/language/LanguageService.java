@@ -72,7 +72,7 @@ public class LanguageService {
     }
 
     public Language mapLanguageDTOToLanguage(LanguageDTO languageDTO) {
-        Language language = new Language(languageDTO.name, languageDTO.description, languageDTO.version);
+        Language language = new Language(languageDTO.name, languageDTO.description, languageDTO.version, languageDTO.documentation);
         return language;
     }
 }

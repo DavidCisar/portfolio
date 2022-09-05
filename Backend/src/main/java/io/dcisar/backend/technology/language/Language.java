@@ -20,6 +20,7 @@ public class Language {
     private String name;
     private String description;
     private String version;
+    private String documentation;
 
     @JsonIgnore
     @OneToMany
@@ -31,10 +32,16 @@ public class Language {
 
     public Language() {}
 
-    public Language(String name, String description, String version) {
+    public Language(
+            String name,
+            String description,
+            String version,
+            String documentation
+    ) {
         this.name = name;
         this.description = description;
         this.version = version;
+        this.documentation = documentation;
     }
 
     public long getId() {
@@ -67,6 +74,14 @@ public class Language {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
     public List<Framework> getFrameworks() {
