@@ -1,11 +1,12 @@
 package io.dcisar.backend.technology.language;
 
-import io.dcisar.backend.project.Project;
-import io.dcisar.backend.technology.framework.Framework;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LanguageDTO {
 
     public long id;
@@ -14,21 +15,14 @@ public class LanguageDTO {
     public String version;
     public String documentation;
 
-    public List<Framework> frameworks;
-    public List<Project> projects = new ArrayList<>();
-
-    public LanguageDTO() {}
-
-    public LanguageDTO(
-            String name,
-            String description,
-            String version,
-            String documentation
-    ) {
-        this.name = name;
-        this.description = description;
-        this.version = version;
-        this.documentation = documentation;
+    @Override
+    public String toString() {
+        return "LanguageDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", version='" + version + '\'' +
+                ", documentation='" + documentation + '\'' +
+                '}';
     }
-
 }

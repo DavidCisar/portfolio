@@ -2,10 +2,16 @@ package io.dcisar.backend.technology.framework;
 
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.technology.language.LanguageDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FrameworkDTO {
 
     public long id;
@@ -17,17 +23,16 @@ public class FrameworkDTO {
     public LanguageDTO languageDTO;
     public List<Project> projects = new ArrayList<>();
 
-    public FrameworkDTO() {}
-
-    public FrameworkDTO(
-            String name,
-            String description,
-            String version,
-            String documentation
-    ) {
-        this.name = name;
-        this.description = description;
-        this.version = version;
-        this.documentation = documentation;
+    @Override
+    public String toString() {
+        return "FrameworkDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", version='" + version + '\'' +
+                ", documentation='" + documentation + '\'' +
+                ", languageDTO=" + languageDTO +
+                ", projects=" + projects +
+                '}';
     }
 }

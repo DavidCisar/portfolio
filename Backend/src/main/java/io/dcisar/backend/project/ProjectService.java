@@ -11,12 +11,14 @@ import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicRepository;
 import io.dcisar.backend.technology.topic.TopicService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
@@ -27,30 +29,20 @@ public class ProjectService {
     private final LanguageService languageService;
     private final TopicService topicService;
 
-    public ProjectService(
-            ProjectRepository projectRepository,
-            FrameworkRepository frameworkRepository,
-            TopicRepository topicRepository,
-            LanguageRepository languageRepository,
-            FrameworkService frameworkService,
-            LanguageService languageService,
-            TopicService topicService)
-    {
-        this.projectRepository = projectRepository;
-        this.frameworkRepository = frameworkRepository;
-        this.topicRepository = topicRepository;
-        this.languageRepository = languageRepository;
-        this.frameworkService = frameworkService;
-        this.languageService = languageService;
-        this.topicService = topicService;
-    }
-
     public Project getProject(Long projectId) {
         return projectRepository.findById(projectId).orElseThrow();
     }
 
-    public List<Project> getProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDTO> getProjects() {
+        List<Project> projects = projectRepository.findAll();
+        List<ProjectDTO> projectDTOs = new ArrayList<>();
+
+        for (Project project : projects) {
+            ProjectDTO projectDTO = mapProjectToProjectDTO(project);
+            projectDTOs.add(projectDTO);
+        }
+
+        return projectDTOs;
     }
 
     public boolean createProject(ProjectDTO projectDTO) {
@@ -101,6 +93,9 @@ public class ProjectService {
         }
         if (projectDTO.projectContext != null) {
             projectToBeUpdated.setProjectContext(projectDTO.projectContext);
+        }
+        if (projectDTO.website != null) {
+            projectToBeUpdated.setWebsite(projectDTO.website);
         }
         projectToBeUpdated.setLanguagesInProject(languagesInProject);
         projectToBeUpdated.setFrameworksInProject(frameworksInProject);
@@ -173,7 +168,15 @@ public class ProjectService {
     }
 
     public Project mapProjectDTOToProject(ProjectDTO projectDTO) {
-        Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext, projectDTO.website);
+        Project project = Project.builder()
+                .name(projectDTO.name)
+                .description(projectDTO.description)
+                .projectContext(projectDTO.projectContext)
+                .website(projectDTO.website)
+                .languagesInProject(new ArrayList<Language>())
+                .frameworksInProject(new ArrayList<Framework>())
+                .topicsInProject(new ArrayList<Topic>())
+                .build();
 
         for (LanguageDTO languageDTO : projectDTO.languagesInProject) {
             if (!languageService.createLanguage(languageDTO)) {
@@ -195,5 +198,42 @@ public class ProjectService {
         }
 
         return project;
+    }
+
+    public ProjectDTO mapProjectToProjectDTO(Project project) {
+        ProjectDTO projectDTO = ProjectDTO.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .description(project.getDescription())
+                .projectContext(project.getProjectContext())
+                .website(project.getWebsite())
+                .languagesInProject(new ArrayList<LanguageDTO>())
+                .frameworksInProject(new ArrayList<FrameworkDTO>())
+                .topicsInProject(new ArrayList<Topic>())
+                .build();
+
+        for (Language language : project.getLanguagesInProject()) {
+            LanguageDTO languageDTO = languageService.mapLanguageToLanguageDTO(language);
+            projectDTO.addLanguageDTOToProjectDTO(languageDTO);
+        }
+
+        for (Framework framework : project.getFrameworksInProject()) {
+            FrameworkDTO frameworkDTO = frameworkService.mapFrameworkToFrameworkDTO(framework);
+            projectDTO.addFrameworkDTOToProjectDTO(frameworkDTO);
+        }
+
+        for (Topic topic : projectDTO.topicsInProject) {
+            projectDTO.addTopicToProjectDTO(topic);
+        }
+
+        return projectDTO;
+    }
+
+    public boolean deleteById(Long id) {
+        if (projectRepository.findById(id).isPresent()) {
+            projectRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

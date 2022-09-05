@@ -3,10 +3,16 @@ package io.dcisar.backend.project;
 import io.dcisar.backend.technology.framework.FrameworkDTO;
 import io.dcisar.backend.technology.language.LanguageDTO;
 import io.dcisar.backend.technology.topic.Topic;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectDTO {
 
     public long id;
@@ -19,16 +25,29 @@ public class ProjectDTO {
     public List<FrameworkDTO> frameworksInProject = new ArrayList<>();
     public List<Topic> topicsInProject = new ArrayList<>();
 
-    public ProjectDTO() {}
-
-    public ProjectDTO(
-            String name,
-            String description,
-            String projectContext
-    ) {
-        this.name = name;
-        this.description = description;
-        this.projectContext = projectContext;
+    @Override
+    public String toString() {
+        return "ProjectDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", projectContext='" + projectContext + '\'' +
+                ", website='" + website + '\'' +
+                ", languagesInProject=" + languagesInProject +
+                ", frameworksInProject=" + frameworksInProject +
+                ", topicsInProject=" + topicsInProject +
+                '}';
     }
 
+    public void addLanguageDTOToProjectDTO(LanguageDTO languageDTO) {
+        this.languagesInProject.add(languageDTO);
+    }
+
+    public void addFrameworkDTOToProjectDTO(FrameworkDTO frameworkDTO) {
+        this.frameworksInProject.add(frameworkDTO);
+    }
+
+    public void addTopicToProjectDTO(Topic topic) {
+        this.topicsInProject.add(topic);
+    }
 }

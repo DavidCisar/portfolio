@@ -8,31 +8,21 @@ import io.dcisar.backend.technology.language.LanguageDTO;
 import io.dcisar.backend.technology.language.LanguageService;
 import io.dcisar.backend.technology.topic.Topic;
 import io.dcisar.backend.technology.topic.TopicService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final ProjectService projectService;
     private final FrameworkService frameworkService;
     private final LanguageService languageService;
     private final TopicService topicService;
-
-    public AdminController(
-            ProjectService projectService,
-            FrameworkService frameworkService,
-            LanguageService languageService,
-            TopicService topicService)
-    {
-        this.projectService = projectService;
-        this.frameworkService = frameworkService;
-        this.languageService = languageService;
-        this.topicService = topicService;
-    }
 
 
     // Language Management
@@ -108,7 +98,7 @@ public class AdminController {
     // Topic Management
     @PostMapping("/createTopic")
     public ResponseEntity<String> createTopic(@RequestBody Topic topic) {
-        Topic topicToBeCreated = new Topic(topic.getName());
+        Topic topicToBeCreated = Topic.builder().name(topic.getName()).build();
         if (topicService.createTopic(topicToBeCreated)) {
             return new ResponseEntity<>(
                     String.format("Added topic %s with id %d to database", topicToBeCreated.getName(), topicToBeCreated.getId()),
@@ -131,9 +121,7 @@ public class AdminController {
 
 
     // Project Management
-    @PostMapping(
-            path = "/createProject",
-            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping("/createProject")
     public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) {
         if (projectService.createProject(projectDTO)) {
             return new ResponseEntity<>("Saved Project!",
@@ -145,10 +133,22 @@ public class AdminController {
 
     @PutMapping("/updateProject")
     public ResponseEntity<String> updateProject(@RequestBody ProjectDTO projectDTO) {
+        System.out.println("projectDTO = " + projectDTO);
         if (projectService.updateProject(projectDTO)) {
             return new ResponseEntity<>(
                     String.format("Updated project %s", projectDTO.name),
                     HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Project not found", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/deleteProject/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable Long id) {
+        if (projectService.deleteById(id)) {
+            return new ResponseEntity<>(
+                    String.format("Deleted project with id %d", id),
+                    HttpStatus.OK
             );
         }
         return new ResponseEntity<>("Project not found", HttpStatus.BAD_REQUEST);

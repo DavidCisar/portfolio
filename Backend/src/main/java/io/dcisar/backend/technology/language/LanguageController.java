@@ -1,5 +1,6 @@
 package io.dcisar.backend.technology.language;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,13 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/languages")
+@RequiredArgsConstructor
 public class LanguageController {
 
     private final LanguageService languageService;
-
-    public LanguageController(LanguageService languageService) {
-        this.languageService = languageService;
-    }
 
     @GetMapping
     public List<Language> getLanguages() {

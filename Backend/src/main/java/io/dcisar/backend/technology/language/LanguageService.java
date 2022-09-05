@@ -2,20 +2,17 @@ package io.dcisar.backend.technology.language;
 
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LanguageService {
 
     private final LanguageRepository languageRepository;
     private final ProjectRepository projectRepository;
-
-    public LanguageService(LanguageRepository languageRepository, ProjectRepository projectRepository) {
-        this.languageRepository = languageRepository;
-        this.projectRepository = projectRepository;
-    }
 
     public List<Language> getLanguages() {
         return languageRepository.findAll();
@@ -47,6 +44,10 @@ public class LanguageService {
             languageToBeUpdated.setVersion(languageDTO.version);
         }
 
+        if (languageDTO.documentation != null) {
+            languageToBeUpdated.setDocumentation(languageDTO.documentation);
+        }
+
         languageRepository.save(languageToBeUpdated);
         return true;
     }
@@ -72,7 +73,22 @@ public class LanguageService {
     }
 
     public Language mapLanguageDTOToLanguage(LanguageDTO languageDTO) {
-        Language language = new Language(languageDTO.name, languageDTO.description, languageDTO.version, languageDTO.documentation);
+        Language language = Language.builder()
+                .name(languageDTO.name)
+                .description(languageDTO.description)
+                .version(languageDTO.version)
+                .documentation(languageDTO.documentation)
+                .build();
         return language;
+    }
+
+    public LanguageDTO mapLanguageToLanguageDTO(Language language) {
+        return LanguageDTO.builder()
+                .id(language.getId())
+                .name(language.getName())
+                .description(language.getDescription())
+                .version(language.getVersion())
+                .documentation(language.getDocumentation())
+                .build();
     }
 }

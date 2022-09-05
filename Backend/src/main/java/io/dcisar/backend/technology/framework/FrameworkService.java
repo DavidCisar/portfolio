@@ -5,28 +5,19 @@ import io.dcisar.backend.project.ProjectRepository;
 import io.dcisar.backend.technology.language.Language;
 import io.dcisar.backend.technology.language.LanguageRepository;
 import io.dcisar.backend.technology.language.LanguageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FrameworkService {
 
     private final FrameworkRepository frameworkRepository;
     private final ProjectRepository projectRepository;
     private final LanguageRepository languageRepository;
     private final LanguageService languageService;
-
-    public FrameworkService(FrameworkRepository frameworkRepository,
-                            ProjectRepository projectRepository,
-                            LanguageRepository languageRepository,
-                            LanguageService languageService)
-    {
-        this.frameworkRepository = frameworkRepository;
-        this.projectRepository = projectRepository;
-        this.languageRepository = languageRepository;
-        this.languageService = languageService;
-    }
 
     public boolean createFramework(FrameworkDTO frameworkDTO) {
         if (frameworkRepository.findByName(frameworkDTO.name).isPresent()) {
@@ -45,14 +36,18 @@ public class FrameworkService {
         if(!languageService.createLanguage(frameworkDTO.languageDTO)) {
             languageService.updateLanguage(frameworkDTO.languageDTO);
         }
-        Language language = languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow();
 
+        Language language = languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow();
         Framework frameworkToBeUpdated = frameworkRepository.findByName(frameworkDTO.name).orElseThrow();
+
         if (frameworkDTO.description != null) {
             frameworkToBeUpdated.setDescription(frameworkDTO.description);
         }
         if (frameworkDTO.version != null) {
             frameworkToBeUpdated.setVersion(frameworkDTO.version);
+        }
+        if (frameworkDTO.documentation != null) {
+            frameworkToBeUpdated.setDocumentation(frameworkDTO.documentation);
         }
         if (frameworkDTO.languageDTO != null) {
             frameworkToBeUpdated.setLanguage(language);
@@ -93,12 +88,29 @@ public class FrameworkService {
     }
 
     public Framework mapFrameworkDTOToFramework(FrameworkDTO frameworkDTO) {
-        Framework framework = new Framework(frameworkDTO.name, frameworkDTO.description, frameworkDTO.version, frameworkDTO.documentation);
+        Framework framework = Framework.builder()
+                .name(frameworkDTO.name)
+                .description(frameworkDTO.description)
+                .version(frameworkDTO.version)
+                .documentation(frameworkDTO.documentation)
+                .build();
+
         if (!languageService.createLanguage(frameworkDTO.languageDTO)) {
             languageService.updateLanguage(frameworkDTO.languageDTO);
         }
         framework.setLanguage(languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow());
 
         return framework;
+    }
+
+    public FrameworkDTO mapFrameworkToFrameworkDTO(Framework framework) {
+        return FrameworkDTO.builder()
+                .id(framework.getId())
+                .name(framework.getName())
+                .description(framework.getDescription())
+                .version(framework.getVersion())
+                .documentation(framework.getDocumentation())
+                .languageDTO(languageService.mapLanguageToLanguageDTO(framework.getLanguage()))
+                .build();
     }
 }
