@@ -173,7 +173,7 @@ public class ProjectService {
     }
 
     public Project mapProjectDTOToProject(ProjectDTO projectDTO) {
-        Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext);
+        Project project = new Project(projectDTO.name, projectDTO.description, projectDTO.projectContext, projectDTO.website);
 
         for (LanguageDTO languageDTO : projectDTO.languagesInProject) {
             if (!languageService.createLanguage(languageDTO)) {

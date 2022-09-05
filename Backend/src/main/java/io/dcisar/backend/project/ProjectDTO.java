@@ -13,6 +13,7 @@ public class ProjectDTO {
     public String name;
     public String description;
     public String projectContext;
+    public String website;
 
     public List<LanguageDTO> languagesInProject = new ArrayList<>();
     public List<FrameworkDTO> frameworksInProject = new ArrayList<>();
@@ -23,7 +24,8 @@ public class ProjectDTO {
     public ProjectDTO(
             String name,
             String description,
-            String projectContext) {
+            String projectContext
+    ) {
         this.name = name;
         this.description = description;
         this.projectContext = projectContext;

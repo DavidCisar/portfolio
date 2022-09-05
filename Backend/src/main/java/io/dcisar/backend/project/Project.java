@@ -17,6 +17,7 @@ public class Project {
     private String name;
     private String description;
     private String projectContext;
+    private String website;
 
     @ManyToMany
     @JoinTable(
@@ -47,10 +48,13 @@ public class Project {
     public Project(
             String name,
             String description,
-            String projectContext) {
+            String projectContext,
+            String website
+    ) {
         this.name = name;
         this.description = description;
         this.projectContext = projectContext;
+        this.website = website;
     }
 
     public boolean addLanguageToProject(Language language) {
@@ -119,6 +123,14 @@ public class Project {
 
     public void setProjectContext(String projectContext) {
         this.projectContext = projectContext;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public List<Language> getLanguagesInProject() {

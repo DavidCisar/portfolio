@@ -3,11 +3,13 @@ import { IFramework } from './framework';
 import { ITopic } from './topic';
 
 export interface IProject {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  languages: ILanguage[];
-  frameworks: IFramework[];
-  topic: ITopic[];
+  projectContext: string;
+  website: string;
+  languages?: ILanguage[];
+  frameworks?: IFramework[];
+  topic?: ITopic[];
 
 }
