@@ -17,6 +17,7 @@ public class Framework {
     private String name;
     private String description;
     private String version;
+    private String documentation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "language_id")
@@ -28,10 +29,16 @@ public class Framework {
 
     public Framework() {}
 
-    public Framework(String name, String description, String version) {
+    public Framework(
+            String name,
+            String description,
+            String version,
+            String documentation
+    ) {
         this.name = name;
         this.description = description;
         this.version = version;
+        this.documentation = documentation;
     }
 
     public long getId() {
@@ -64,6 +71,14 @@ public class Framework {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
     public Language getLanguage() {

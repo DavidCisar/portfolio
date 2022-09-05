@@ -93,7 +93,7 @@ public class FrameworkService {
     }
 
     public Framework mapFrameworkDTOToFramework(FrameworkDTO frameworkDTO) {
-        Framework framework = new Framework(frameworkDTO.name, frameworkDTO.description, frameworkDTO.version);
+        Framework framework = new Framework(frameworkDTO.name, frameworkDTO.description, frameworkDTO.version, frameworkDTO.documentation);
         if (!languageService.createLanguage(frameworkDTO.languageDTO)) {
             languageService.updateLanguage(frameworkDTO.languageDTO);
         }
