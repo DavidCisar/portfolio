@@ -8,8 +8,8 @@ export interface IProject {
   description: string;
   projectContext: string;
   website: string;
-  languages?: ILanguage[];
-  frameworks?: IFramework[];
-  topic?: ITopic[];
+  languagesInProject?: ILanguage[];
+  frameworksInProject?: IFramework[];
+  topicsInProject?: ITopic[];
 
 }

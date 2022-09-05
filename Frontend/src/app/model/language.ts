@@ -4,5 +4,6 @@ export interface ILanguage {
   name: string;
   description: string;
   version: string;
+  documentation: string;
 
 }

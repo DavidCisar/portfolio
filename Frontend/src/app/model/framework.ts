@@ -6,6 +6,6 @@ export interface IFramework {
     name: string;
     description: string;
     version: string;
-    language: ILanguage;
-
+    documentation: string;
+    languageDTO: ILanguage;
 }
