@@ -1,14 +1,13 @@
-.container {
+._container {
   height: 100%;
   width: 100%;
   position: absolute;
-  border-radius: 5px;
 
   display: flex;
   flex-direction: column;
 }
 
-.inner-container {
+._inner-container {
 
   display: flex;
   flex-direction: column;
@@ -23,30 +22,33 @@
   justify-content: space-between;
 
   position: fixed;
-  top: 2.5vh;
   left: 10vw;
   right: 10vw;
+  z-index: 10;
 
   font-size: 1.25em;
 
   padding-top: 15px;
   padding-bottom: 15px;
 
-  background: rgba(33, 76, 88, 0.75);
+  background: rgba(33, 76, 88, 1);
 }
 
 .navbar-left {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+
+  font-family: 'Trattatello';
 
   width: 180px;
+  padding-top: 2.5vh;
 }
 
 .navbar-middle {
   display: flex;
   justify-content: center;
-  align-items: center;
+
+  padding-top: 2.5vh;
 }
 
 .navbar-right {
@@ -55,6 +57,7 @@
   justify-content: flex-end;
 
   width: 180px;
+  padding-top: 2.5vh;
 }
 
 .navbar a {
@@ -66,5 +69,5 @@
 }
 
 .navbar a:hover {
-  border-bottom: 0.5px solid rgb(255, 255, 255);
+  transform: scale(1.1);
 }

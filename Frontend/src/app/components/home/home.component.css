@@ -1,3 +1,14 @@
 .content {
     display: flex;
+
+    justify-content: space-between;
+}
+
+.headline {
+  font-size: 6rem;
+  letter-spacing: -0.05em;
+
+
+  margin-top: 30vh;
+  margin-bottom: 5vh;
 }

@@ -1,6 +1,6 @@
 body {
 
-  font-family: 'Times New Roman', Times, serif ;
+  font-family: 'Times New Roman', serif;
 
   background: rgb(33, 76, 88) 100%;
   background-size: 100vw, 500vh;
@@ -9,15 +9,6 @@ body {
 
   overflow-x: hidden;
 
-}
-
-h1 {
-  font-size: 6rem;
-  letter-spacing: -0.05em;
-
-
-  margin-top: 30vh;
-  margin-bottom: 5vh;
 }
 
 p {
