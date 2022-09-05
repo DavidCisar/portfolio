@@ -1,15 +1,41 @@
 <div>
-    <h2>Projects</h2>
+  <div>
+    <div *ngFor="let contentType of content">
+      <label>
+        <input [(ngModel)]="selectedContent" type="radio" [value]="contentType">
+        {{ contentType }}
+      </label>
+    </div>
+  </div>
+
+
+
+  <p>Selected content: {{ selectedContent }}</p>
+
+  <button type="button" (click)="createProject()">CREATE NEW PROJECT</button>
+  <button type="button" (click)="close()">CLOSE</button>
+
+  <div *ngIf="create || edit">
+    <input [(ngModel)]="projectDTO.name" type="text" placeholder="projectDTO.name" [value]="projectDTO.name">
+    <input [(ngModel)]="projectDTO.description" type="text" placeholder="projectDTO.description" [value]="projectDTO.description">
+    <input [(ngModel)]="projectDTO.projectContext" type="text" placeholder="projectDTO.projectContext" [value]="projectDTO.projectContext">
+    <input [(ngModel)]="projectDTO.website" type="text" placeholder="projectDTO.website" [value]="projectDTO.website">
+
+    <button type="button" (click)="saveProject()">SAVE PROJECT</button>
+
+  </div>
+
+  <div *ngIf="selectedContent === 'projects'">
+
     <div *ngFor="let project of projects">
-      <p style="font-size: 12px;">{{ project.name }} | {{ project.description }}</p>
+
+      {{ project.name }}
+
+
+      <button type="button" (click)="editProject(project)">EDIT</button>
+      <button type="button" (click)="deleteProject()">DELETE</button>
     </div>
 
-    <span>----------------------------------------------------</span>
+  </div>
 
-    <p>Languages:</p>
-
-    <div *ngFor="let language of languages">
-      <p>{{ language.name }}</p>
-      <p>---------------</p>
-    </div>
 </div>
