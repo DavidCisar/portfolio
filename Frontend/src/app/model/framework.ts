@@ -2,7 +2,7 @@ import { ILanguage } from "./language";
 
 export interface IFramework {
 
-    id: number;
+    id?: number;
     name: string;
     description: string;
     version: string;

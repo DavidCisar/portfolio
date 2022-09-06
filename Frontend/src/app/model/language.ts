@@ -1,6 +1,6 @@
 export interface ILanguage {
 
-  id: number;
+  id?: number;
   name: string;
   description: string;
   version: string;
