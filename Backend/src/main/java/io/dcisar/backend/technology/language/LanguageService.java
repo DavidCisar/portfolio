@@ -2,6 +2,8 @@ package io.dcisar.backend.technology.language;
 
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
+import io.dcisar.backend.technology.framework.Framework;
+import io.dcisar.backend.technology.framework.FrameworkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ public class LanguageService {
 
     private final LanguageRepository languageRepository;
     private final ProjectRepository projectRepository;
+    private final FrameworkRepository frameworkRepository;
 
     public List<Language> getLanguages() {
         return languageRepository.findAll();
@@ -52,16 +55,22 @@ public class LanguageService {
         return true;
     }
 
-    public boolean removeLanguage(LanguageDTO languageDTO) {
-        if (languageRepository.findByName(languageDTO.name).isEmpty()) {
+    public boolean deleteLanguage(Long id) {
+        if (languageRepository.findById(id).isEmpty()) {
             return false;
         }
-        Language languageToBeDeleted = languageRepository.findByName(languageDTO.name).orElseThrow();
+        Language languageToBeDeleted = languageRepository.findById(id).orElseThrow();
         List<Project> projects = projectRepository.findAll();
+        List<Framework> frameworks = frameworkRepository.findAll();
         for (Project project : projects) {
             if (project.getLanguagesInProject().contains(languageToBeDeleted)) {
                 project.removeLanguageFromProject(languageToBeDeleted);
                 projectRepository.save(project);
+            }
+        }
+        for (Framework framework : frameworks) {
+            if (framework.getLanguage().equals(languageToBeDeleted)) {
+                return false;
             }
         }
         languageRepository.delete(languageToBeDeleted);
