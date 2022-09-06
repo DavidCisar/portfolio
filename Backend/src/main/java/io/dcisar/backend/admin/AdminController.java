@@ -48,11 +48,11 @@ public class AdminController {
         return new ResponseEntity<>("Language not found", HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/removeLanguage")
-    public ResponseEntity<String> removeLanguage(@RequestBody LanguageDTO languageDTO) {
-        if (languageService.removeLanguage(languageDTO)) {
+    @DeleteMapping("/deleteLanguage/{id}")
+    public ResponseEntity<String> deleteLanguage(@PathVariable Long id) {
+        if (languageService.deleteLanguage(id)) {
             return new ResponseEntity<>(
-                    String.format("Removed language %s from database", languageDTO.name),
+                    String.format("Removed language with id %d from database", id),
                     HttpStatus.ACCEPTED
             );
         }
@@ -83,11 +83,11 @@ public class AdminController {
         return new ResponseEntity<>("Framework not found", HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/removeFramework")
-    public ResponseEntity<String> removeFramework(@RequestBody FrameworkDTO frameworkDTO) {
-        if (frameworkService.removeFramework(frameworkDTO)) {
+    @DeleteMapping("/deleteFramework/{id}")
+    public ResponseEntity<String> deleteFramework(@PathVariable Long id) {
+        if (frameworkService.deleteFramework(id)) {
             return new ResponseEntity<>(
-                    String.format("Removed framework %s from database", frameworkDTO.name),
+                    String.format("Deleted framework with id %d from database", id),
                     HttpStatus.ACCEPTED
             );
         }
@@ -108,11 +108,11 @@ public class AdminController {
         return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/removeTopic")
-    public ResponseEntity<String> removeTopic(@RequestBody Topic topic) {
-        if (topicService.removeTopic(topic)) {
+    @DeleteMapping("/deleteTopic/{id}")
+    public ResponseEntity<String> deleteTopic(@PathVariable Long id) {
+        if (topicService.deleteTopic(id)) {
             return new ResponseEntity<>(
-                    String.format("Removed topic %s from database", topic.getName()),
+                    String.format("Removed topic with id %d from database", id),
                     HttpStatus.ACCEPTED
             );
         }

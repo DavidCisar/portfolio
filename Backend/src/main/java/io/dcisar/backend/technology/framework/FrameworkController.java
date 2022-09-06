@@ -14,12 +14,12 @@ public class FrameworkController {
     private final FrameworkService frameworkService;
 
     @GetMapping
-    public List<Framework> getFrameworks() {
+    public List<FrameworkDTO> getFrameworks() {
         return frameworkService.getFrameworks();
     }
 
     @GetMapping("/{frameworkId}")
-    public Framework getFramework(@PathVariable Long frameworkId) {
+    public FrameworkDTO getFramework(@PathVariable Long frameworkId) {
         return frameworkService.getFramework(frameworkId);
     }
 

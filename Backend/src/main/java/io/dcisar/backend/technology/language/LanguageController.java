@@ -16,12 +16,12 @@ public class LanguageController {
     private final LanguageService languageService;
 
     @GetMapping
-    public List<Language> getLanguages() {
+    public List<LanguageDTO> getLanguages() {
         return languageService.getLanguages();
     }
 
     @GetMapping("/{languageId}")
-    public Language getLanguage(@PathVariable Long languageId) {
+    public LanguageDTO getLanguage(@PathVariable Long languageId) {
         return languageService.getLanguage(languageId);
     }
 

@@ -8,6 +8,7 @@ import io.dcisar.backend.technology.language.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,11 +58,11 @@ public class FrameworkService {
         return true;
     }
 
-    public boolean removeFramework(FrameworkDTO frameworkDTO) {
-        if (frameworkRepository.findByName(frameworkDTO.name).isEmpty()) {
+    public boolean deleteFramework(Long id) {
+        if (frameworkRepository.findById(id).isEmpty()) {
             return false;
         }
-        Framework frameworkToBeDeleted = frameworkRepository.findByName(frameworkDTO.name).orElseThrow();
+        Framework frameworkToBeDeleted = frameworkRepository.findById(id).orElseThrow();
         List<Project> projects = projectRepository.findAll();
         List<Language> languages = languageRepository.findAll();
         for (Project project : projects) {
@@ -79,12 +80,18 @@ public class FrameworkService {
         return true;
     }
 
-    public List<Framework> getFrameworks() {
-        return frameworkRepository.findAll();
+    public List<FrameworkDTO> getFrameworks() {
+        List<Framework> frameworks = frameworkRepository.findAll();
+        List<FrameworkDTO> request = new ArrayList<FrameworkDTO>();
+        for (Framework framework : frameworks) {
+            FrameworkDTO frameworkDTO = mapFrameworkToFrameworkDTO(framework);
+            request.add(frameworkDTO);
+        }
+        return request;
     }
 
-    public Framework getFramework(Long frameworkId) {
-        return frameworkRepository.findById(frameworkId).orElseThrow();
+    public FrameworkDTO getFramework(Long frameworkId) {
+        return mapFrameworkToFrameworkDTO(frameworkRepository.findById(frameworkId).orElseThrow());
     }
 
     public Framework mapFrameworkDTOToFramework(FrameworkDTO frameworkDTO) {
@@ -99,7 +106,7 @@ public class FrameworkService {
             languageService.updateLanguage(frameworkDTO.languageDTO);
         }
         framework.setLanguage(languageRepository.findByName(frameworkDTO.languageDTO.name).orElseThrow());
-
+        System.out.println("framework = " + framework);
         return framework;
     }
 

@@ -25,11 +25,11 @@ public class TopicService {
         return true;
     }
 
-    public boolean removeTopic(Topic topic) {
-        if (!topicRepository.findByName(topic.getName()).isPresent()) {
+    public boolean deleteTopic(Long id) {
+        if (!topicRepository.findById(id).isPresent()) {
             return false;
         }
-        Topic topicToBeDeleted = topicRepository.findByName(topic.getName()).orElseThrow();
+        Topic topicToBeDeleted = topicRepository.findById(id).orElseThrow();
         List<Project> projects = projectRepository.findAll();
         for (Project project : projects) {
             if (project.getTopicsInProject().contains(topicToBeDeleted)) {

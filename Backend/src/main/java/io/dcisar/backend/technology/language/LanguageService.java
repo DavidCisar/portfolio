@@ -7,6 +7,7 @@ import io.dcisar.backend.technology.framework.FrameworkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,12 +18,18 @@ public class LanguageService {
     private final ProjectRepository projectRepository;
     private final FrameworkRepository frameworkRepository;
 
-    public List<Language> getLanguages() {
-        return languageRepository.findAll();
+    public List<LanguageDTO> getLanguages() {
+        List<Language> languages = languageRepository.findAll();
+        List<LanguageDTO> request = new ArrayList<LanguageDTO>();
+        for (Language language : languages) {
+            LanguageDTO languageDTO = mapLanguageToLanguageDTO(language);
+            request.add(languageDTO);
+        }
+        return request;
     }
 
-    public Language getLanguage(Long languageId) {
-        return languageRepository.findById(languageId).orElseThrow();
+    public LanguageDTO getLanguage(Long languageId) {
+        return mapLanguageToLanguageDTO(languageRepository.findById(languageId).orElseThrow());
     }
 
     public boolean createLanguage(LanguageDTO languageDTO) {
