@@ -7,10 +7,10 @@
     </div>
 
     <div class="navbar-middle">
-      <a routerLink='about'>ABOUT ME</a>
-      <a routerLink='skills'>SKILLS</a>
-      <a routerLink='projects'>PROJECTS</a>
-      <a *ngIf="true" routerLink='admin'>ADMIN</a>
+      <a routerLink='about'>About</a>
+      <a routerLink='skills'>Skills</a>
+      <a routerLink='projects'>Projects</a>
+      <a *ngIf="true" routerLink='management'>Admin</a>
     </div>
 
     <div class="navbar-right">
@@ -20,6 +20,12 @@
       </a>
       <a href="https://www.instagram.com/davidcisar/" target="_blank">
         <i class="fa fa-instagram" style="font-size:20px"></i>
+      </a>
+      <a *ngIf="loggedIn" routerlink="profile">
+        <i class="fa fa-user" style="font-size:20px"></i>
+      </a>
+      <a *ngIf="!loggedIn" routerlink="login">
+        <i class="fa fa-sign-in" style="font-size:20px"></i>
       </a>
 
     </div>

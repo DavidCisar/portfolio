@@ -22,33 +22,32 @@
   justify-content: space-between;
 
   position: fixed;
-  left: 10vw;
-  right: 10vw;
+  left: 0vw;
+  right: 0vw;
   z-index: 10;
 
   font-size: 1.25em;
 
   padding-top: 15px;
+  padding-left: 10vw;
+  padding-right: 10vw;
   padding-bottom: 15px;
 
   background: rgba(33, 76, 88, 1);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .7);
 }
 
 .navbar-left {
   display: flex;
   justify-content: flex-start;
 
-  font-family: 'Trattatello';
-
   width: 180px;
-  padding-top: 2.5vh;
 }
 
 .navbar-middle {
   display: flex;
   justify-content: center;
 
-  padding-top: 2.5vh;
 }
 
 .navbar-right {
@@ -57,11 +56,11 @@
   justify-content: flex-end;
 
   width: 180px;
-  padding-top: 2.5vh;
 }
 
 .navbar a {
   color: white;
+  font-variant: small-caps;
   text-decoration: none;
 
   margin-left: 15px;
