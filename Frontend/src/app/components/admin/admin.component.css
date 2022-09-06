@@ -1,0 +1,49 @@
+.project, .language, .framework, .topic {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 25px;
+
+  border: 1px solid white;
+  border-radius: 3px;
+
+}
+
+p {
+  font-size: 16px;
+  font-style: italic;
+}
+
+input {
+  width: 100%;
+  font-style: italic;
+  padding: 15px;
+}
+
+.dropdown {
+  text-align: center;
+  justify-content: center;
+}
+
+.languages, .frameworks, .topics {
+  border-top: 1px solid white;
+
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+h1 {
+  font-size: 6rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+h2 {
+  font-size: 3rem;
+  text-align: center;
+}
+
+h2, h5 {
+  margin-top: 15px;
+}
+
+
