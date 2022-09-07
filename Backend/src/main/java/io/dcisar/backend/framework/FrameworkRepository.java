@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.framework;
+package io.dcisar.backend.framework;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

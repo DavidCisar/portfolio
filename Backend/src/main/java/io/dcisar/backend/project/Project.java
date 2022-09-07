@@ -1,8 +1,8 @@
 package io.dcisar.backend.project;
 
-import io.dcisar.backend.technology.framework.Framework;
-import io.dcisar.backend.technology.language.Language;
-import io.dcisar.backend.technology.topic.Topic;
+import io.dcisar.backend.framework.Framework;
+import io.dcisar.backend.language.Language;
+import io.dcisar.backend.topic.Topic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

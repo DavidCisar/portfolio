@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.topic;
+package io.dcisar.backend.topic;
 
 import org.springframework.web.bind.annotation.*;
 

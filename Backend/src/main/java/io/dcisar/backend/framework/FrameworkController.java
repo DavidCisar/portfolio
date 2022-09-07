@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.framework;
+package io.dcisar.backend.framework;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.topic;
+package io.dcisar.backend.topic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dcisar.backend.project.Project;
@@ -28,7 +28,6 @@ public class Topic {
 
     public void addProjectToTopic(Project project) {
         if (!projects.contains(project)) {
-            System.out.println("Project gets added to topic");
             projects.add(project);
         }
     }

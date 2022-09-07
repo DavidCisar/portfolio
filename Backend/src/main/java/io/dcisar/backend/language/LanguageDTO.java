@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.language;
+package io.dcisar.backend.language;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

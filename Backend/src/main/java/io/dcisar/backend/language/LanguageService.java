@@ -1,9 +1,9 @@
-package io.dcisar.backend.technology.language;
+package io.dcisar.backend.language;
 
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
-import io.dcisar.backend.technology.framework.Framework;
-import io.dcisar.backend.technology.framework.FrameworkRepository;
+import io.dcisar.backend.framework.Framework;
+import io.dcisar.backend.framework.FrameworkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

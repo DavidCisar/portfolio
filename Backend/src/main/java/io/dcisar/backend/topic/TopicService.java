@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.topic;
+package io.dcisar.backend.topic;
 
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;

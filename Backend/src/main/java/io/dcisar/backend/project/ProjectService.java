@@ -1,16 +1,16 @@
 package io.dcisar.backend.project;
 
-import io.dcisar.backend.technology.framework.Framework;
-import io.dcisar.backend.technology.framework.FrameworkDTO;
-import io.dcisar.backend.technology.framework.FrameworkRepository;
-import io.dcisar.backend.technology.framework.FrameworkService;
-import io.dcisar.backend.technology.language.Language;
-import io.dcisar.backend.technology.language.LanguageDTO;
-import io.dcisar.backend.technology.language.LanguageRepository;
-import io.dcisar.backend.technology.language.LanguageService;
-import io.dcisar.backend.technology.topic.Topic;
-import io.dcisar.backend.technology.topic.TopicRepository;
-import io.dcisar.backend.technology.topic.TopicService;
+import io.dcisar.backend.framework.Framework;
+import io.dcisar.backend.framework.FrameworkDTO;
+import io.dcisar.backend.framework.FrameworkRepository;
+import io.dcisar.backend.framework.FrameworkService;
+import io.dcisar.backend.language.Language;
+import io.dcisar.backend.language.LanguageDTO;
+import io.dcisar.backend.language.LanguageRepository;
+import io.dcisar.backend.language.LanguageService;
+import io.dcisar.backend.topic.Topic;
+import io.dcisar.backend.topic.TopicRepository;
+import io.dcisar.backend.topic.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

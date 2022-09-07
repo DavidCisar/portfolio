@@ -1,4 +1,4 @@
-package io.dcisar.backend.technology.language;
+package io.dcisar.backend.language;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
