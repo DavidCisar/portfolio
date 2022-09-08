@@ -2,12 +2,12 @@ package io.dcisar.backend.admin;
 
 import io.dcisar.backend.project.ProjectDTO;
 import io.dcisar.backend.project.ProjectService;
-import io.dcisar.backend.technology.framework.FrameworkDTO;
-import io.dcisar.backend.technology.framework.FrameworkService;
-import io.dcisar.backend.technology.language.LanguageDTO;
-import io.dcisar.backend.technology.language.LanguageService;
-import io.dcisar.backend.technology.topic.Topic;
-import io.dcisar.backend.technology.topic.TopicService;
+import io.dcisar.backend.framework.FrameworkDTO;
+import io.dcisar.backend.framework.FrameworkService;
+import io.dcisar.backend.language.LanguageDTO;
+import io.dcisar.backend.language.LanguageService;
+import io.dcisar.backend.topic.TopicDTO;
+import io.dcisar.backend.topic.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,11 @@ public class AdminController {
     private final LanguageService languageService;
     private final TopicService topicService;
 
+    // Login Test
+    @GetMapping
+    public String test() {
+        return "LoggedIn as Admin!";
+    }
 
     // Language Management
     @PostMapping("/createLanguage")
@@ -97,15 +102,25 @@ public class AdminController {
 
     // Topic Management
     @PostMapping("/createTopic")
-    public ResponseEntity<String> createTopic(@RequestBody Topic topic) {
-        Topic topicToBeCreated = Topic.builder().name(topic.getName()).build();
-        if (topicService.createTopic(topicToBeCreated)) {
+    public ResponseEntity<String> createTopic(@RequestBody TopicDTO topicDTO) {
+        if (topicService.createTopic(topicDTO)) {
             return new ResponseEntity<>(
-                    String.format("Added topic %s with id %d to database", topicToBeCreated.getName(), topicToBeCreated.getId()),
+                    String.format("Added topic %s with to database", topicDTO.name),
                     HttpStatus.CREATED
             );
         }
         return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/updateTopic")
+    public ResponseEntity<String> updateTopic(@RequestBody TopicDTO topicDTO) {
+        if (topicService.updateTopic(topicDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Updated topic with id %d ", topicDTO.id),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Topic not found", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/deleteTopic/{id}")
@@ -145,7 +160,7 @@ public class AdminController {
 
     @DeleteMapping("/deleteProject/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable Long id) {
-        if (projectService.deleteById(id)) {
+        if (projectService.deleteProjectById(id)) {
             return new ResponseEntity<>(
                     String.format("Deleted project with id %d", id),
                     HttpStatus.OK
