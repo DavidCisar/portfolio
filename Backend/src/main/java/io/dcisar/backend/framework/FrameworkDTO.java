@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FrameworkDTO {
 
-    public long id;
+    public Long id;
     public String name;
     public String description;
     public String version;

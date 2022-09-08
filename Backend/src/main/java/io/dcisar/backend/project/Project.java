@@ -21,7 +21,7 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private String projectContext;
@@ -85,19 +85,5 @@ public class Project {
 
     public boolean removeTopicFromProject(Topic topic) {
         return topicsInProject.remove(topic);
-    }
-
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", projectContext='" + projectContext + '\'' +
-                ", languagesInProject=" + languagesInProject +
-                ", frameworksInProject=" + frameworksInProject +
-                ", topicsInProject=" + topicsInProject.size() +
-                '}';
     }
 }

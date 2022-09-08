@@ -1,5 +1,6 @@
 package io.dcisar.backend.topic;
 
+import io.dcisar.backend.language.Language;
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,22 @@ public class TopicService {
         this.projectRepository = projectRepository;
     }
 
-    public boolean createTopic(Topic topic) {
-        if (topicRepository.findByName(topic.getName()).isPresent()) {
+    public boolean createTopic(TopicDTO topicDTO) {
+        if (topicRepository.findByName(topicDTO.name).isPresent()) {
             return false;
         }
-        topicRepository.save(topic);
+        Topic topicToBeCreated = mapDTOToTopic(topicDTO);
+        topicRepository.save(topicToBeCreated);
+        return true;
+    }
+
+    public boolean updateTopic(TopicDTO topicDTO) {
+        if (!topicRepository.findById(topicDTO.id).isPresent() || topicDTO.name.equals("")) {
+            return false;
+        }
+        Topic topicToBeUpdated = topicRepository.findById(topicDTO.id).orElseThrow();
+        topicToBeUpdated.setName(topicDTO.name);
+        topicRepository.save(topicToBeUpdated);
         return true;
     }
 
@@ -47,5 +59,17 @@ public class TopicService {
 
     public Topic getTopic(Long topicId) {
         return topicRepository.findById(topicId).orElseThrow();
+    }
+
+    private Topic mapDTOToTopic(TopicDTO topicDTO) {
+        return Topic.builder()
+                .name(topicDTO.name)
+                .build();
+    }
+
+    public TopicDTO mapTopicToTopicDTO(Topic topic) {
+        return TopicDTO.builder()
+                .name(topic.getName())
+                .build();
     }
 }

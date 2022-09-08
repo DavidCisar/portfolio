@@ -3,6 +3,7 @@ package io.dcisar.backend.project;
 import io.dcisar.backend.framework.FrameworkDTO;
 import io.dcisar.backend.language.LanguageDTO;
 import io.dcisar.backend.topic.Topic;
+import io.dcisar.backend.topic.TopicDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjectDTO {
 
-    public long id;
+    public Long id;
     public String name;
     public String description;
     public String projectContext;
@@ -23,7 +24,7 @@ public class ProjectDTO {
 
     public List<LanguageDTO> languagesInProject = new ArrayList<>();
     public List<FrameworkDTO> frameworksInProject = new ArrayList<>();
-    public List<Topic> topicsInProject = new ArrayList<>();
+    public List<TopicDTO> topicsInProject = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -47,7 +48,7 @@ public class ProjectDTO {
         this.frameworksInProject.add(frameworkDTO);
     }
 
-    public void addTopicToProjectDTO(Topic topic) {
-        this.topicsInProject.add(topic);
+    public void addTopicDTOToProjectDTO(TopicDTO topicDTO) {
+        this.topicsInProject.add(topicDTO);
     }
 }

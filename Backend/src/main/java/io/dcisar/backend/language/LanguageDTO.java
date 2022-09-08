@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LanguageDTO {
 
-    public long id;
+    public Long id;
     public String name;
     public String description;
     public String version;
