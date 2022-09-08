@@ -41,6 +41,8 @@
   display: flex;
   justify-content: flex-start;
 
+  font-weight: bold;
+
   width: 180px;
 }
 
@@ -60,7 +62,6 @@
 
 .navbar a {
   color: white;
-  font-variant: small-caps;
   text-decoration: none;
 
   margin-left: 15px;

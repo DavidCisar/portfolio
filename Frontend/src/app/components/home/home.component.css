@@ -1,12 +1,18 @@
 .content {
     display: flex;
-
     justify-content: space-between;
+
+    height: 90vh;
+}
+
+.content-left {
+  width: 50%;
 }
 
 .headline {
   font-size: 6rem;
-  letter-spacing: -0.05em;
+  font-weight: bold;
+  letter-spacing: -0.025em;
 
 
   margin-top: 30vh;

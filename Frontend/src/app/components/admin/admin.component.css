@@ -1,11 +1,15 @@
-.project, .language, .framework, .topic {
+.project-content, .language-content, .framework-content, .topic-content {
   margin-top: 15px;
   margin-bottom: 15px;
   padding: 25px;
 
   border: 1px solid white;
   border-radius: 3px;
+}
 
+.create-button {
+  text-align: center;
+  margin-top: 50px;
 }
 
 p {
@@ -13,7 +17,11 @@ p {
   font-style: italic;
 }
 
-input {
+li {
+  width: min-content;
+}
+
+.input {
   width: 100%;
   font-style: italic;
   padding: 15px;
@@ -24,11 +32,19 @@ input {
   justify-content: center;
 }
 
-.languages, .frameworks, .topics {
+.languages, .frameworks, .topics, .buttons {
   border-top: 1px solid white;
 
   margin-top: 15px;
   padding-top: 15px;
+}
+
+.language, .framework, .topic {
+  border: 1px solid black;
+  border-radius: 5px;
+
+  margin-top: 15px;
+  padding: 15px;
 }
 
 h1 {
