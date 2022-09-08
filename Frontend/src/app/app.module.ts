@@ -9,10 +9,10 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { ThreejsComponent } from './components/threejs/threejs.component';
-import { ContactComponent } from './components/contact/contact.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminComponent,
     HomeComponent,
     ThreejsComponent,
-    ContactComponent,
     SkillsComponent,
-    AboutComponent
+    AboutComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
