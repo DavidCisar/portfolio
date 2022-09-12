@@ -1,11 +1,11 @@
 package io.dcisar.backend.topic;
 
-import io.dcisar.backend.language.Language;
 import io.dcisar.backend.project.Project;
 import io.dcisar.backend.project.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -53,12 +53,15 @@ public class TopicService {
         return true;
     }
 
-    public List<Topic> getTopics() {
-        return topicRepository.findAll();
+    public List<TopicDTO> getTopics() {
+        List<Topic> topics = topicRepository.findAll();
+        return topics.stream()
+                .map(Topic -> mapTopicToTopicDTO(Topic))
+                .collect(Collectors.toList());
     }
 
-    public Topic getTopic(Long topicId) {
-        return topicRepository.findById(topicId).orElseThrow();
+    public TopicDTO getTopic(Long topicId) {
+        return mapTopicToTopicDTO(topicRepository.findById(topicId).orElseThrow());
     }
 
     private Topic mapDTOToTopic(TopicDTO topicDTO) {

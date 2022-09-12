@@ -15,13 +15,13 @@ public class TopicController {
     }
 
     @GetMapping
-    public List<Topic> getTopics() {
+    public List<TopicDTO> getTopics() {
         return topicService.getTopics();
     }
 
-    @GetMapping("/{topicId}")
-    public Topic getTopic(@PathVariable Long topicId) {
-        return topicService.getTopic(topicId);
+    @GetMapping("/{id}")
+    public TopicDTO getTopic(@PathVariable Long id) {
+        return topicService.getTopic(id);
     }
 
 }
