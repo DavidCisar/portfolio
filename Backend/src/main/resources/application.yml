@@ -1,16 +1,22 @@
 server:
   port: 8080
+  error:
+    whitelabel:
+      enable: false
 
 spring:
+  config:
+    import: optional:secrets.properties
+
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/portfolio_website
-    username: admin
-    password: password
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -20,4 +26,4 @@ spring:
       fail-on-empty-beans : false
 
 jwt:
-  secret: 'password' #Only for development purposes
+  secret: ${JWT_SECRET}
