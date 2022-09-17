@@ -605,4 +605,55 @@
     </div>
   </div>
 
+  <div *ngIf="selectedContent === 'Tools'">
+
+    <div class="create-button">
+      <button *ngIf="!create" type="button" (click)="createContent()">CREATE NEW TOOL</button>
+    </div>
+
+    <div class="tool-content" *ngIf="create">
+      <h5>Name:</h5>
+      <input [(ngModel)]="toolDTO.name" type="text" placeholder="name" [value]="toolDTO.name">
+
+      <h5>Description:</h5>
+      <input [(ngModel)]="toolDTO.description" type="text" placeholder="description" [value]="toolDTO.description">
+
+      <div class="buttons">
+        <button type="button" (click)="saveTool()">SAVE TOOL</button>
+        <button type="button" (click)="close()">CLOSE</button>
+      </div>
+    </div>
+
+    <div *ngFor="let tool of tools">
+
+      <div class="tool-content" *ngIf="tool == toolDTO">
+        <h5>Name:</h5>
+        <input [(ngModel)]="toolDTO.name" type="text" placeholder="name" [value]="toolDTO.name">
+
+        <h5>Description:</h5>
+        <input [(ngModel)]="toolDTO.description" type="text" placeholder="description" [value]="toolDTO.description">
+
+        <div class="buttons">
+          <button type="button" (click)="saveTool()">SAVE</button>
+          <button type="button" (click)="close()">CLOSE</button>
+        </div>
+      </div>
+
+
+      <div class="tool-content" *ngIf="tool != toolDTO">
+        <h2>{{ tool.name }}</h2>
+
+        <h5>Description:</h5>
+        <p>{{ tool.description }}</p>
+
+        <div class="buttons">
+          <button type="button" (click)="editTool(tool)">EDIT</button>
+          <button type="button" (click)="deleteTool(tool)">DELETE</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
 </div>

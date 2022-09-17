@@ -6,6 +6,7 @@ import { IProject } from 'src/app/model/project';
 import { ILanguage }  from 'src/app/model/language';
 import { IFramework } from 'src/app/model/framework';
 import { ITopic } from 'src/app/model/topic';
+import { ITool } from 'src/app/model/tool';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +19,7 @@ export class AdminComponent implements OnInit {
   languages: ILanguage[] = [];
   frameworks: IFramework[] = [];
   topics: ITopic[] = [];
+  tools: ITool[] = [];
 
   edit: boolean = false;
   create: boolean = false;
@@ -26,10 +28,12 @@ export class AdminComponent implements OnInit {
   updateTopics: boolean = false;
   updateLanguage: boolean = false;
   updateTopic: boolean = false;
+  updateTool: boolean = false;
   projectDTO: IProject;
   languageDTO: ILanguage;
   frameworkDTO: IFramework;
   topicDTO: ITopic;
+  toolDTO: ITool;
 
   @Input()
   content: string [] = ['Projects', 'Languages', 'Frameworks', 'Topics', 'Tools']
@@ -39,16 +43,19 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get<IProject[]>('/api/v1/projects')
-          .subscribe((projects: IProject[]) => this.projects = projects)
+      .subscribe((projects: IProject[]) => this.projects = projects)
 
-        this.http.get<ILanguage[]>('/api/v1/languages')
-          .subscribe((languages: ILanguage[]) => this.languages = languages)
+    this.http.get<ILanguage[]>('/api/v1/languages')
+      .subscribe((languages: ILanguage[]) => this.languages = languages)
 
-        this.http.get<IFramework[]>('/api/v1/frameworks')
-          .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
+    this.http.get<IFramework[]>('/api/v1/frameworks')
+      .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
 
-        this.http.get<ITopic[]>('/api/v1/topics')
-          .subscribe((topics: ITopic[]) => this.topics = topics)
+    this.http.get<ITopic[]>('/api/v1/topics')
+      .subscribe((topics: ITopic[]) => this.topics = topics)
+
+    this.http.get<ITool[]>('/api/v1/tools')
+      .subscribe((tools: ITool[]) => this.tools = tools)
   }
 
   createContent() {
@@ -84,6 +91,10 @@ export class AdminComponent implements OnInit {
     this.topicDTO = {
       name : ""
     };
+    this.toolDTO = {
+      name : "",
+      description : ""
+    }
   }
 
   editProject(project: IProject) {
@@ -99,9 +110,9 @@ export class AdminComponent implements OnInit {
   }
 
   editFramework(framework: IFramework) {
-      this.edit = true;
-      this.create = false;
-      this.frameworkDTO = framework;
+    this.edit = true;
+    this.create = false;
+    this.frameworkDTO = framework;
   }
 
   editTopic(topic: ITopic) {
@@ -110,16 +121,22 @@ export class AdminComponent implements OnInit {
     this.topicDTO = topic;
   }
 
+  editTool(tool: ITool) {
+    this.edit = true;
+    this.create = false;
+    this.toolDTO = tool;
+  }
+
   updateFrameworksInProject() {
     this.updateFrameworks = !this.updateFrameworks;
   }
 
   updateLanguagesInProject() {
-      this.updateLanguages = !this.updateLanguages;
+    this.updateLanguages = !this.updateLanguages;
   }
 
   updateTopicsInProject() {
-      this.updateTopics = !this.updateTopics;
+    this.updateTopics = !this.updateTopics;
   }
 
   updateLanguageInFramework() {
@@ -131,11 +148,11 @@ export class AdminComponent implements OnInit {
   }
 
   addLanguageToProject(language: ILanguage) {
-      this.projectDTO.languagesInProject!.push(language);
+    this.projectDTO.languagesInProject!.push(language);
   }
 
   addTopicToProject(topic: ITopic) {
-        this.projectDTO.topicsInProject!.push(topic);
+    this.projectDTO.topicsInProject!.push(topic);
   }
 
   setLanguageInFramework(language: ILanguage) {
@@ -143,15 +160,15 @@ export class AdminComponent implements OnInit {
   }
 
   dropFramework(frameworkToBeRemoved: IFramework) {
-      this.projectDTO.frameworksInProject = this.projectDTO.frameworksInProject!.filter(framework => framework != frameworkToBeRemoved);
+    this.projectDTO.frameworksInProject = this.projectDTO.frameworksInProject!.filter(framework => framework != frameworkToBeRemoved);
   }
 
   dropLanguage(languageToBeRemoved: ILanguage) {
-      this.projectDTO.languagesInProject = this.projectDTO.languagesInProject!.filter(language => language != languageToBeRemoved);
+    this.projectDTO.languagesInProject = this.projectDTO.languagesInProject!.filter(language => language != languageToBeRemoved);
   }
 
   dropTopic(topicToBeRemoved: ITopic) {
-        this.projectDTO.topicsInProject = this.projectDTO.topicsInProject!.filter(topic => topic != topicToBeRemoved);
+    this.projectDTO.topicsInProject = this.projectDTO.topicsInProject!.filter(topic => topic != topicToBeRemoved);
   }
 
   deleteProject(project: IProject) {
@@ -160,44 +177,53 @@ export class AdminComponent implements OnInit {
       .subscribe(() => {
         this.http.get<IProject[]>("/api/v1/projects")
           .subscribe((projects: IProject[]) => this.projects = projects)
-        })
+        });
   }
 
   deleteLanguage(language: ILanguage) {
-      let url = "/admin/deleteLanguage/" + language.id;
-      this.http.delete(url, {responseType: 'text'})
-        .subscribe(() => {
-          this.http.get<IProject[]>("/api/v1/projects")
-            .subscribe((projects: IProject[]) => this.projects = projects);
+    let url = "/admin/deleteLanguage/" + language.id;
+    this.http.delete(url, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<IProject[]>("/api/v1/projects")
+          .subscribe((projects: IProject[]) => this.projects = projects);
 
-          this.http.get<ILanguage[]>("/api/v1/languages")
-            .subscribe((languages: ILanguage[]) => this.languages = languages);
-          })
+        this.http.get<ILanguage[]>("/api/v1/languages")
+          .subscribe((languages: ILanguage[]) => this.languages = languages);
+      });
   }
 
   deleteFramework(framework: IFramework) {
-        let url = "/admin/deleteFramework/" + framework.id;
-        this.http.delete(url, {responseType: 'text'})
-          .subscribe(() => {
-            this.http.get<IProject[]>("/api/v1/projects")
-              .subscribe((projects: IProject[]) => this.projects = projects);
+    let url = "/admin/deleteFramework/" + framework.id;
+    this.http.delete(url, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<IProject[]>("/api/v1/projects")
+          .subscribe((projects: IProject[]) => this.projects = projects);
 
-            this.http.get<IFramework[]>("/api/v1/frameworks")
-              .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks);
-            })
+        this.http.get<IFramework[]>("/api/v1/frameworks")
+          .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks);
+      });
   }
 
   deleteTopic(topic: ITopic) {
-          let url = "/admin/deleteTopic/" + topic.id;
-          this.http.delete(url, {responseType: 'text'})
-            .subscribe(() => {
-              this.http.get<IProject[]>("/api/v1/projects")
-                .subscribe((projects: IProject[]) => this.projects = projects);
+    let url = "/admin/deleteTopic/" + topic.id;
+    this.http.delete(url, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<IProject[]>("/api/v1/projects")
+          .subscribe((projects: IProject[]) => this.projects = projects);
 
-              this.http.get<ITopic[]>("/api/v1/topics")
-                .subscribe((topics: ITopic[]) => this.topics = topics);
-              })
-    }
+        this.http.get<ITopic[]>("/api/v1/topics")
+          .subscribe((topics: ITopic[]) => this.topics = topics);
+      });
+  }
+
+  deleteTool(tool: ITool) {
+    let url = "/admin/deleteTool/" + tool.id;
+    this.http.delete(url, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<ITool[]>("/api/v1/tools")
+          .subscribe((tools: ITool[]) => this.tools = tools);
+      });
+  }
 
   close() {
     this.edit = false;
@@ -205,35 +231,39 @@ export class AdminComponent implements OnInit {
     this.updateFrameworks = false;
     this.updateLanguage = false;
     this.projectDTO = {
-          name : "",
-          description : "",
-          projectContext : "",
-          website : "",
-          languagesInProject : [],
-          frameworksInProject : [],
-          topicsInProject : []
+      name : "",
+      description : "",
+      projectContext : "",
+      website : "",
+      languagesInProject : [],
+      frameworksInProject : [],
+      topicsInProject : []
     };
     this.languageDTO = {
-          name : "",
-          description : "",
-          version : "",
-          documentation : ""
+      name : "",
+      description : "",
+      version : "",
+      documentation : ""
     };
     this.frameworkDTO = {
-          name : "",
-          description : "",
-          version : "",
-          documentation : "",
-          languageDTO : {
-            name : "",
-            description : "",
-            version : "",
-            documentation : ""
-          }
+      name : "",
+      description : "",
+      version : "",
+      documentation : "",
+      languageDTO : {
+        name : "",
+        description : "",
+        version : "",
+        documentation : ""
+      }
     };
     this.topicDTO = {
-          name : ""
+      name : ""
     };
+    this.toolDTO = {
+      name: "",
+      description: ""
+    }
   }
 
   saveProject() {
@@ -245,8 +275,7 @@ export class AdminComponent implements OnInit {
           this.close();
           this.http.get<IProject[]>("/api/v1/projects")
             .subscribe((projects: IProject[]) => this.projects = projects)
-          }
-        )
+          });
     } else {
       this.create = false;
       this.updateFrameworks = false;
@@ -256,83 +285,95 @@ export class AdminComponent implements OnInit {
           this.close();
           this.http.get<IProject[]>("/api/v1/projects")
             .subscribe((projects: IProject[]) => this.projects = projects)
-        })
+        });
     }
-
   }
 
   saveLanguage() {
-      if (this.edit) {
-        this.edit = false;
-        this.http.put("/admin/updateLanguage", this.languageDTO, {responseType: 'text'})
-          .subscribe( () => {
-            this.close();
-            this.http.get<ILanguage[]>("/api/v1/languages")
-              .subscribe((languages: ILanguage[]) => this.languages = languages)
-            }
-          )
-      } else {
-        this.create = false;
-        this.http.post("admin/createLanguage", this.languageDTO, {responseType: 'text'})
-          .subscribe(() => {
-            this.close();
-            this.http.get<ILanguage[]>("/api/v1/languages")
-              .subscribe((languages: ILanguage[]) => this.languages = languages)
-          })
-      }
-
+    if (this.edit) {
+      this.edit = false;
+      this.http.put("/admin/updateLanguage", this.languageDTO, {responseType: 'text'})
+        .subscribe( () => {
+          this.close();
+          this.http.get<ILanguage[]>("/api/v1/languages")
+            .subscribe((languages: ILanguage[]) => this.languages = languages)
+        })
+    } else {
+      this.create = false;
+      this.http.post("admin/createLanguage", this.languageDTO, {responseType: 'text'})
+        .subscribe(() => {
+          this.close();
+          this.http.get<ILanguage[]>("/api/v1/languages")
+            .subscribe((languages: ILanguage[]) => this.languages = languages)
+        })
+    }
   }
 
   saveFramework() {
-        if (this.frameworkDTO.languageDTO.name === '') {
-          console.error('Please provide a name for the language!');
-        } else if (this.edit) {
-          this.edit = false;
-          this.updateLanguage = false;
-          this.http.put("/admin/updateFramework", this.frameworkDTO, {responseType: 'text'})
-            .subscribe( () => {
-              this.close();
-              this.http.get<IFramework[]>("/api/v1/frameworks")
-                .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
-              }
-            )
-        } else {
-          this.create = false;
-          this.updateLanguage = false;
-          this.http.post("admin/createFramework", this.frameworkDTO, {responseType: 'text'})
-            .subscribe( () => {
-              this.close();
-              this.http.get<IFramework[]>("/api/v1/frameworks")
-                .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
-              }
-            )
-        }
-
+    if (this.frameworkDTO.languageDTO.name === '') {
+      console.error('Please provide a name for the language!');
+    } else if (this.edit) {
+      this.edit = false;
+      this.updateLanguage = false;
+      this.http.put("/admin/updateFramework", this.frameworkDTO, {responseType: 'text'})
+        .subscribe( () => {
+          this.close();
+          this.http.get<IFramework[]>("/api/v1/frameworks")
+            .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
+        });
+    } else {
+      this.create = false;
+      this.updateLanguage = false;
+      this.http.post("admin/createFramework", this.frameworkDTO, {responseType: 'text'})
+        .subscribe( () => {
+          this.close();
+          this.http.get<IFramework[]>("/api/v1/frameworks")
+            .subscribe((frameworks: IFramework[]) => this.frameworks = frameworks)
+        });
     }
+  }
 
-    saveTopic() {
-            if (this.edit) {
-              this.edit = false;
-              this.updateTopic = false;
-              this.http.put("/admin/updateTopic", this.topicDTO, {responseType: 'text'})
-                .subscribe( () => {
-                  this.close();
-                  this.http.get<ITopic[]>("/api/v1/topics")
-                    .subscribe((topics: ITopic[]) => this.topics = topics)
-                  }
-                )
-            } else {
-              this.create = false;
-              this.updateTopic = false;
-              this.http.post("admin/createTopic", this.topicDTO, {responseType: 'text'})
-                .subscribe( () => {
-                  this.close();
-                  this.http.get<ITopic[]>("/api/v1/topics")
-                    .subscribe((topics: ITopic[]) => this.topics = topics)
-                  }
-                )
-            }
+  saveTopic() {
+    if (this.edit) {
+      this.edit = false;
+      this.updateTopic = false;
+      this.http.put("/admin/updateTopic", this.topicDTO, {responseType: 'text'})
+        .subscribe(() => {
+          this.close();
+          this.http.get<ITopic[]>("/api/v1/topics")
+            .subscribe((topics: ITopic[]) => this.topics = topics)
+        });
+    } else {
+      this.create = false;
+      this.updateTopic = false;
+      this.http.post("admin/createTopic", this.topicDTO, {responseType: 'text'})
+        .subscribe( () => {
+          this.close();
+          this.http.get<ITopic[]>("/api/v1/topics")
+            .subscribe((topics: ITopic[]) => this.topics = topics)
+        });
+    }
+  }
 
-        }
 
+  saveTool() {
+    if (this.edit) {
+      this.edit = false;
+      this.updateTool = false;
+      this.http.put("/admin/updateTool", this.toolDTO, {responseType: 'text'})
+        .subscribe(() => {
+          this.close();
+          this.http.get<ITool[]>("/api/v1/tools")
+        });
+    } else {
+      this.create = false;
+      this.updateTool = false;
+      this.http.post("/admin/createTool", this.toolDTO, {responseType: 'text'})
+        .subscribe(() => {
+          this.close();
+          this.http.get<ITool[]>("/api/v1/tools")
+            .subscribe((tools: ITool[]) => this.tools = tools)
+        });
+    }
+  }
 }

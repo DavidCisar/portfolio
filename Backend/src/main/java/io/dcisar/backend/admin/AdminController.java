@@ -6,6 +6,8 @@ import io.dcisar.backend.framework.FrameworkDTO;
 import io.dcisar.backend.framework.FrameworkService;
 import io.dcisar.backend.language.LanguageDTO;
 import io.dcisar.backend.language.LanguageService;
+import io.dcisar.backend.tool.ToolDTO;
+import io.dcisar.backend.tool.ToolService;
 import io.dcisar.backend.topic.TopicDTO;
 import io.dcisar.backend.topic.TopicService;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +25,7 @@ public class AdminController {
     private final FrameworkService frameworkService;
     private final LanguageService languageService;
     private final TopicService topicService;
-
-    // Login Test
-    @GetMapping
-    public String test() {
-        return "LoggedIn as Admin!";
-    }
+    private final ToolService toolService;
 
     // Language Management
     @PostMapping("/createLanguage")
@@ -128,6 +125,41 @@ public class AdminController {
         if (topicService.deleteTopic(id)) {
             return new ResponseEntity<>(
                     String.format("Removed topic with id %d from database", id),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Not in database", HttpStatus.BAD_REQUEST);
+    }
+
+
+    // Tool Management
+    @PostMapping("/createTool")
+    public ResponseEntity<String> createTool(@RequestBody ToolDTO toolDTO) {
+        if (toolService.createTool(toolDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Added tool %s with to database", toolDTO.name),
+                    HttpStatus.CREATED
+            );
+        }
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/updateTool")
+    public ResponseEntity<String> updateTool(@RequestBody ToolDTO toolDTO) {
+        if (toolService.updateTool(toolDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Updated tool with id %d ", toolDTO.id),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Tool not found", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/deleteTool/{id}")
+    public ResponseEntity<String> deleteTool(@PathVariable Long id) {
+        if (toolService.deleteTool(id)) {
+            return new ResponseEntity<>(
+                    String.format("Removed tool with id %d from database", id),
                     HttpStatus.ACCEPTED
             );
         }
