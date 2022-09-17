@@ -2,6 +2,7 @@
 Backend/target/
 .idea
 .DS_Store
+Backend/src/main/resources/secrets.properties
 
 # IntelliJ
 Backend/Backend.iml
