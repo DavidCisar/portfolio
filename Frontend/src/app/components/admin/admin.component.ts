@@ -39,6 +39,9 @@ export class AdminComponent implements OnInit {
   content: string [] = ['Projects', 'Languages', 'Frameworks', 'Topics', 'Tools']
   selectedContent: string = "Projects";
 
+  @Input()
+  missingIcons: string[] = ["Solidity"];
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -376,4 +379,9 @@ export class AdminComponent implements OnInit {
         });
     }
   }
+
+  concatenateLanguage(language: string) : string {
+    return "programming lang-" + language.toLowerCase();
+  }
+
 }

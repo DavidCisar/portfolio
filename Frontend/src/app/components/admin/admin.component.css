@@ -1,6 +1,9 @@
+.admin {
+  font-size: 0.75em;
+}
+
 .project-content, .language-content, .framework-content, .topic-content {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: 15px;
   padding: 25px;
 
   border: 1px solid white;
@@ -12,16 +15,12 @@
   margin-top: 50px;
 }
 
-p {
-  font-size: 16px;
-  font-style: italic;
-}
-
 li {
   width: min-content;
 }
 
-.input {
+input {
+  display: inline-block;
   width: 100%;
   font-style: italic;
   padding: 15px;
@@ -62,4 +61,25 @@ h2, h5 {
   margin-top: 15px;
 }
 
+.selectedContent {
+  margin-top: 15px;
+}
+
+.fa-times:hover {
+  transform: rotate(270deg);
+  transition: all 0.75s ease;
+}
+
+button {
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.language-icon {
+  text-align: center;
+}
+
+.language-icon i {
+  font-size: 50px;
+}
 

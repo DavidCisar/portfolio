@@ -21,23 +21,26 @@
   display: flex;
   justify-content: space-between;
 
+  border-bottom: 1px solid;
+  border-image: linear-gradient(45deg, orange, orchid) 1;
+
   position: fixed;
-  left: 0vw;
-  right: 0vw;
+  left: 10vw;
+  right: 10vw;
   z-index: 10;
 
-  font-size: 1.25em;
+  font-size: 1em;
 
-  padding-top: 15px;
-  padding-left: 10vw;
-  padding-right: 10vw;
+  padding-top: 50px;
+  padding-left: 0vw;
+  padding-right: 0vw;
   padding-bottom: 15px;
 
-  background: rgba(33, 76, 88, 1);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, .7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
-.navbar-left {
+.bar-left {
   display: flex;
   justify-content: flex-start;
 
@@ -46,13 +49,13 @@
   width: 180px;
 }
 
-.navbar-middle {
+.bar-middle {
   display: flex;
   justify-content: center;
 
 }
 
-.navbar-right {
+.bar-right {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-end;
@@ -60,7 +63,7 @@
   width: 180px;
 }
 
-.navbar a {
+.navbar a, .footer a {
   color: white;
   text-decoration: none;
 
@@ -68,6 +71,30 @@
   margin-right: 15px;
 }
 
-.navbar a:hover {
-  transform: scale(1.1);
+.bar-left a:hover {
+  color: orange;
+}
+
+.bar-middle a:hover {
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(to right, orange, orchid);
+}
+
+.bar-right a:hover {
+  color: orchid;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+
+  margin: 5vh;
+  padding: 25px;
+}
+
+.fa:hover {
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(to right, orange, orchid);
 }

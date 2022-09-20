@@ -2,19 +2,10 @@
     display: flex;
     justify-content: space-between;
 
-    height: 90vh;
+    margin-bottom: 65vh;
+    padding: 15px;
 }
 
 .content-left {
   width: 50%;
-}
-
-.headline {
-  font-size: 6rem;
-  font-weight: bold;
-  letter-spacing: -0.025em;
-
-
-  margin-top: 30vh;
-  margin-bottom: 5vh;
 }

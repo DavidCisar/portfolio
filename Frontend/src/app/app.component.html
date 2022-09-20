@@ -2,29 +2,25 @@
 
   <div class="navbar">
 
-    <div class="navbar-left">
+    <div class="bar-left">
       <a routerLink="">HOME</a>
     </div>
 
-    <div class="navbar-middle">
+    <div class="bar-middle">
       <a routerLink='about'>About</a>
       <a routerLink='skills'>Skills</a>
       <a routerLink='projects'>Projects</a>
     </div>
 
-    <div class="navbar-right">
-
-      <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" target="_blank">
-        <i class="fa fa-linkedin" style="font-size:20px"></i>
-      </a>
-      <a href="https://www.instagram.com/davidcisar/" target="_blank">
-        <i class="fa fa-instagram" style="font-size:20px"></i>
-      </a>
-      <a *ngIf="loggedIn" routerlink="profile">
+    <div class="bar-right">
+      <a *ngIf="loggedIn" title="Profile" routerLink="profile">
         <i class="fa fa-user" style="font-size:20px"></i>
       </a>
-      <a *ngIf="!loggedIn" routerlink="login">
-        <i class="fa fa-sign-in" style="font-size:20px"></i>
+      <a *ngIf="loggedIn" title="Sign out" (click)="signOut()">
+        <i class="fa fa-sign-out" style="font-size:20px"></i>
+      </a>
+      <a routerLink="login" title="Login" *ngIf="!loggedIn">
+        Login
       </a>
 
     </div>
@@ -34,6 +30,20 @@
   <div class="_inner-container">
 
     <router-outlet></router-outlet>
+
+  </div>
+
+  <div class="footer">
+
+      <a href="https://github.com/DavidCisar" target="_blank">
+        <i class="fa fa-github" style="font-size:1em"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" target="_blank">
+        <i class="fa fa-linkedin" style="font-size:1em"></i>
+      </a>
+      <a href="https://www.instagram.com/davidcisar/" target="_blank">
+        <i class="fa fa-instagram" style="font-size:1em"></i>
+      </a>
 
   </div>
 

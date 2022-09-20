@@ -44,7 +44,7 @@ export class ThreejsComponent implements OnInit, AfterViewInit {
   }
 
   private geometry = new THREE.IcosahedronGeometry(1, 0);
-  private material = new THREE.MeshLambertMaterial({color: 0xff8001});
+  private material = new THREE.MeshLambertMaterial({color: 0xda70d6});
 
   private icosahedron: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
 
@@ -55,15 +55,15 @@ export class ThreejsComponent implements OnInit, AfterViewInit {
 
   /**
    * Create the scene
-   * 
+   *
    * @private
    * @memberof ThreejsComponent
    */
   private createScene () {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x214c58);
+    this.scene.background = new THREE.Color(0x000000);
     const pointLight = new THREE.PointLight(0xfffff, 10, 100);
-    pointLight.position.set(50, 50, 50);
+    pointLight.position.set(25, 35, 70);
 
     this.scene.add(this.icosahedron, pointLight);
 
@@ -83,7 +83,7 @@ export class ThreejsComponent implements OnInit, AfterViewInit {
 
   /**
    * Animate the Icosahedron
-   * 
+   *
    * @private
    * @memberof ThreejsComponent
    */
@@ -94,7 +94,7 @@ export class ThreejsComponent implements OnInit, AfterViewInit {
 
   /**
    * Start the rendering loop
-   * 
+   *
    * @private
    * @memberof ThreejsComponent
    */
