@@ -2,7 +2,10 @@ package io.dcisar.backend.user;
 
 import io.dcisar.backend.config.jwt.JWTTokenProvider;
 import io.dcisar.backend.exception.exceptions.EmailExistException;
+import io.dcisar.backend.exception.exceptions.EmailNotFoundException;
 import io.dcisar.backend.exception.exceptions.UsernameExistException;
+import io.dcisar.backend.rating.Rating;
+import io.dcisar.backend.rating.RatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +30,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     private final BCryptPasswordEncoder passwordEncoder;
     private final JWTTokenProvider jwtTokenProvider;
     private final LoginAttemptService loginAttemptService;
+    private final RatingRepository ratingRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,7 +54,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     {
         validateNewUsernameAndEmail(username, email);
         String password = generatePassword();
-        System.out.println("password = " + password);
+        System.out.println("ONLY FOR PRODUCTION! Password = " + password);
         String encodedPassword = encodePassword(password);
         User userToBeRegistered = User.builder()
                 .firstName(firstName)
@@ -64,6 +68,42 @@ public class UserDetailsService implements org.springframework.security.core.use
                 .build();
         userRepository.save(userToBeRegistered);
         return userToBeRegistered;
+    }
+
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User userToBeDeleted = user.get();
+            Optional<Rating> rating = ratingRepository.findByUser(userToBeDeleted);
+            if (rating.isPresent()) {
+                User anonymous = User.builder()
+                        .firstName("anonymous")
+                        .lastName("anonymous")
+                        .username("anonymous")
+                        .email("")
+                        .build();
+                Rating ratingToBeUpdated = rating.get();
+                ratingToBeUpdated.setUser(anonymous);
+                ratingRepository.save(ratingToBeUpdated);
+            }
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean resetPassword(String email) throws EmailNotFoundException {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new EmailNotFoundException("No user found for email: " + email);
+        }
+        String password = generatePassword();
+        System.out.println("Reset password = " + password);
+        User userToBeUpdated = user.get();
+        userToBeUpdated.setPassword(encodePassword(password));
+        userRepository.save(userToBeUpdated);
+        //emailService.sendNewPasswordEmail(userToBeUpdated.getFirstName(), password, userToBeUpdated.getEmail());
+        return true;
     }
 
     private String generatePassword() {
@@ -101,6 +141,16 @@ public class UserDetailsService implements org.springframework.security.core.use
         HttpHeaders headers = new HttpHeaders();
         headers.add(JWT_TOKEN_HEADER, jwtTokenProvider.generateJWTToken(userPrincipal));
         return headers;
+    }
+
+    public UserDTO mapUserToDTO(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .build();
     }
 
 }

@@ -20,10 +20,13 @@ import static io.dcisar.backend.config.SecurityConstant.OPTIONS_HTTP_METHOD;
 import static io.dcisar.backend.config.SecurityConstant.TOKEN_PREFIX;
 
 @Component
-@RequiredArgsConstructor
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private JWTTokenProvider jwtTokenProvider;
+
+    public JWTAuthorizationFilter(JWTTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
