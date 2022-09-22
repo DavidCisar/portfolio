@@ -6,24 +6,12 @@
       <a routerLink="">HOME</a>
     </div>
 
-    <div class="bar-middle">
+    <div class="bar-right">
       <a routerLink='about'>About</a>
       <a routerLink='skills'>Skills</a>
       <a routerLink='projects'>Projects</a>
     </div>
 
-    <div class="bar-right">
-      <a *ngIf="loggedIn" title="Profile" routerLink="profile">
-        <i class="fa fa-user" style="font-size:20px"></i>
-      </a>
-      <a *ngIf="loggedIn" title="Sign out" (click)="signOut()">
-        <i class="fa fa-sign-out" style="font-size:20px"></i>
-      </a>
-      <a routerLink="login" title="Login" *ngIf="!loggedIn">
-        Login
-      </a>
-
-    </div>
 
   </div>
 
