@@ -26,6 +26,5 @@ public class User implements Serializable {
     private String password;
     private String role;
     private String[] authorities;
-    private boolean isNotLocked;
 
 }

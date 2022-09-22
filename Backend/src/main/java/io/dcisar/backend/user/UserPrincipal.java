@@ -22,7 +22,6 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private String email;
     private String role;
-    private boolean isNotLocked;
 
     @JsonIgnore
     private String password;
@@ -42,7 +41,6 @@ public class UserPrincipal implements UserDetails {
                 .password(user.getPassword())
                 .role(user.getRole())
                 .authorities(authorities)
-                .isNotLocked(user.isNotLocked())
                 .build();
     }
 
@@ -68,7 +66,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return isNotLocked;
+        return true;
     }
 
     @Override
