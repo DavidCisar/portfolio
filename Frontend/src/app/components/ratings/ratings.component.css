@@ -1,0 +1,45 @@
+.ratings {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+}
+
+.rating {
+  display: flex;
+  flex-direction: column;
+
+  padding: 15px;
+
+  color: white;
+  font-size: 16px;
+  text-align: center;
+
+  margin: 15px;
+
+  width: 400px;
+  height: 200px;
+
+  border: 1px solid;
+  border-image: linear-gradient(45deg, orange, orchid) 1;
+
+}
+
+.stars {
+  color: yellow;
+
+  margin-right: 15px;
+
+}
+
+.stars-header {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+
+  border-bottom: 1px solid;
+  border-image: linear-gradient(45deg, orange, orchid) 1;
+
+  padding-bottom: 15px;
+}

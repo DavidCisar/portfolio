@@ -1,0 +1,21 @@
+<h1>Read some ratings!</h1>
+
+<div class="ratings">
+
+  <div class="rating" *ngFor="let rating of ratings">
+
+    <div class="stars-header">
+      <div class="stars">
+        {{ rating.stars }}
+      </div>
+      <div>
+        {{ rating.userDTO.username.toUpperCase() }}
+      </div>
+    </div>
+
+    <br>
+
+    <p>{{ rating.message }}</p>
+  </div>
+
+</div>

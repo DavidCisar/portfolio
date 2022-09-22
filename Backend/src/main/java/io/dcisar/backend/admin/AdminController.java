@@ -6,6 +6,7 @@ import io.dcisar.backend.framework.FrameworkDTO;
 import io.dcisar.backend.framework.FrameworkService;
 import io.dcisar.backend.language.LanguageDTO;
 import io.dcisar.backend.language.LanguageService;
+import io.dcisar.backend.rating.RatingService;
 import io.dcisar.backend.tool.ToolDTO;
 import io.dcisar.backend.tool.ToolService;
 import io.dcisar.backend.topic.TopicDTO;
@@ -26,6 +27,31 @@ public class AdminController {
     private final LanguageService languageService;
     private final TopicService topicService;
     private final ToolService toolService;
+    private final RatingService ratingService;
+
+    // Rating management
+    @PostMapping("/acceptRating/{id}")
+    public ResponseEntity<String> acceptRating(@PathVariable Long id) {
+        if (ratingService.acceptRating(id)) {
+            return new ResponseEntity<>(
+                    String.format("Accepted rating with id %d", id),
+                    HttpStatus.CREATED
+            );
+        }
+        return new ResponseEntity<>("Already accepted", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/declineRating/{id}")
+    public ResponseEntity<String> declineRating(@PathVariable Long id) {
+        if (ratingService.declineRating(id)) {
+            return new ResponseEntity<>(
+                    String.format("Declined rating with id %d", id),
+                    HttpStatus.CREATED
+            );
+        }
+        return new ResponseEntity<>("Already declined", HttpStatus.BAD_REQUEST);
+    }
+
 
     // Language Management
     @PostMapping("/createLanguage")
