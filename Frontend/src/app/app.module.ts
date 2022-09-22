@@ -14,6 +14,9 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
+
+import { AuthenticationService } from './service/authentication.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { LoginComponent } from './components/login/login.component';
     SkillsComponent,
     AboutComponent,
     UserComponent,
-    LoginComponent
+    LoginComponent,
+    RatingsComponent
   ],
   imports: [
     BrowserModule,
