@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     Optional<Rating> findById(Long id);
-
-    Optional<Rating> findByUser(User user);
+    Optional<Rating> findByName(String name);
 }

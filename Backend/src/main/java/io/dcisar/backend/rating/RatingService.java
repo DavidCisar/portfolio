@@ -1,9 +1,5 @@
 package io.dcisar.backend.rating;
 
-import io.dcisar.backend.user.User;
-import io.dcisar.backend.user.UserDTO;
-import io.dcisar.backend.user.UserDetailsService;
-import io.dcisar.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +11,36 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RatingService {
 
-    private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
     private final RatingRepository ratingRepository;
 
     public boolean createRating(RatingDTO ratingDTO) {
-        Optional<User> user = userRepository.findById(ratingDTO.userDTO.id);
-        if (user.isPresent()) {
-            if (!ratingRepository.findByUser(user.get()).isPresent()) {
-                Rating ratingToBeCreated = mapRatingDTOToRating(ratingDTO);
-                ratingRepository.save(ratingToBeCreated);
-                return true;
-            }
+        if (!ratingRepository.findByName(ratingDTO.name.toLowerCase()).isPresent()) {
+            Rating ratingToBeCreated = mapRatingDTOToRating(ratingDTO);
+            ratingRepository.save(ratingToBeCreated);
+            return true;
         }
         return false;
     }
 
+    public boolean acceptRating(Long id) {
+        Optional<Rating> rating = ratingRepository.findById(id);
+        if (rating.isPresent()) {
+            Rating ratingToBeAccepted = rating.get();
+            ratingToBeAccepted.setAccepted(true);
+            ratingRepository.save(ratingToBeAccepted);
+        }
+        return false;
+    }
+
+    public boolean declineRating(Long id) {
+        Optional<Rating> rating = ratingRepository.findById(id);
+        if (rating.isPresent()) {
+            Rating ratingToBeDeclined = rating.get();
+            ratingToBeDeclined.setAccepted(false);
+            ratingRepository.save(ratingToBeDeclined);
+        }
+        return false;
+    }
 
     public List<RatingDTO> getRatings() {
         List<Rating> ratings = ratingRepository.findAll();
@@ -41,22 +51,22 @@ public class RatingService {
     }
 
     private RatingDTO mapRatingToDTO(Rating rating) {
-        UserDTO userDTO = userDetailsService.mapUserToDTO(rating.getUser());
         return RatingDTO.builder()
                 .id(rating.getId())
-                .rating(rating.getRating())
+                .name(rating.getName().toLowerCase())
                 .message(rating.getMessage())
-                .userDTO(userDTO)
+                .link(rating.getLink())
+                .isAccepted(false)
                 .build();
     }
 
     private Rating mapRatingDTOToRating(RatingDTO ratingDTO) {
-        User user = userRepository.findByUsername(ratingDTO.userDTO.username).get();
         return Rating.builder()
                 .id(ratingDTO.id)
-                .rating(ratingDTO.rating)
+                .name(ratingDTO.name)
                 .message(ratingDTO.message)
-                .user(user)
+                .link(ratingDTO.link)
+                .isAccepted(ratingDTO.isAccepted)
                 .build();
 
     }

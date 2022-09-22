@@ -7,8 +7,8 @@ import lombok.Builder;
 public class RatingDTO {
 
     public Long id;
-    public int rating;
+    public String name;
     public String message;
-    public UserDTO userDTO;
-    
+    public String link;
+    public boolean isAccepted;
 }
