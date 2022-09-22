@@ -42,6 +42,8 @@ export class AdminComponent implements OnInit {
   @Input()
   missingIcons: string[] = ["Solidity"];
 
+  loggedIn: boolean = false;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
