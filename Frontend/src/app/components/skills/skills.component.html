@@ -1,1 +1,28 @@
-<p>skills works!</p>
+<div class="skills">
+
+  <h1>Languages</h1>
+  <div class="languages">
+    <div class="language" *ngFor="let language of languages">
+      <div *ngIf="language.name.toLowerCase() == 'solidity'">
+        <img class="solidity" src="../../assets/images/solidity-logo_marine.svg" alt="solidityLogo">
+      </div>
+      <div *ngIf="language.name.toLowerCase() != 'solidity'">
+        <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+      </div>
+    </div>
+  </div>
+
+  <h1>Frameworks</h1>
+  <div class="frameworks">
+    <div class="framework" *ngFor="let framework of frameworks">
+      {{ framework.name }}
+    </div>
+  </div>
+
+  <h1>Topics</h1>
+  <div class="topics">
+    <div class="topic" *ngFor="let topic of topics">
+      {{ topic.name }}
+    </div>
+  </div>
+</div>
