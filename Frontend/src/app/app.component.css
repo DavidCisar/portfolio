@@ -32,8 +32,6 @@
   font-size: 1em;
 
   padding-top: 50px;
-  padding-left: 0vw;
-  padding-right: 0vw;
   padding-bottom: 15px;
 
   background-color: black;
@@ -69,8 +67,8 @@
   color: white;
   text-decoration: none;
 
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 1.5vw;
+  margin-right: 1.5vw;
 }
 
 .bar-left a:hover {
