@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IProject } from 'src/app/model/project';
 import { ILanguage }  from 'src/app/model/language';
 import { IFramework } from 'src/app/model/framework';
+import { IReference } from 'src/app/model/reference';
 import { ITopic } from 'src/app/model/topic';
 import { ITool } from 'src/app/model/tool';
 
@@ -15,20 +16,29 @@ import { ITool } from 'src/app/model/tool';
 })
 export class AdminComponent implements OnInit {
 
+  // Data from backend:
   projects: IProject[] = [];
   languages: ILanguage[] = [];
   frameworks: IFramework[] = [];
   topics: ITopic[] = [];
   tools: ITool[] = [];
+  references: IReference[] = [];
 
   edit: boolean = false;
   create: boolean = false;
+
+  // Project:
   updateFrameworks: boolean = false;
   updateLanguages: boolean = false;
   updateTopics: boolean = false;
+  // Language:
   updateLanguage: boolean = false;
+  // Topic:
   updateTopic: boolean = false;
+  // Tool
   updateTool: boolean = false;
+
+  // Frontend DTOs:
   projectDTO: IProject;
   languageDTO: ILanguage;
   frameworkDTO: IFramework;
@@ -36,13 +46,17 @@ export class AdminComponent implements OnInit {
   toolDTO: ITool;
 
   @Input()
-  content: string [] = ['Projects', 'Languages', 'Frameworks', 'Topics', 'Tools']
+  section: string[] = ["Portfolio", "References", "Newsletter"];
+  selectedSection: string = "";
+
+  @Input()
+  content: string[] = ['Projects', 'Languages', 'Frameworks', 'Topics', 'Tools'];
   selectedContent: string = "Projects";
 
   @Input()
   missingIcons: string[] = ["Solidity"];
 
-  loggedIn: boolean = false;
+  loggedIn: boolean = true;
 
   constructor(private http: HttpClient) { }
 
@@ -61,6 +75,33 @@ export class AdminComponent implements OnInit {
 
     this.http.get<ITool[]>('/api/v1/tools')
       .subscribe((tools: ITool[]) => this.tools = tools)
+
+    this.http.get<IReference[]>('/api/v1/references')
+      .subscribe((references: IReference[]) => this.references = references)
+  }
+
+  selectSection(section: string)  {
+      this.selectedSection = section;
+  }
+
+  acceptReference(id: any) {
+    console.log(id);
+    let url = "/admin/acceptReference/" + id as string;
+    this.http.put(url, null, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<IReference[]>("api/v1/references")
+          .subscribe((references: IReference[]) => this.references = references);
+      });
+  }
+
+  declineReference(id: any) {
+    console.log(id);
+    let url = "/admin/declineReference/" + id as string;
+    this.http.put(url, null, {responseType: 'text'})
+      .subscribe(() => {
+        this.http.get<IReference[]>("api/v1/references")
+          .subscribe((references: IReference[]) => this.references = references);
+      });
   }
 
   createContent() {

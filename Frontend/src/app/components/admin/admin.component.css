@@ -50,6 +50,8 @@ h1 {
   font-size: 6rem;
   font-weight: bold;
   text-align: center;
+
+  margin: 15px;
 }
 
 h2 {
@@ -83,3 +85,81 @@ button {
   font-size: 50px;
 }
 
+.section-selection {
+  width: 100%;
+  text-align: center;
+
+  padding-bottom: 3vh;
+
+  border-bottom: 1px solid;
+  border-image: linear-gradient(45deg, orange, orchid) 1;
+}
+
+.ss-colored {
+  color: orange;
+}
+
+.references {
+  width: 100%;
+  font-size: 0.75em;
+
+  margin-left: 1.5vw;
+  margin-right: 1.5vw;
+}
+
+.reference {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+
+  width: 100%
+}
+
+.reference-id {
+  width: 2vw;
+  text-align: center;
+
+  padding: 5px;
+  border: 1px solid white;
+}
+
+.reference-name {
+  width: 8vw;
+  text-align: center;
+
+  padding: 5px;
+  border: 1px solid white;
+}
+
+.reference-message {
+  width: 45vw;
+  text-align: block;
+  text-wrap: break-word;
+
+  padding: 5px;
+  border: 1px solid white;
+}
+
+.reference-date {
+  width: 5vw;
+
+  padding: 5px;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.reference-link {
+  width: 15vw;
+
+  padding: 5px;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.reference-button {
+  width: 2vw;
+
+  padding: 5px;
+  text-align: center;
+  border: 1px solid white;
+}

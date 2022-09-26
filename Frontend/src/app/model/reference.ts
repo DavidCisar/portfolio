@@ -1,10 +1,8 @@
-import { IUser } from "./user";
-
-export interface IRating {
+export interface IReference {
   id?: number;
-  stars?: string;
   name: string
   message: string;
   link: string;
+  createdAt?: Date;
   isAccepted?: boolean;
 }

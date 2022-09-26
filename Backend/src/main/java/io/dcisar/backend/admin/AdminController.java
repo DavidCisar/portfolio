@@ -6,7 +6,7 @@ import io.dcisar.backend.framework.FrameworkDTO;
 import io.dcisar.backend.framework.FrameworkService;
 import io.dcisar.backend.language.LanguageDTO;
 import io.dcisar.backend.language.LanguageService;
-import io.dcisar.backend.rating.RatingService;
+import io.dcisar.backend.reference.ReferenceService;
 import io.dcisar.backend.tool.ToolDTO;
 import io.dcisar.backend.tool.ToolService;
 import io.dcisar.backend.topic.TopicDTO;
@@ -27,25 +27,25 @@ public class AdminController {
     private final LanguageService languageService;
     private final TopicService topicService;
     private final ToolService toolService;
-    private final RatingService ratingService;
+    private final ReferenceService referenceService;
 
     // Rating management
-    @PostMapping("/acceptRating/{id}")
-    public ResponseEntity<String> acceptRating(@PathVariable Long id) {
-        if (ratingService.acceptRating(id)) {
+    @PutMapping("/acceptReference/{id}")
+    public ResponseEntity<String> acceptReference(@PathVariable Long id) {
+        if (referenceService.acceptReference(id)) {
             return new ResponseEntity<>(
-                    String.format("Accepted rating with id %d", id),
+                    String.format("Accepted reference with id %d", id),
                     HttpStatus.CREATED
             );
         }
         return new ResponseEntity<>("Already accepted", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/declineRating/{id}")
-    public ResponseEntity<String> declineRating(@PathVariable Long id) {
-        if (ratingService.declineRating(id)) {
+    @PutMapping("/declineReference/{id}")
+    public ResponseEntity<String> declineReference(@PathVariable Long id) {
+        if (referenceService.declineReference(id)) {
             return new ResponseEntity<>(
-                    String.format("Declined rating with id %d", id),
+                    String.format("Declined reference with id %d", id),
                     HttpStatus.CREATED
             );
         }

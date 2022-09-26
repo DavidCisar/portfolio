@@ -1,4 +1,4 @@
-package io.dcisar.backend.rating;
+package io.dcisar.backend.reference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import java.util.Date;
+
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -16,7 +18,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @Builder
 @Data
-public class Rating {
+public class Reference {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -24,6 +26,7 @@ public class Rating {
     private String name;
     private String message;
     private String link;
+    private Date createdAt;
     private boolean isAccepted;
 
 }

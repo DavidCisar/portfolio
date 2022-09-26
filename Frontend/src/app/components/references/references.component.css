@@ -1,19 +1,21 @@
-.ratings {
+.references {
   display: flex;
   flex-direction: row;
 
   justify-content: center;
 }
 
-.rating {
+.reference-content {
   display: flex;
   flex-direction: column;
+
+  justify-content: space-between;
 
   padding: 15px;
 
   color: white;
   font-size: 16px;
-  text-align: center;
+  text-align: block;
 
   margin: 15px;
 
@@ -25,21 +27,9 @@
 
 }
 
-.stars {
-  color: yellow;
-
-  margin-right: 15px;
-
-}
-
-.stars-header {
+.name {
   display: flex;
   flex-direction: row;
 
-  justify-content: center;
-
-  border-bottom: 1px solid;
-  border-image: linear-gradient(45deg, orange, orchid) 1;
-
-  padding-bottom: 15px;
+  justify-content: flex-end;
 }

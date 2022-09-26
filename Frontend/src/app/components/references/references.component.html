@@ -1,0 +1,26 @@
+<h1>References:</h1>
+
+<div class="references">
+  <div class="reference" *ngFor="let reference of references">
+    <div *ngIf="reference.isAccepted">
+
+      <div class="reference-content" *ngIf="reference.link != null || ''">
+        <p><i>"{{ reference.message }}"</i></p>
+        <div class="name">
+          <a href="{{ reference.link }}" title="{{ reference.link }}" target="_blank">{{ reference.name }}</a>
+        </div>
+      </div>
+
+      <div class="reference-content" *ngIf="reference.link === null || ''">
+        <p><i>"{{ reference.message }}"</i></p>
+        <div class="name">
+          {{ reference.name }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p>Want to write a reference?</p> <br>
+<p>Each submission is getting reviewed before displaying!</p>

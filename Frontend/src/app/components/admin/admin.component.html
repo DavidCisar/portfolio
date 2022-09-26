@@ -1,168 +1,131 @@
 <div class="admin">
 
-  <div *ngIf="loggedIn">
-    <h1 class="selectedContent">{{selectedContent}}</h1>
+    <h1>Management Studio</h1>
 
-    <div class="dropdown">
-      Which content do you want to change?
-      <select [(ngModel)]="selectedContent">
-        <option *ngFor="let contentType of content" [value]="contentType">
-          {{ contentType }}
-        </option>
-      </select>
+    <div class="section-selection">
+      <span *ngIf="selectedSection != 'Portfolio'" (click)="selectSection('Portfolio')">Portfolio</span>
+      <span *ngIf="selectedSection == 'Portfolio'" class="ss-colored"  (click)="selectSection('Portfolio')">Portfolio</span>
+      |
+      <span *ngIf="selectedSection != 'References'" (click)="selectSection('References')">References</span>
+      <span *ngIf="selectedSection == 'References'" class="ss-colored" (click)="selectSection('References')">References</span>
+      |
+      <span *ngIf="selectedSection != 'Newsletter'" (click)="selectSection('Newsletter')">Newsletter</span>
+      <span *ngIf="selectedSection == 'Newsletter'" class="ss-colored" (click)="selectSection('Newsletter')">Newsletter</span>
     </div>
 
-    <div *ngIf="selectedContent === 'Projects'">
+    <div *ngIf="selectedSection == 'References'">
+      <h1>References</h1>
 
-      <div class="create-button">
-        <button *ngIf="!create" type="button" (click)="createContent()">Create new project</button>
+      <div class="references">
+        <div class="reference">
+          <div class="reference-id">
+            Id
+          </div>
+          <div class="reference-name">
+            Name
+          </div>
+          <div class="reference-message" style="text-align:center">
+            Message
+          </div>
+          <div class="reference-date">
+            Created at
+          </div>
+          <div class="reference-link">
+            Link
+          </div>
+        </div>
       </div>
-
-      <div class="project-content inputs" *ngIf="create">
-        <h5>Name:</h5>
-        <input [(ngModel)]="projectDTO.name" type="text" placeholder="name" [value]="projectDTO.name">
-
-        <h5>Description:</h5>
-        <input [(ngModel)]="projectDTO.description" type="text" placeholder="description" [value]="projectDTO.description">
-
-        <h5>Context:</h5>
-        <input [(ngModel)]="projectDTO.projectContext" type="text" placeholder="project context" [value]="projectDTO.projectContext">
-
-        <h5>Website:</h5>
-        <input [(ngModel)]="projectDTO.website" type="text" placeholder="website" [value]="projectDTO.website">
-
-        <div class="languages">
-
-          <div *ngIf="!updateLanguages">
-            <h5>Languages:</h5>
-            <ul>
-              <li class="language" *ngFor="let language of projectDTO.languagesInProject">
-                <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
-              </li>
-            </ul>
-
-            <button (click)="updateLanguagesInProject()">
-              <i class="fa fa-edit"></i>
-            </button>
+      <div class="references" *ngFor="let reference of references">
+        <div class="reference" *ngIf="reference.isAccepted">
+          <div class="reference-id">
+            {{ reference.id }}
           </div>
-
-          <div *ngIf="updateLanguages">
-            <h5>Languages currently in the project:</h5>
-            <ul>
-              <li class="language" *ngFor="let language of projectDTO.languagesInProject">
-                <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="dropLanguage(language)"></i>
-              </li>
-            </ul>
-
-            <h5>Languages you could add:</h5>
-            <ul>
-              <div *ngFor="let language of languages">
-                <li class="language"  *ngIf="!this.projectDTO.languagesInProject!.includes(language)">
-                  <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="addLanguageToProject(language)"></i>
-                </li>
-              </div>
-            </ul>
-
-            <button (click)="updateLanguagesInProject()">
-              Apply changes
-            </button>
-
+          <div class="reference-name">
+            {{ reference.name }}
           </div>
-
-
-        </div>
-
-        <div class="frameworks">
-
-          <div *ngIf="!updateFrameworks">
-            <h5>Frameworks:</h5>
-            <ul>
-              <li class="framework" *ngFor="let framework of projectDTO.frameworksInProject">
-                {{ framework.name }}
-              </li>
-            </ul>
-
-            <button (click)="updateFrameworksInProject()">
-              <i class="fa fa-edit"></i>
-            </button>
+          <div class="reference-message">
+            {{ reference.message }}
           </div>
-
-          <div *ngIf="updateFrameworks">
-            <h5>Frameworks in the project:</h5>
-            <ul>
-              <li class="framework" *ngFor="let framework of projectDTO.frameworksInProject">
-                <button type="button" (click)="dropFramework(framework)">DROP {{ framework.name }}</button>
-              </li>
-            </ul>
-
-            <h5>Frameworks you can add:</h5>
-            <ul>
-              <div *ngFor="let framework of frameworks">
-                <li class="framework"  *ngIf="!this.projectDTO.frameworksInProject!.includes(framework)">
-                  <button type="button" (click)="addFrameworkToProject(framework)">Add {{ framework.name }}</button>
-                </li>
-              </div>
-            </ul>
-
-            <button (click)="updateFrameworksInProject()">
-              SAVE CHANGES
-            </button>
-
+          <div class="reference-date">
+            {{ reference.createdAt }}
           </div>
-
-        </div>
-
-        <div class="topics">
-
-          <div *ngIf="!updateTopics">
-            <h5>Topics:</h5>
-            <ul>
-              <li class="topic" *ngFor="let topic of projectDTO.topicsInProject">
-                {{ topic.name }}
-              </li>
-            </ul>
-
-            <button (click)="updateTopicsInProject()">
-              <i class="fa fa-edit"></i>
-            </button>
-
+          <div class="reference-link">
+            {{ reference.link }}
           </div>
-
-          <div *ngIf="updateTopics">
-            <h5>Topics in the project:</h5>
-            <ul>
-              <li class="topic" *ngFor="let topic of projectDTO.topicsInProject">
-                <button type="button" (click)="dropTopic(topic)">DROP {{ topic.name }}</button>
-              </li>
-            </ul>
-
-            <h5>Topics you can add:</h5>
-            <ul>
-              <div *ngFor="let topic of topics">
-                <li class="topic"  *ngIf="!this.projectDTO.topicsInProject!.includes(topic)">
-                  <button type="button" (click)="addTopicToProject(topic)">Add {{ topic.name }}</button>
-                </li>
-              </div>
-            </ul>
-
-            <button (click)="updateTopicsInProject()">
-              SAVE CHANGES
-            </button>
-
+          <div class="reference-button" (click)="declineReference(reference.id)">
+            ❌
           </div>
-        </div>
-
-        <div class="buttons">
-          <button type="button" (click)="saveProject()">SAVE PROJECT</button>
-          <button type="button" (click)="close()">
-            <i class="fa fa-times"></i>
-          </button>
         </div>
       </div>
 
-      <div *ngFor="let project of projects">
+      <h2>References to be reviewed</h2>
 
-        <div class="project-content inputs" *ngIf="project == projectDTO">
+      <div class="references">
+        <div class="reference">
+          <div class="reference-id">
+            Id
+          </div>
+          <div class="reference-name">
+            Name
+          </div>
+          <div class="reference-message" style="text-align:center">
+            Message
+          </div>
+          <div class="reference-date">
+            Created at
+          </div>
+          <div class="reference-link">
+            Link
+          </div>
+        </div>
+      </div>
+      <div class="references" *ngFor="let reference of references">
+        <div class="reference" *ngIf="!reference.isAccepted">
+          <div class="reference-id">
+            {{ reference.id }}
+          </div>
+          <div class="reference-name">
+            {{ reference.name }}
+          </div>
+          <div class="reference-message">
+            {{ reference.message }}
+          </div>
+          <div class="reference-date">
+            {{ reference.createdAt }}
+          </div>
+          <div class="reference-link">
+            {{ reference.link }}
+          </div>
+          <div class="reference-button" (click)="acceptReference(reference.id)">
+            ✓
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedSection == 'Newsletter'" class="newsletter">
+
+    </div>
+
+    <div *ngIf="selectedSection == 'Portfolio'" class="portfolio">
+      <h1 class="selectedContent">{{selectedContent}}</h1>
+
+      <div class="dropdown">
+        Which content do you want to change?
+        <select [(ngModel)]="selectedContent">
+          <option *ngFor="let contentType of content" [value]="contentType">
+            {{ contentType }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedContent === 'Projects'">
+
+        <div class="create-button">
+          <button *ngIf="!create" type="button" (click)="createContent()">Create new project</button>
+        </div>
+
+        <div class="project-content inputs" *ngIf="create">
           <h5>Name:</h5>
           <input [(ngModel)]="projectDTO.name" type="text" placeholder="name" [value]="projectDTO.name">
 
@@ -185,20 +148,20 @@
                 </li>
               </ul>
 
-              <button  (click)="updateLanguagesInProject()">
+              <button (click)="updateLanguagesInProject()">
                 <i class="fa fa-edit"></i>
               </button>
             </div>
 
             <div *ngIf="updateLanguages">
-              <h5>Languages in the project:</h5>
+              <h5>Languages currently in the project:</h5>
               <ul>
                 <li class="language" *ngFor="let language of projectDTO.languagesInProject">
                   <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="dropLanguage(language)"></i>
                 </li>
               </ul>
 
-              <h5>Languages you can add:</h5>
+              <h5>Languages you could add:</h5>
               <ul>
                 <div *ngFor="let language of languages">
                   <li class="language"  *ngIf="!this.projectDTO.languagesInProject!.includes(language)">
@@ -208,7 +171,7 @@
               </ul>
 
               <button (click)="updateLanguagesInProject()">
-                SAVE CHANGES
+                Apply changes
               </button>
 
             </div>
@@ -297,100 +260,217 @@
           </div>
 
           <div class="buttons">
-            <button type="button" (click)="saveProject()">SAVE</button>
+            <button type="button" (click)="saveProject()">SAVE PROJECT</button>
             <button type="button" (click)="close()">
               <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
 
+        <div *ngFor="let project of projects">
 
-        <div class="project-content" *ngIf="project != projectDTO">
-          <h2>{{ project.name }}</h2>
+          <div class="project-content inputs" *ngIf="project == projectDTO">
+            <h5>Name:</h5>
+            <input [(ngModel)]="projectDTO.name" type="text" placeholder="name" [value]="projectDTO.name">
 
-          <h5>Description:</h5>
-          <p>{{ project.description }}</p>
+            <h5>Description:</h5>
+            <input [(ngModel)]="projectDTO.description" type="text" placeholder="description" [value]="projectDTO.description">
 
-          <h5>Context:</h5>
-          <p>{{ project.projectContext }}</p>
+            <h5>Context:</h5>
+            <input [(ngModel)]="projectDTO.projectContext" type="text" placeholder="project context" [value]="projectDTO.projectContext">
 
-          <h5>Website:</h5>
-          <p>{{ project.website }}</p>
+            <h5>Website:</h5>
+            <input [(ngModel)]="projectDTO.website" type="text" placeholder="website" [value]="projectDTO.website">
 
-          <div class="languages">
-            <h5>Languages:</h5>
-            <ul>
-              <li class="language" *ngFor="let language of project.languagesInProject">
-                <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
-              </li>
-            </ul>
+            <div class="languages">
+
+              <div *ngIf="!updateLanguages">
+                <h5>Languages:</h5>
+                <ul>
+                  <li class="language" *ngFor="let language of projectDTO.languagesInProject">
+                    <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+                  </li>
+                </ul>
+
+                <button  (click)="updateLanguagesInProject()">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
+
+              <div *ngIf="updateLanguages">
+                <h5>Languages in the project:</h5>
+                <ul>
+                  <li class="language" *ngFor="let language of projectDTO.languagesInProject">
+                    <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="dropLanguage(language)"></i>
+                  </li>
+                </ul>
+
+                <h5>Languages you can add:</h5>
+                <ul>
+                  <div *ngFor="let language of languages">
+                    <li class="language"  *ngIf="!this.projectDTO.languagesInProject!.includes(language)">
+                      <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="addLanguageToProject(language)"></i>
+                    </li>
+                  </div>
+                </ul>
+
+                <button (click)="updateLanguagesInProject()">
+                  SAVE CHANGES
+                </button>
+
+              </div>
+
+
+            </div>
+
+            <div class="frameworks">
+
+              <div *ngIf="!updateFrameworks">
+                <h5>Frameworks:</h5>
+                <ul>
+                  <li class="framework" *ngFor="let framework of projectDTO.frameworksInProject">
+                    {{ framework.name }}
+                  </li>
+                </ul>
+
+                <button (click)="updateFrameworksInProject()">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
+
+              <div *ngIf="updateFrameworks">
+                <h5>Frameworks in the project:</h5>
+                <ul>
+                  <li class="framework" *ngFor="let framework of projectDTO.frameworksInProject">
+                    <button type="button" (click)="dropFramework(framework)">DROP {{ framework.name }}</button>
+                  </li>
+                </ul>
+
+                <h5>Frameworks you can add:</h5>
+                <ul>
+                  <div *ngFor="let framework of frameworks">
+                    <li class="framework"  *ngIf="!this.projectDTO.frameworksInProject!.includes(framework)">
+                      <button type="button" (click)="addFrameworkToProject(framework)">Add {{ framework.name }}</button>
+                    </li>
+                  </div>
+                </ul>
+
+                <button (click)="updateFrameworksInProject()">
+                  SAVE CHANGES
+                </button>
+
+              </div>
+
+            </div>
+
+            <div class="topics">
+
+              <div *ngIf="!updateTopics">
+                <h5>Topics:</h5>
+                <ul>
+                  <li class="topic" *ngFor="let topic of projectDTO.topicsInProject">
+                    {{ topic.name }}
+                  </li>
+                </ul>
+
+                <button (click)="updateTopicsInProject()">
+                  <i class="fa fa-edit"></i>
+                </button>
+
+              </div>
+
+              <div *ngIf="updateTopics">
+                <h5>Topics in the project:</h5>
+                <ul>
+                  <li class="topic" *ngFor="let topic of projectDTO.topicsInProject">
+                    <button type="button" (click)="dropTopic(topic)">DROP {{ topic.name }}</button>
+                  </li>
+                </ul>
+
+                <h5>Topics you can add:</h5>
+                <ul>
+                  <div *ngFor="let topic of topics">
+                    <li class="topic"  *ngIf="!this.projectDTO.topicsInProject!.includes(topic)">
+                      <button type="button" (click)="addTopicToProject(topic)">Add {{ topic.name }}</button>
+                    </li>
+                  </div>
+                </ul>
+
+                <button (click)="updateTopicsInProject()">
+                  SAVE CHANGES
+                </button>
+
+              </div>
+            </div>
+
+            <div class="buttons">
+              <button type="button" (click)="saveProject()">SAVE</button>
+              <button type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
           </div>
 
-          <div class="frameworks">
-            <h5>Frameworks:</h5>
-            <ul>
-              <li class="framework" *ngFor="let framework of project.frameworksInProject">
-                {{ framework.name }}
-              </li>
-            </ul>
-          </div>
 
-          <div class="topics">
-            <h5>Topics:</h5>
-            <ul>
-              <li class="topic" *ngFor="let topic of project.topicsInProject">
-                {{ topic.name }}
-              </li>
-            </ul>
-          </div>
+          <div class="project-content" *ngIf="project != projectDTO">
+            <h2>{{ project.name }}</h2>
 
-          <div class="buttons">
-            <button type="button" (click)="editProject(project)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button type="button" (click)="deleteProject(project)">DELETE</button>
+            <h5>Description:</h5>
+            <p>{{ project.description }}</p>
+
+            <h5>Context:</h5>
+            <p>{{ project.projectContext }}</p>
+
+            <h5>Website:</h5>
+            <p>{{ project.website }}</p>
+
+            <div class="languages">
+              <h5>Languages:</h5>
+              <ul>
+                <li class="language" *ngFor="let language of project.languagesInProject">
+                  <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+                </li>
+              </ul>
+            </div>
+
+            <div class="frameworks">
+              <h5>Frameworks:</h5>
+              <ul>
+                <li class="framework" *ngFor="let framework of project.frameworksInProject">
+                  {{ framework.name }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="topics">
+              <h5>Topics:</h5>
+              <ul>
+                <li class="topic" *ngFor="let topic of project.topicsInProject">
+                  {{ topic.name }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="buttons">
+              <button type="button" (click)="editProject(project)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" (click)="deleteProject(project)">DELETE</button>
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
+      <div *ngIf="selectedContent === 'Languages'">
 
-    <div *ngIf="selectedContent === 'Languages'">
-
-      <div class="create-button">
-        <button *ngIf="!create" type="button" (click)="createContent()">Create new language</button>
-      </div>
-
-      <div class="language-content inputs" *ngIf="create">
-        <h5>Name:</h5>
-        <input [(ngModel)]="languageDTO.name" type="text" placeholder="name" [value]="languageDTO.name">
-
-        <h5>Description:</h5>
-        <input [(ngModel)]="languageDTO.description" type="text" placeholder="description" [value]="languageDTO.description">
-
-        <h5>Version:</h5>
-        <input [(ngModel)]="languageDTO.version" type="text" placeholder="version" [value]="languageDTO.version">
-
-        <h5>Documentation:</h5>
-        <input [(ngModel)]="languageDTO.documentation" type="text" placeholder="documentation" [value]="languageDTO.documentation">
-
-        <div class="buttons">
-          <button type="button" (click)="saveLanguage()">SAVE LANGUAGE</button>
-          <button type="button" (click)="close()">
-            <i class="fa fa-times"></i>
-          </button>
+        <div class="create-button">
+          <button *ngIf="!create" type="button" (click)="createContent()">Create new language</button>
         </div>
-      </div>
 
-      <div *ngFor="let language of languages">
-
-        <div class="language-content inputs" *ngIf="language == languageDTO">
-          <div class="logo">
-            <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
-          </div>
-
+        <div class="language-content inputs" *ngIf="create">
           <h5>Name:</h5>
           <input [(ngModel)]="languageDTO.name" type="text" placeholder="name" [value]="languageDTO.name">
 
@@ -404,105 +484,75 @@
           <input [(ngModel)]="languageDTO.documentation" type="text" placeholder="documentation" [value]="languageDTO.documentation">
 
           <div class="buttons">
-            <button type="button" (click)="saveLanguage()">SAVE</button>
+            <button type="button" (click)="saveLanguage()">SAVE LANGUAGE</button>
             <button type="button" (click)="close()">
               <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
 
-        <div class="language-content" *ngIf="language != languageDTO">
-          <div class="language-icon" *ngIf="!missingIcons.includes(language.name)">
-            <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
-          </div>
-          <h2 *ngIf="missingIcons.includes(language.name)">{{ language.name }}</h2>
+        <div *ngFor="let language of languages">
 
-          <h5>Description:</h5>
-          <p>{{ language.description }}</p>
+          <div class="language-content inputs" *ngIf="language == languageDTO">
+            <div class="logo">
+              <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+            </div>
 
-          <h5>Version:</h5>
-          <p>{{ language.version }}</p>
+            <h5>Name:</h5>
+            <input [(ngModel)]="languageDTO.name" type="text" placeholder="name" [value]="languageDTO.name">
 
-          <h5>Documentation:</h5>
-          <p>{{ language.documentation }}</p>
+            <h5>Description:</h5>
+            <input [(ngModel)]="languageDTO.description" type="text" placeholder="description" [value]="languageDTO.description">
 
-          <div class="buttons">
-            <button type="button" (click)="editLanguage(language)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button type="button" (click)="deleteLanguage(language)">DELETE</button>
-          </div>
+            <h5>Version:</h5>
+            <input [(ngModel)]="languageDTO.version" type="text" placeholder="version" [value]="languageDTO.version">
 
-        </div>
-
-      </div>
-
-    </div>
-
-    <div *ngIf="selectedContent === 'Frameworks'">
-
-      <div class="create-button">
-        <button *ngIf="!create" type="button" (click)="createContent()">Create new framework</button>
-      </div>
-
-      <div class="framework-content inputs" *ngIf="create">
-        <h5>Name:</h5>
-        <input [(ngModel)]="frameworkDTO.name" type="text" placeholder="name" [value]="frameworkDTO.name">
-
-        <h5>Description:</h5>
-        <input [(ngModel)]="frameworkDTO.description" type="text" placeholder="description" [value]="frameworkDTO.description">
-
-        <h5>Version:</h5>
-        <input [(ngModel)]="frameworkDTO.version" type="text" placeholder="version" [value]="frameworkDTO.version">
-
-        <h5>Documentation:</h5>
-        <input [(ngModel)]="frameworkDTO.documentation" type="text" placeholder="documentation" [value]="frameworkDTO.documentation">
-
-        <div class="language">
-
-          <div *ngIf="!updateLanguage">
-            <h5>Language:</h5>
-            <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
+            <h5>Documentation:</h5>
+            <input [(ngModel)]="languageDTO.documentation" type="text" placeholder="documentation" [value]="languageDTO.documentation">
 
             <div class="buttons">
-              <button (click)="updateLanguageInFramework()">
-                <i class="fa fa-edit"></i>
+              <button type="button" (click)="saveLanguage()">SAVE</button>
+              <button type="button" (click)="close()">
+                <i class="fa fa-times"></i>
               </button>
             </div>
           </div>
 
-          <div *ngIf="updateLanguage">
-            <h5>Current language of the framework:</h5>
-            <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
+          <div class="language-content" *ngIf="language != languageDTO">
+            <div class="language-icon" *ngIf="!missingIcons.includes(language.name)">
+              <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+            </div>
+            <h2 *ngIf="missingIcons.includes(language.name)">{{ language.name }}</h2>
 
-            <h5>Other languages you could set:</h5>
-            <ul>
-              <div *ngFor="let language of languages">
-                <li class="language"  *ngIf="this.frameworkDTO.languageDTO.name != language.name">
-                  <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="setLanguageInFramework(language)"></i>
-                </li>
-              </div>
-            </ul>
+            <h5>Description:</h5>
+            <p>{{ language.description }}</p>
 
-            <button (click)="updateLanguageInFramework()">
-              SAVE LANGUAGE
-            </button>
+            <h5>Version:</h5>
+            <p>{{ language.version }}</p>
+
+            <h5>Documentation:</h5>
+            <p>{{ language.documentation }}</p>
+
+            <div class="buttons">
+              <button type="button" (click)="editLanguage(language)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" (click)="deleteLanguage(language)">DELETE</button>
+            </div>
 
           </div>
 
         </div>
 
-        <div class="buttons">
-          <button type="button" (click)="saveFramework()">SAVE FRAMEWORK</button>
-          <button type="button" (click)="close()">
-            <i class="fa fa-times"></i>
-          </button>
-        </div>
       </div>
 
-      <div *ngFor="let framework of frameworks">
+      <div *ngIf="selectedContent === 'Frameworks'">
 
-        <div class="framework-content inputs" *ngIf="framework == frameworkDTO">
+        <div class="create-button">
+          <button *ngIf="!create" type="button" (click)="createContent()">Create new framework</button>
+        </div>
+
+        <div class="framework-content inputs" *ngIf="create">
           <h5>Name:</h5>
           <input [(ngModel)]="frameworkDTO.name" type="text" placeholder="name" [value]="frameworkDTO.name">
 
@@ -521,144 +571,184 @@
               <h5>Language:</h5>
               <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
 
-              <button (click)="updateLanguageInFramework()">
-                <i class="fa fa-edit"></i>
-              </button>
+              <div class="buttons">
+                <button (click)="updateLanguageInFramework()">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
             </div>
 
             <div *ngIf="updateLanguage">
-              <h5>Current language in the framework:</h5>
+              <h5>Current language of the framework:</h5>
               <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
 
               <h5>Other languages you could set:</h5>
               <ul>
                 <div *ngFor="let language of languages">
                   <li class="language"  *ngIf="this.frameworkDTO.languageDTO.name != language.name">
-                    <i title="{{ language.name }}" [className]="concatenateLanguage(language.name )" (click)="setLanguageInFramework(language)"></i>
+                    <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)" (click)="setLanguageInFramework(language)"></i>
                   </li>
                 </div>
               </ul>
 
               <button (click)="updateLanguageInFramework()">
-                SAVE CHANGES
+                SAVE LANGUAGE
               </button>
 
             </div>
 
-
-
           </div>
 
           <div class="buttons">
-            <button type="button" (click)="saveFramework()">SAVE</button>
+            <button type="button" (click)="saveFramework()">SAVE FRAMEWORK</button>
             <button type="button" (click)="close()">
               <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
 
+        <div *ngFor="let framework of frameworks">
 
-        <div class="framework-content" *ngIf="framework != frameworkDTO">
-          <h2>{{ framework.name }}</h2>
+          <div class="framework-content inputs" *ngIf="framework == frameworkDTO">
+            <h5>Name:</h5>
+            <input [(ngModel)]="frameworkDTO.name" type="text" placeholder="name" [value]="frameworkDTO.name">
 
-          <h5>Description:</h5>
-          <p>{{ framework.description }}</p>
+            <h5>Description:</h5>
+            <input [(ngModel)]="frameworkDTO.description" type="text" placeholder="description" [value]="frameworkDTO.description">
 
-          <h5>Version:</h5>
-          <p>{{ framework.version }}</p>
+            <h5>Version:</h5>
+            <input [(ngModel)]="frameworkDTO.version" type="text" placeholder="version" [value]="frameworkDTO.version">
 
-          <h5>Documentation:</h5>
-          <p>{{ framework.documentation }}</p>
+            <h5>Documentation:</h5>
+            <input [(ngModel)]="frameworkDTO.documentation" type="text" placeholder="documentation" [value]="frameworkDTO.documentation">
 
-          <div class="language">
-            <h5>Language:</h5>
-            <i title="{{ framework.languageDTO.name }}" [className]="concatenateLanguage(framework.languageDTO.name )"></i>
+            <div class="language">
+
+              <div *ngIf="!updateLanguage">
+                <h5>Language:</h5>
+                <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
+
+                <button (click)="updateLanguageInFramework()">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
+
+              <div *ngIf="updateLanguage">
+                <h5>Current language in the framework:</h5>
+                <i title="{{ frameworkDTO.languageDTO.name }}" [className]="concatenateLanguage(frameworkDTO.languageDTO.name )"></i>
+
+                <h5>Other languages you could set:</h5>
+                <ul>
+                  <div *ngFor="let language of languages">
+                    <li class="language"  *ngIf="this.frameworkDTO.languageDTO.name != language.name">
+                      <i title="{{ language.name }}" [className]="concatenateLanguage(language.name )" (click)="setLanguageInFramework(language)"></i>
+                    </li>
+                  </div>
+                </ul>
+
+                <button (click)="updateLanguageInFramework()">
+                  SAVE CHANGES
+                </button>
+
+              </div>
+
+
+
+            </div>
+
+            <div class="buttons">
+              <button type="button" (click)="saveFramework()">SAVE</button>
+              <button type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
           </div>
 
-          <div class="buttons">
-            <button type="button" (click)="editFramework(framework)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button type="button" (click)="deleteFramework(framework)">DELETE</button>
+
+          <div class="framework-content" *ngIf="framework != frameworkDTO">
+            <h2>{{ framework.name }}</h2>
+
+            <h5>Description:</h5>
+            <p>{{ framework.description }}</p>
+
+            <h5>Version:</h5>
+            <p>{{ framework.version }}</p>
+
+            <h5>Documentation:</h5>
+            <p>{{ framework.documentation }}</p>
+
+            <div class="language">
+              <h5>Language:</h5>
+              <i title="{{ framework.languageDTO.name }}" [className]="concatenateLanguage(framework.languageDTO.name )"></i>
+            </div>
+
+            <div class="buttons">
+              <button type="button" (click)="editFramework(framework)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" (click)="deleteFramework(framework)">DELETE</button>
+            </div>
+
           </div>
 
         </div>
-
-      </div>
-    </div>
-
-    <div *ngIf="selectedContent === 'Topics'">
-
-      <div class="create-button">
-        <button *ngIf="!create" type="button" (click)="createContent()">Create new topic</button>
       </div>
 
-      <div class="topic-content inputs" *ngIf="create">
-        <h5>Name:</h5>
-        <input [(ngModel)]="topicDTO.name" type="text" placeholder="name" [value]="topicDTO.name">
+      <div *ngIf="selectedContent === 'Topics'">
 
-        <div class="buttons">
-          <button type="button" (click)="saveTopic()">SAVE TOPIC</button>
-          <button type="button" (click)="close()">
-            <i class="fa fa-times"></i>
-          </button>
+        <div class="create-button">
+          <button *ngIf="!create" type="button" (click)="createContent()">Create new topic</button>
         </div>
-      </div>
 
-      <div *ngFor="let topic of topics">
-
-        <div class="topic-content inputs" *ngIf="topic == topicDTO">
+        <div class="topic-content inputs" *ngIf="create">
           <h5>Name:</h5>
           <input [(ngModel)]="topicDTO.name" type="text" placeholder="name" [value]="topicDTO.name">
 
           <div class="buttons">
-            <button type="button" (click)="saveTopic()">SAVE</button>
+            <button type="button" (click)="saveTopic()">SAVE TOPIC</button>
             <button type="button" (click)="close()">
               <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
 
+        <div *ngFor="let topic of topics">
 
-        <div class="topic-content" *ngIf="topic != topicDTO">
-          <h2>{{ topic.name }}</h2>
+          <div class="topic-content inputs" *ngIf="topic == topicDTO">
+            <h5>Name:</h5>
+            <input [(ngModel)]="topicDTO.name" type="text" placeholder="name" [value]="topicDTO.name">
 
-          <div class="buttons">
-            <button type="button" (click)="editTopic(topic)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button type="button" (click)="deleteTopic(topic)">DELETE</button>
+            <div class="buttons">
+              <button type="button" (click)="saveTopic()">SAVE</button>
+              <button type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="topic-content" *ngIf="topic != topicDTO">
+            <h2>{{ topic.name }}</h2>
+
+            <div class="buttons">
+              <button type="button" (click)="editTopic(topic)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" (click)="deleteTopic(topic)">DELETE</button>
+            </div>
+
           </div>
 
         </div>
-
-      </div>
-    </div>
-
-    <div *ngIf="selectedContent === 'Tools'">
-
-      <div class="create-button">
-        <button *ngIf="!create" type="button" (click)="createContent()">Create new tool</button>
       </div>
 
-      <div class="tool-content inputs" *ngIf="create">
-        <h5>Name:</h5>
-        <input [(ngModel)]="toolDTO.name" type="text" placeholder="name" [value]="toolDTO.name">
+      <div *ngIf="selectedContent === 'Tools'">
 
-        <h5>Description:</h5>
-        <input [(ngModel)]="toolDTO.description" type="text" placeholder="description" [value]="toolDTO.description">
-
-        <div class="buttons">
-          <button type="button" (click)="saveTool()">SAVE TOOL</button>
-          <button type="button" (click)="close()">
-            <i class="fa fa-times"></i>
-          </button>
+        <div class="create-button">
+          <button *ngIf="!create" type="button" (click)="createContent()">Create new tool</button>
         </div>
-      </div>
 
-      <div *ngFor="let tool of tools">
-
-        <div class="tool-content inputs" *ngIf="tool == toolDTO">
+        <div class="tool-content inputs" *ngIf="create">
           <h5>Name:</h5>
           <input [(ngModel)]="toolDTO.name" type="text" placeholder="name" [value]="toolDTO.name">
 
@@ -666,34 +756,48 @@
           <input [(ngModel)]="toolDTO.description" type="text" placeholder="description" [value]="toolDTO.description">
 
           <div class="buttons">
-            <button type="button" (click)="saveTool()">SAVE</button>
+            <button type="button" (click)="saveTool()">SAVE TOOL</button>
             <button type="button" (click)="close()">
               <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
 
+        <div *ngFor="let tool of tools">
 
-        <div class="tool-content" *ngIf="tool != toolDTO">
-          <h2>{{ tool.name }}</h2>
+          <div class="tool-content inputs" *ngIf="tool == toolDTO">
+            <h5>Name:</h5>
+            <input [(ngModel)]="toolDTO.name" type="text" placeholder="name" [value]="toolDTO.name">
 
-          <h5>Description:</h5>
-          <p>{{ tool.description }}</p>
+            <h5>Description:</h5>
+            <input [(ngModel)]="toolDTO.description" type="text" placeholder="description" [value]="toolDTO.description">
 
-          <div class="buttons">
-            <button type="button" (click)="editTool(tool)">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button type="button" (click)="deleteTool(tool)">DELETE</button>
+            <div class="buttons">
+              <button type="button" (click)="saveTool()">SAVE</button>
+              <button type="button" (click)="close()">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="tool-content" *ngIf="tool != toolDTO">
+            <h2>{{ tool.name }}</h2>
+
+            <h5>Description:</h5>
+            <p>{{ tool.description }}</p>
+
+            <div class="buttons">
+              <button type="button" (click)="editTool(tool)">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" (click)="deleteTool(tool)">DELETE</button>
+            </div>
+
           </div>
 
         </div>
-
       </div>
     </div>
-  </div>
-  <div *ngIf="!loggedIn">
-    <app-login></app-login>
-  </div>
 
 </div>
