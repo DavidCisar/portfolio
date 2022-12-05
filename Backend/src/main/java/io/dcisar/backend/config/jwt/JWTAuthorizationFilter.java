@@ -1,6 +1,5 @@
 package io.dcisar.backend.config.jwt;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

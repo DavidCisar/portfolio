@@ -1,0 +1,30 @@
+<div class="blurr">
+  <div class="folder">
+    <div class="foldertop">
+      <div class="circles">
+        <i class="fa-solid fa-circle-dot red circle" [routerLink]="['/']"></i>
+        <i class="fa-solid fa-circle-dot orange circle"></i>
+        <i class="fa-solid fa-circle-dot green circle"></i>
+      </div>
+      <div class="foldername">
+        <div class="hero">Portfolio</div>
+      </div>
+    </div>
+    <div class="table">
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Status</th>
+        </thead>
+        <tr *ngFor="let project of projects" [routerLink]="[project.short]">
+          <td>{{ project.name }}</td>
+          <td>{{ project.field }}</td>
+          <td>{{ project.type }}</td>
+          <td>{{ project.status }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

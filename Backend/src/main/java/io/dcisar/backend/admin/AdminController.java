@@ -1,5 +1,7 @@
 package io.dcisar.backend.admin;
 
+import io.dcisar.backend.database.DatabaseDTO;
+import io.dcisar.backend.database.DatabaseService;
 import io.dcisar.backend.project.ProjectDTO;
 import io.dcisar.backend.project.ProjectService;
 import io.dcisar.backend.framework.FrameworkDTO;
@@ -28,6 +30,7 @@ public class AdminController {
     private final TopicService topicService;
     private final ToolService toolService;
     private final ReferenceService referenceService;
+    private final DatabaseService databaseService;
 
     // Rating management
     @PutMapping("/acceptReference/{id}")
@@ -50,6 +53,40 @@ public class AdminController {
             );
         }
         return new ResponseEntity<>("Already declined", HttpStatus.BAD_REQUEST);
+    }
+
+    // Database Management
+    @PostMapping("/createDatabase")
+    public ResponseEntity<String> createDatabase(@RequestBody DatabaseDTO databaseDTO) {
+        if (databaseService.createDatabase(databaseDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Created database entity %s", databaseDTO.name),
+                    HttpStatus.CREATED
+            );
+        }
+        return new ResponseEntity<>("Already in database", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/updateDatabase")
+    public ResponseEntity<String> updateDatabase(@RequestBody DatabaseDTO databaseDTO) {
+        if (databaseService.updateDatabase(databaseDTO)) {
+            return new ResponseEntity<>(
+                    String.format("Updated database with id %d ", databaseDTO.id),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Database not found", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/deleteDatabase/{id}")
+    public ResponseEntity<String> deleteDatabase(@PathVariable Long id) {
+        if (databaseService.deleteDatabase(id)) {
+            return new ResponseEntity<>(
+                    String.format("Removed database with id %d", id),
+                    HttpStatus.ACCEPTED
+            );
+        }
+        return new ResponseEntity<>("Not in database", HttpStatus.BAD_REQUEST);
     }
 
 

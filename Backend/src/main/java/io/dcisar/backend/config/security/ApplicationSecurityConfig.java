@@ -41,8 +41,7 @@ public class ApplicationSecurityConfig {
                 .and()
                     .authorizeRequests()
                         .antMatchers(PUBLIC_URLS).permitAll()
-                        .antMatchers("/user/createRating").permitAll() //authenticated();//.hasRole("USER")
-                        .antMatchers("/admin/**").permitAll() //.authenticated();//.hasRole("ADMIN");
+                        .antMatchers("/admin/**").hasAuthority("admin:all")
                         .anyRequest().authenticated()
                 .and()
                     .exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)

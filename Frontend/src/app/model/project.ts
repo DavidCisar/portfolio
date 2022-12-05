@@ -5,11 +5,12 @@ import { ITopic } from './topic';
 export interface IProject {
   id?: number;
   name: string;
-  description: string;
+  description: string[];
+  summary: string;
   projectContext: string;
   website: string;
+  tasks: string[];
   languagesInProject?: ILanguage[];
   frameworksInProject?: IFramework[];
   topicsInProject?: ITopic[];
-
 }

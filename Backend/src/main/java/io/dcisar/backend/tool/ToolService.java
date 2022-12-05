@@ -22,7 +22,7 @@ public class ToolService {
     }
 
     public boolean updateTool(ToolDTO toolDTO) {
-        if (!toolRepository.findById(toolDTO.id).isPresent()) {
+        if (toolRepository.findById(toolDTO.id).isEmpty()) {
             return false;
         }
         Tool toolToBeUpdated = toolRepository.findById(toolDTO.id).get();
@@ -33,7 +33,7 @@ public class ToolService {
     }
 
     public boolean deleteTool(Long id) {
-        if (!toolRepository.findById(id).isPresent()) {
+        if (toolRepository.findById(id).isEmpty()) {
             return false;
         }
         Tool toolToBeDeleted = toolRepository.findById(id).get();
@@ -44,7 +44,7 @@ public class ToolService {
     public List<ToolDTO> getTools() {
         List<Tool> tools = toolRepository.findAll();
         return tools.stream()
-                .map(tool -> mapToolToDTO(tool))
+                .map(this::mapToolToDTO)
                 .collect(Collectors.toList());
     }
 

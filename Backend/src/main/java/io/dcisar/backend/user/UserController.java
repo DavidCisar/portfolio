@@ -16,9 +16,9 @@ public class UserController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody User user) throws UsernameNotFoundException {
-        loginService.authenticate(user.getUsername(), user.getPassword());
-        User loggedInUser = userDetailsService.findByUsername(user.getUsername());
+    public ResponseEntity<UserDTO> login(@RequestBody LoginForm loginForm) throws UsernameNotFoundException {
+        loginService.authenticate(loginForm.getUsername(), loginForm.getPassword());
+        User loggedInUser = userDetailsService.findByUsername(loginForm.getUsername());
         UserPrincipal userPrincipal = UserPrincipal.build(loggedInUser);
         HttpHeaders jwtHeader = userDetailsService.getJWTHeader(userPrincipal);
         return new ResponseEntity<>(userDetailsService.mapUserToDTO(loggedInUser), jwtHeader, HttpStatus.OK);

@@ -1,0 +1,134 @@
+.blurr {
+  position: fixed;
+  top: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  z-index: 2;
+}
+
+.folder {
+  position: fixed;
+  top: 10vh;
+  left: 10vw;
+
+  width: 80vw;
+  height: 80vh;
+
+  border: 1px solid black;
+  border-radius: 0, 5px, 0, 0;
+
+  background-color: beige;
+
+  animation-name: folder;
+  animation-duration: 0.5s;
+}
+
+@keyframes folder {
+  0% {
+    transform: scale(0.05);
+    -webkit-transform: scale(0.05);
+  }
+  100% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.foldertop {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  box-sizing: border-box;
+
+  padding-left: 2.5vw;
+
+  width: 80vw;
+  height: 8vh;
+
+  align-items: center;
+}
+
+.foldername {
+  position: fixed;
+
+  top: 12vh;
+  left: 40vw;
+
+  text-align: center;
+  font-style: italic;
+}
+
+.circles {
+  position: fixed;
+  top: 12vh;
+  left: 12vw;
+  z-index: 9999;
+}
+
+.red {
+  color: red;
+  margin-right: 10px;
+}
+
+.orange {
+  color: orange;
+  margin-right: 10px;
+}
+
+.green {
+  color: lightgreen;
+}
+
+i:hover {
+  transform: scale(1.1);
+}
+
+.table {
+  position: relative;
+
+  width: 70vw;
+  height: 55vh;
+
+  top: 10vh;
+  left: 5vw;
+
+  background-color: lightgrey;
+
+  border: 1px solid black;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: grey;
+}
+
+th {
+  text-align: left;
+  line-height: 3vh;
+  padding-left: 10px;
+}
+
+td {
+  text-align: left;
+  line-height: 3vh;
+  padding-left: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: beige;
+}
+

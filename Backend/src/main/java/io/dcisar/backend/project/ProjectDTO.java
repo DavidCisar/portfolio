@@ -2,7 +2,6 @@ package io.dcisar.backend.project;
 
 import io.dcisar.backend.framework.FrameworkDTO;
 import io.dcisar.backend.language.LanguageDTO;
-import io.dcisar.backend.topic.Topic;
 import io.dcisar.backend.topic.TopicDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +17,11 @@ public class ProjectDTO {
 
     public Long id;
     public String name;
-    public String description;
+    public String summary;
     public String projectContext;
     public String website;
+    public List<String> description;
+    public List<String> tasks;
 
     public List<LanguageDTO> languagesInProject = new ArrayList<>();
     public List<FrameworkDTO> frameworksInProject = new ArrayList<>();
@@ -31,9 +32,11 @@ public class ProjectDTO {
         return "ProjectDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", summary='" + summary + '\'' +
                 ", projectContext='" + projectContext + '\'' +
                 ", website='" + website + '\'' +
+                ", description=" + description +
+                ", tasks=" + tasks +
                 ", languagesInProject=" + languagesInProject +
                 ", frameworksInProject=" + frameworksInProject +
                 ", topicsInProject=" + topicsInProject +

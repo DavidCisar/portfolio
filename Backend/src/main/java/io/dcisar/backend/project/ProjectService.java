@@ -92,11 +92,17 @@ public class ProjectService {
         if (projectDTO.description != null) {
             projectToBeUpdated.setDescription(projectDTO.description);
         }
+        if (projectDTO.summary != null) {
+            projectToBeUpdated.setSummary(projectDTO.summary);
+        }
         if (projectDTO.projectContext != null) {
             projectToBeUpdated.setProjectContext(projectDTO.projectContext);
         }
         if (projectDTO.website != null) {
             projectToBeUpdated.setWebsite(projectDTO.website);
+        }
+        if (projectDTO.tasks != null) {
+            projectToBeUpdated.setTasks(projectDTO.tasks);
         }
         projectToBeUpdated.setLanguagesInProject(languagesInProject);
         projectToBeUpdated.setFrameworksInProject(frameworksInProject);
@@ -118,7 +124,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Topic topic = topicRepository.findById(topicId).orElseThrow();
 
-        Boolean success = project.addTopicToProject(topic);
+        boolean success = project.addTopicToProject(topic);
         projectRepository.save(project);
 
         return success;
@@ -128,7 +134,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Topic topic = topicRepository.findById(topicId).orElseThrow();
 
-        Boolean success = project.removeTopicFromProject(topic);
+        boolean success = project.removeTopicFromProject(topic);
         projectRepository.save(project);
 
         return success;
@@ -138,7 +144,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Framework framework = frameworkRepository.findById(frameworkId).orElseThrow();
 
-        Boolean success = project.addFrameworkToProject(framework);
+        boolean success = project.addFrameworkToProject(framework);
         projectRepository.save(project);
 
         return success;
@@ -148,7 +154,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Framework framework = frameworkRepository.findById(frameworkId).orElseThrow();
 
-        Boolean success = project.removeFrameworkFromProject(framework);
+        boolean success = project.removeFrameworkFromProject(framework);
         projectRepository.save(project);
 
         return success;
@@ -158,7 +164,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Language language = languageRepository.findById(languageId).orElseThrow();
 
-        Boolean success = project.addLanguageToProject(language);
+        boolean success = project.addLanguageToProject(language);
         projectRepository.save(project);
 
         return success;
@@ -168,7 +174,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow();
         Language language = languageRepository.findById(languageId).orElseThrow();
 
-        Boolean success = project.removeLanguageFromProject(language);
+        boolean success = project.removeLanguageFromProject(language);
         projectRepository.save(project);
 
         return success;
@@ -178,8 +184,10 @@ public class ProjectService {
         Project project = Project.builder()
                 .name(projectDTO.name)
                 .description(projectDTO.description)
+                .summary(projectDTO.summary)
                 .projectContext(projectDTO.projectContext)
                 .website(projectDTO.website)
+                .tasks(projectDTO.tasks)
                 .languagesInProject(new ArrayList<Language>())
                 .frameworksInProject(new ArrayList<Framework>())
                 .topicsInProject(new ArrayList<Topic>())
@@ -212,8 +220,10 @@ public class ProjectService {
                 .id(project.getId())
                 .name(project.getName())
                 .description(project.getDescription())
+                .summary(project.getSummary())
                 .projectContext(project.getProjectContext())
                 .website(project.getWebsite())
+                .tasks(project.getTasks())
                 .languagesInProject(new ArrayList<LanguageDTO>())
                 .frameworksInProject(new ArrayList<FrameworkDTO>())
                 .topicsInProject(new ArrayList<TopicDTO>())

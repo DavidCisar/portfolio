@@ -1,28 +1,22 @@
-<div class="skills">
+<div class="blurr">
+  <div class="folder">
+    <div class="back" [routerLink]="['/']"><i class="fa-regular fa-circle-left"></i><p>Return</p></div>
+    <div class="welcome">
+      <div class="picture">
 
-  <h1>Languages</h1>
-  <div class="languages">
-    <div class="language" *ngFor="let language of languages">
-      <div *ngIf="language.name.toLowerCase() == 'solidity'">
-        <img class="solidity" src="../../assets/images/solidity-logo_marine.svg" alt="solidityLogo">
       </div>
-      <div *ngIf="language.name.toLowerCase() != 'solidity'">
-        <i title="{{ language.name }}" [className]="concatenateLanguage(language.name)"></i>
+      <div class="welcome-text">
+        <h1 class="hero">
+          Hey,<br>
+          I'm David!
+        </h1>
+        <p>
+          <i>
+            Junior Software Engineer with expertise in the development of enterprise <br>
+            web-applications & EVM-related smart contract programming.
+          </i>
+        </p>
       </div>
-    </div>
-  </div>
-
-  <h1>Frameworks</h1>
-  <div class="frameworks">
-    <div class="framework" *ngFor="let framework of frameworks">
-      {{ framework.name }}
-    </div>
-  </div>
-
-  <h1>Topics</h1>
-  <div class="topics">
-    <div class="topic" *ngFor="let topic of topics">
-      {{ topic.name }}
     </div>
   </div>
 </div>

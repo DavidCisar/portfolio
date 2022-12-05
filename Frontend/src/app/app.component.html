@@ -1,38 +1,47 @@
-<div class="_container">
+<div class="full-container">
 
-  <div class="navbar">
-
-    <div class="bar-left">
-      <a routerLink="">HOME</a>
-    </div>
-
-    <div class="bar-right">
-      <a routerLink='about'>About</a>
-      <a routerLink='skills'>Skills</a>
-      <a routerLink='portfolio'>Portfolio</a>
-    </div>
-
-
-  </div>
-
-  <div class="_inner-container">
-
-    <router-outlet></router-outlet>
-
-  </div>
+  <app-room></app-room>
 
   <div class="footer">
-
-      <a href="https://github.com/DavidCisar" target="_blank">
-        <i class="fa fa-github" style="font-size:1em"></i>
+    <div class="footerleft">
+      <div>
+        <a routerLink="impressum">
+          Impressum
+        </a>
+      </div>
+      <div>
+        <a routerLink="datenschutz">
+          Datenschutz
+        </a>
+      </div>
+    </div>
+    <div class="icons">
+      <div>
+        <a href="https://github.com/DavidCisar" title="GitHub Profile" target="_blank">
+          <i class="fa-brands fa-github" style="font-size:1em"></i>
+        </a>
+      </div>
+      <div>
+        <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" title="LinkedIn Profile" target="_blank">
+          <i class="fa-brands fa-linkedin" style="font-size:1em"></i>
+        </a>
+      </div>
+      <div>
+        <a href="https://www.instagram.com/davidcisar/" title="Instagram Profile" target="_blank">
+          <i class="fa-brands fa-instagram" style="font-size:1em"></i>
+        </a>
+      </div>
+      <div>
+        <a href="https://medium.com/@davidcisar" title="Medium Profile" target="_blank">
+          <i class="fa-brands fa-medium" style="font-size:1em"></i>
+        </a>
+      </div>
+    </div>
+    <div class="footerright">
+      <a>
+      Copyright © David Cisar, 2022
       </a>
-      <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" target="_blank">
-        <i class="fa fa-linkedin" style="font-size:1em"></i>
-      </a>
-      <a href="https://www.instagram.com/davidcisar/" target="_blank">
-        <i class="fa fa-instagram" style="font-size:1em"></i>
-      </a>
-
+    </div>
   </div>
 
 </div>

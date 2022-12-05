@@ -23,9 +23,15 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String description;
+    private String summary;
     private String projectContext;
     private String website;
+    @Column
+    @ElementCollection(targetClass=String.class)
+    private List<String> description;
+    @Column
+    @ElementCollection(targetClass=String.class)
+    private List<String> tasks;
 
     @ManyToMany
     @JoinTable(
