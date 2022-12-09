@@ -1,0 +1,18 @@
+<router-outlet></router-outlet>
+<canvas #canvas id="canvas"></canvas>
+
+<div *ngIf="!hideMenu.getValue() && !onExplore" class="menu" id="menu">
+  <h1 #menuHeadline class="hero">Welcome to <br> my Portfolio!</h1>
+  <div class="sections">
+    <div #section1 class="section" routerLink="about"><i class="fa-solid fa-circle-user"></i><div>About me</div></div>
+    <div #section2 class="section" routerLink="skills"><i class="fa-solid fa-microchip"></i><div>Technology Stack</div></div>
+    <div #section3 class="section" routerLink="portfolio"><i class="fa-solid fa-folder-tree"></i><div>Check the Portfolio</div></div>
+    <div #section3 class="section" (click)="exploreRoom()"><i class="fa-regular fa-star"></i>Just Explore!</div>
+  </div>
+</div>
+
+<div *ngIf="onExplore" class="explore" (click)="goBack()">
+  <i class="fa-solid fa-person-walking-arrow-right"></i>
+  ||
+  <p>Go back</p>
+</div>
