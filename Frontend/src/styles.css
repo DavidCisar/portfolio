@@ -19,6 +19,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  transform: scale(1.1);
+}
+
 ._glass {
   display: flex;
   flex-direction: column;
