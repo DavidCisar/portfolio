@@ -60,11 +60,11 @@ export class RoomComponent {
 
   // Animation
   public mixer: THREE.AnimationMixer;
-  public blockchain: any;
 
   // Interaction
   public interactionManager: InteractionManager;
   public onExplore = false;
+  public monitor: any;
 
   // Resources
   public resources: Resources;
@@ -187,19 +187,6 @@ export class RoomComponent {
           map: paintingTexture
         });
       }
-
-      if (child.name === 'Monitor') {
-        this.interactionManager.add(child);
-        child.addEventListener('click', (event: any) => {
-          this.router.navigate(['portfolio']);
-        });
-        child.addEventListener('mouseover', (event: any) => {
-          document.body.style.cursor = 'help';
-        });
-        child.addEventListener('mouseout', (event: any) => {
-          document.body.style.cursor = 'pointer';
-        });
-      }
     });
   }
 
@@ -259,6 +246,23 @@ export class RoomComponent {
       this.canvas,
       true
       );
+
+    this.actualRoom.children.forEach((child: any) => {
+      if (child.name === 'Monitor') {
+        this.monitor = child;
+        this.interactionManager.add(child);
+        child.addEventListener('click', (event: any) => {
+          this.router.navigate(['portfolio']);
+          });
+        child.addEventListener('mouseover', (event: any) => {
+          document.body.style.cursor = 'help';
+          });
+        child.addEventListener('mouseout', (event: any) => {
+          document.body.style.cursor = 'pointer';
+          });
+      }
+    });
+
     this.update();
 
     let menu = document.getElementById("menu")
@@ -271,6 +275,7 @@ export class RoomComponent {
   goBack() {
     this.onExplore = false;
     this.camera = this.orthographicCamera;
+    this.interactionManager.remove(this.monitor);
   }
 
   onMouseMove() {
