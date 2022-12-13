@@ -78,6 +78,14 @@ export default class Resources extends EventEmitter {
     }
   }
 
+  getTrees() {
+    for (const item of this.items) {
+      if (item.name === "trees") {
+        return item.file;
+      }
+    }
+  }
+
   getVideo() {
     return this.videoTexture;
   }

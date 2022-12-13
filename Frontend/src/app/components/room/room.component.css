@@ -11,7 +11,7 @@
   flex-direction: column;
 
   position: fixed;
-  top: 20vh;
+  top: 45vh;
   left: 10vw;
 
   animation-name: fade-in;
@@ -52,6 +52,7 @@
 
 .section:hover {
   background-color: beige;
+  cursor: pointer;
 
   animation-name: toggle-left;
   animation-duration: 0.25s;
@@ -104,4 +105,94 @@ i {
 
 .explore:hover {
   background-color: beige;
+  cursor: pointer;
+}
+
+.gradient-text {
+  margin-left: 2.5vw;
+
+  background-image: linear-gradient(45deg, blue, #845ec2, green, #d65db1, #d65d00, green, lightgreen);
+  background-clip: text;
+
+  color: transparent;
+
+  background-size: 500%;
+  animation: bg-animation 15s infinite alternate;
+}
+
+.gradient-text:hover {
+  background-image: linear-gradient(45deg, lightgreen, #d65db1, #ff6f91, lightgreen);
+  cursor: pointer;
+}
+
+@keyframes bg-animation {
+  0% { background-position: left }
+  100% { background-position: right }
+}
+
+.hamburger {
+  position: fixed;
+  top: 5vh;
+  right: 5vw;
+
+  display: block;
+  width: 2vw;
+  appearance: none;
+  background: none;
+  outline: none;
+  border: none;
+
+  animation-name: fade-in;
+  animation-duration: 1s;
+
+  cursor: pointer;
+}
+
+.navigation {
+  position: fixed;
+  top: 10vh;
+  right: -10vw;
+  display: flex;
+  flex-direction: column;
+  transition: 0.25s;
+  opacity: 0;
+
+  cursor: grab;
+}
+
+.navigation.is-active {
+  right: 5vw;
+  opacity: 1;
+}
+
+.burger-section {
+  text-align: end;
+  height: 5vh;
+}
+
+.burger-section:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hamburger .bar, .hamburger:after, .hamburger:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0px;
+  transition: 0.5s;
+}
+
+.hamburger.is-active:before {
+  transform: rotate(-45deg) translate(-8px, 7px);
+}
+
+.hamburger.is-active:after {
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.hamburger.is-active .bar {
+  opacity: 0;
 }
