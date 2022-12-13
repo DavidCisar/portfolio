@@ -18,9 +18,9 @@
   left: 20vw;
 
   width: 60vw;
-  height: 90vh;
+  height: 85vh;
 
-  padding: 50px 25px;
+  padding: 50px;
 
   border: 1px solid black;
   border-radius: 0, 5px, 0, 0;
@@ -42,12 +42,11 @@
 .picture {
   margin-left: 2vw;
   margin-right: 2vw;
-  width: 40%;
-  height: 100%;
+  width: 35%;
+  height: 50%;
 }
 
 .picture > img {
-  width: 320px;
   border: 3px solid black;
   border-radius: 50%;
 }
@@ -62,4 +61,16 @@
   position: fixed;
   top: 7vh;
   left: 74vw;
+}
+
+.about-content {
+  align-text: justify;
+
+  margin-top: 30vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.about-content > a {
+  text-decoration: underline;
 }
