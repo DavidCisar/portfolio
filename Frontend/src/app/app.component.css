@@ -16,10 +16,6 @@
   margin-right: 10vw;
 }
 
-img:hover {
-  cursor: pointer;
-}
-
 .footer {
   display: flex;
   flex-direction: row;
