@@ -10,20 +10,20 @@ export default [
     name: 'Blockchain-based Bond Token Factory',
     status: 'Done',
     type: 'Master Thesis',
-    field: 'Blockchain Programming',
+    field: 'Smart Contracts ',
     short: 'BTF'
   },
   {
     name: 'Web3 platform for the Bond Token Factory',
     status: 'Ongoing',
     type: 'Personal',
-    field: 'Frontend Development',
+    field: 'Fullstack Development',
     short: 'PBTF'
   },
   {
     name: 'Sponsor-RING Platform',
     status: 'Ongoing',
-    type: 'Professional',
+    type: 'Start-Up',
     field: 'Fullstack Development',
     short: 'SRP'
   },

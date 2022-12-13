@@ -14,7 +14,7 @@
       <table>
         <thead>
           <th>Name</th>
-          <th>Field</th>
+          <th>Area</th>
           <th>Type</th>
           <th>Status</th>
         </thead>
@@ -22,7 +22,9 @@
           <td>{{ project.name }}</td>
           <td>{{ project.field }}</td>
           <td>{{ project.type }}</td>
-          <td>{{ project.status }}</td>
+          <td *ngIf="project.status === 'Done'"><i class="fa-solid fa-check"></i></td>
+          <td *ngIf="project.status === 'Ongoing'"><i class="fa-solid fa-spinner"></i></td>
+          <td *ngIf="project.status === 'Planned'"><i class="fa-solid fa-list-check"></i></td>
         </tr>
       </table>
     </div>
