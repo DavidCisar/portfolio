@@ -20,6 +20,11 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoomComponent } from './components/room/room.component';
+import { BtfComponent } from './components/portfolio/btf/btf.component';
+import { CdComponent } from './components/portfolio/cd/cd.component';
+import { PbtfComponent } from './components/portfolio/pbtf/pbtf.component';
+import { PwComponent } from './components/portfolio/pw/pw.component';
+import { SrpComponent } from './components/portfolio/srp/srp.component';
 
 import { AuthenticationService } from './service/authentication.service';
 import { NotificationService } from './service/notification.service';
@@ -35,7 +40,12 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
     SkillsComponent,
     AboutComponent,
     HomeComponent,
-    RoomComponent
+    RoomComponent,
+    BtfComponent,
+    CdComponent,
+    PbtfComponent,
+    PwComponent,
+    SrpComponent
   ],
   imports: [
     BrowserModule,
