@@ -77,6 +77,73 @@ i {
   100%  { opacity: 1; }
 }
 
+.hacker {
+  position: fixed;
+  top: 45vh;
+  left: 40vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 7.5vh;
+  width: 20vw;
+}
+
+.enter-btn {
+  width: 5vw;
+  height: 2.5vh;
+  background-color: beige;
+  border: 1px solid black;
+  border-radius: 5px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.enter-btn:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.password {
+  background-color: beige;
+  border: 1px solid black;
+  border-radius: 5px;
+
+  padding: 5px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.password h1 {
+  color: black;
+  font-size: 16px;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid black; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  padding: 0 5px;
+  letter-spacing: .05em; /* Adjust as needed */
+  animation:
+    typing 3s steps(40, end),
+    blink-caret .5s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  0% { width: 0% }
+  30% { width: 0% }
+  100% { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: black; }
+}
+
 .explore {
   display: flex;
   justify-content: space-between;

@@ -1,29 +1,32 @@
-<router-outlet></router-outlet>
-<canvas #canvas id="canvas"></canvas>
-
-<div *ngIf="!hideMenu.getValue() && !onExplore" class="menu" id="menu">
-  <h1 class="hero gradient-text" (click)="exploreRoom()">EXPLORE</h1>
-  <!--<div class="sections">
-    <div #section1 class="section" routerLink="about"><i class="fa-solid fa-circle-user"></i><div>About me</div></div>
-    <div #section2 class="section" routerLink="skills"><i class="fa-solid fa-microchip"></i><div>Technology Stack</div></div>
-    <div #section3 class="section" routerLink="portfolio"><i class="fa-solid fa-folder-tree"></i><div>Check the Portfolio</div></div>
-    <div #section3 class="section" (click)="exploreRoom()"><i class="fa-regular fa-star"></i>Just Explore!</div>
-  </div>-->
+<div *ngIf="!enteredPortfolio.getValue()" class="hacker">
+  <div class="password">
+    <h1>*********************</h1>
+  </div>
+  <button type="button" class="enter-btn" (click)="enterPortfolio()">Enter portfolio</button>
 </div>
 
-<div *ngIf="!hideMenu.getValue() && !onExplore">
-  <button class="hamburger">
-    <div class="bar"></div>
-  </button>
-  <nav class="navigation">
+<div [hidden]="!enteredPortfolio.getValue()">
+  <router-outlet></router-outlet>
+  <canvas #canvas id="canvas"></canvas>
+
+  <div *ngIf="!hideMenu.getValue() && !onExplore.getValue()" class="menu" id="menu">
+    <h1 class="hero gradient-text" (click)="exploreRoom()">EXPLORE</h1>
+  </div>
+
+  <div *ngIf="!hideMenu.getValue() && !onExplore.getValue()">
+    <button class="hamburger">
+      <div class="bar"></div>
+    </button>
+    <nav class="navigation">
       <div class="burger-section" routerLink="about">About me</div>
       <div class="burger-section" routerLink="skills">Technology Stack</div>
       <div class="burger-section" routerLink="portfolio">Check the Portfolio</div>
-  </nav>
-</div>
+    </nav>
+  </div>
 
-<div *ngIf="onExplore" class="explore" (click)="goBack()">
-  <i class="fa-solid fa-person-walking-arrow-right"></i>
-  ||
-  <p>Go back</p>
+  <div *ngIf="onExplore.getValue()" class="explore" (click)="goBack()">
+    <i class="fa-solid fa-person-walking-arrow-right"></i>
+    ||
+    <p>Go back</p>
+  </div>
 </div>

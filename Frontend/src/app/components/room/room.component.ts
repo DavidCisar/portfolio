@@ -29,8 +29,8 @@ export class RoomComponent {
   public frustrum: any;
 
   // Time
-  public startTime = Date.now();
-  public currentTime = this.startTime;
+  public startTime = 0;
+  public currentTime = 0;
   public elapsedTime = 0;
   public deltaTime = 16;
 
@@ -43,7 +43,6 @@ export class RoomComponent {
   // Camera
   public camera: any;
   public perspectiveCamera: THREE.PerspectiveCamera;
-  public orthographicCamera: THREE.OrthographicCamera;
 
   // Rotation
   public lerp = { current: 0, target: 0, ease: 0.1 };
@@ -59,16 +58,18 @@ export class RoomComponent {
   public renderer: THREE.WebGLRenderer;
 
   // Animation
-  public mixer: THREE.AnimationMixer;
+  //public mixer: THREE.AnimationMixer;
 
   // Interaction
   public interactionManager: InteractionManager;
-  public interactionManagerOrthographic: InteractionManager;
-  public interactionManagerPerspective: InteractionManager;
-  public onExplore = false;
-  public loaded = false;
   public portfolio: any;
   public cv: any;
+
+  // Booleans for Interaction
+  public hideMenu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public enteredPortfolio: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public onExplore: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public loaded = false;
 
   // Hamburger Menu
   public menu_btn: any;
@@ -80,7 +81,7 @@ export class RoomComponent {
   public trees: any;
   public actualTrees: any;
   public backgroundPlane: THREE.Mesh;
-  public hideMenu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
 
   constructor(private router: Router) {
     this.resources = new Resources();
@@ -106,7 +107,6 @@ export class RoomComponent {
 
     // Camera
     this.createPerspectiveCamera();
-    this.createOrthographicCamera();
 
     // Renderer
     this.setRenderer();
@@ -124,23 +124,63 @@ export class RoomComponent {
       this.actualTrees = this.trees.scene;
       this.actualTrees.position.y = -1.5;
 
-      this.camera = this.orthographicCamera;
+      this.camera = this.perspectiveCamera;
 
-      this.interactionManagerOrthographic = new InteractionManager(
+      this.interactionManager = new InteractionManager(
         this.renderer,
-        this.orthographicCamera,
+        this.perspectiveCamera,
         this.canvas,
         true
       );
 
-      this.interactionManagerOrthographic.add(this.actualRoom);
+      this.interactionManager.add(this.actualRoom);
       this.actualRoom.addEventListener('click', (event: any) => {
         if (this.loaded) {
           this.exploreRoom();
         }
       });
 
-      this.interactionManager = this.interactionManagerOrthographic;
+      this.actualRoom.children.forEach((child: any) => {
+        if (child.name === 'Portfolio') {
+          this.portfolio = child;
+          let portfolioColor: any;
+          this.interactionManager.add(child);
+          child.addEventListener('click', (event: any) => {
+            if (this.onExplore) {
+              this.router.navigate(['portfolio']);
+            }
+            });
+          child.addEventListener('mouseover', (event: any) => {
+            portfolioColor = event.target.material.color.getHex();
+            event.target.material.color.set(0xC89D7C);
+            document.body.style.cursor = 'pointer';
+            });
+          child.addEventListener('mouseout', (event: any) => {
+            event.target.material.color.setHex(portfolioColor);
+            document.body.style.cursor = 'grab';
+            });
+        }
+
+        if (child.name === 'CV') {
+          this.cv = child;
+          let cvColor: any;
+          this.interactionManager.add(child);
+          child.addEventListener('click', (event: any) => {
+            if (this.onExplore) {
+              this.router.navigate(['about']);
+            }
+            });
+          child.addEventListener('mouseover', (event: any) => {
+            cvColor = event.target.material.color.getHex();
+            event.target.material.color.set(0xC89D7C);
+            document.body.style.cursor = 'pointer';
+            });
+          child.addEventListener('mouseout', (event: any) => {
+            event.target.material.color.setHex(cvColor);
+            document.body.style.cursor = 'grab';
+            });
+        }
+      });
 
       this.createBackground();
       this.setModel();
@@ -158,29 +198,9 @@ export class RoomComponent {
 
   createPerspectiveCamera() {
     this.perspectiveCamera = new THREE.PerspectiveCamera(37.5, this.aspect, 0.1, 1000);
-    this.perspectiveCamera.position.set(0.1, 5, 7.5);
-    this.perspectiveCamera.rotateX(-0.4)
+    this.perspectiveCamera.position.set(0, 10, 20);
+    this.perspectiveCamera.rotateX(-0.45)
     this.scene.add(this.perspectiveCamera);
-  }
-
-  createOrthographicCamera() {
-    this.frustrum = 12.5;
-    this.orthographicCamera = new THREE.OrthographicCamera(
-      (-this.aspect * this.frustrum ) / 2,
-      (this.aspect * this.frustrum) / 2,
-      this.frustrum / 2,
-      -this.frustrum / 2,
-      -100,
-      100
-    );
-
-    // Adjust Camera Position
-    this.orthographicCamera.position.x = 0;
-    this.orthographicCamera.position.y = 3;
-    this.orthographicCamera.position.z = 4;
-    this.orthographicCamera.lookAt(new THREE.Vector3(0, 1, 0));
-
-    this.scene.add(this.orthographicCamera);
   }
 
   createBackground() {
@@ -230,10 +250,12 @@ export class RoomComponent {
     this.renderer.setPixelRatio(this.pixelRatio);
   }
 
-  setPath(x: number, interval: number, object: any) {
+  setPath(x: number, y: number, z: number, interval: number, object: any) {
     this.timeline = GSAP.timeline();
     this.timeline.to(object.position, {
       x: x,
+      y: y,
+      z: z,
       duration: interval
     });
   }
@@ -263,57 +285,17 @@ export class RoomComponent {
         this.scene.add( light ); */
   }
 
-  exploreRoom() {
-    this.onExplore = true;
-    this.menu_btn = null;
-    this.camera = this.perspectiveCamera;
-    if (this.interactionManagerPerspective == null) {
-      this.interactionManagerPerspective = new InteractionManager(
-        this.renderer,
-        this.perspectiveCamera,
-        this.canvas,
-        true
-        );
+  enterPortfolio() {
+    this.enteredPortfolio.next(true);
+    this.startTime = Date.now();
+    this.currentTime = this.startTime;
+  }
 
-      this.actualRoom.children.forEach((child: any) => {
-        if (child.name === 'Portfolio') {
-          this.portfolio = child;
-          let portfolioColor: any;
-          this.interactionManagerPerspective.add(child);
-          child.addEventListener('click', (event: any) => {
-            this.router.navigate(['portfolio']);
-            });
-          child.addEventListener('mouseover', (event: any) => {
-            portfolioColor = event.target.material.color.getHex();
-            event.target.material.color.set(0xC89D7C);
-            document.body.style.cursor = 'pointer';
-            });
-          child.addEventListener('mouseout', (event: any) => {
-            event.target.material.color.setHex(portfolioColor);
-            document.body.style.cursor = 'grab';
-            });
-        }
-        if (child.name === 'CV') {
-          this.cv = child;
-          let cvColor: any;
-          this.interactionManagerPerspective.add(child);
-          child.addEventListener('click', (event: any) => {
-            this.router.navigate(['about']);
-            });
-          child.addEventListener('mouseover', (event: any) => {
-            cvColor = event.target.material.color.getHex();
-            event.target.material.color.set(0xC89D7C);
-            document.body.style.cursor = 'pointer';
-            });
-          child.addEventListener('mouseout', (event: any) => {
-            event.target.material.color.setHex(cvColor);
-            document.body.style.cursor = 'grab';
-            });
-        }
-      });
-    }
-    this.interactionManager = this.interactionManagerPerspective;
-    this.update();
+  exploreRoom() {
+    this.onExplore.next(true);
+    this.menu_btn = null;
+    this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
+    //this.update();
 
     let menu = document.getElementById("menu")
     if (menu) {
@@ -322,12 +304,8 @@ export class RoomComponent {
   }
 
   goBack() {
-    this.onExplore = false;
-    this.camera = this.orthographicCamera;
-
-    this.interactionManager = this.interactionManagerOrthographic;
-
-    this.update();
+    this.onExplore.next(false);
+    //this.update();
   }
 
   onMouseMove() {
@@ -341,13 +319,6 @@ export class RoomComponent {
     // Updating perspectiveCamera on resize
     this.perspectiveCamera.aspect = this.aspect;
     this.perspectiveCamera.updateProjectionMatrix();
-
-    // Updating orthographicCamera on resize
-    this.orthographicCamera.left = (-this.aspect * this.frustrum) / 2
-    this.orthographicCamera.right = (this.aspect * this.frustrum) / 2;
-    this.orthographicCamera.top = this.frustrum / 2;
-    this.orthographicCamera.bottom = -this.frustrum / 2;
-    this.orthographicCamera.updateProjectionMatrix();
 
     // Updating Renderer
     this.renderer.setSize(this.width, this.height);
@@ -375,16 +346,16 @@ export class RoomComponent {
       }
     }
 
-    if (this.actualRoom) {
+    if (this.actualRoom && this.enteredPortfolio.getValue()) {
       this.interactionManager.update();
 
-      if (this.onExplore) {
+      if (this.onExplore.getValue()) {
         this.perspectiveCamera.rotation.y = (-1) * this.lerp.current * 0.025;
       } else {
         this.actualRoom.rotation.y = this.lerp.current * 0.05;
       }
-      if (this.elapsedTime > 2500) {
-        this.setPath(-4.5, 3, this.orthographicCamera);
+      if (this.elapsedTime > 2500 && !this.onExplore.getValue()) {
+        this.setPath(-4.5, 10, 20, 2, this.perspectiveCamera); // this.orthographicCamera);
       }
       if (this.elapsedTime > 4000) {
         this.hideMenu.next(false);
