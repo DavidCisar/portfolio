@@ -54,6 +54,12 @@ a {
   background-color: transparent;
 }
 
+.big-hero {
+  font-size: 7.5rem;
+  margin-bottom: 5vh;
+  background-color: transparent;
+}
+
 .hero-small {
   font-size: 3rem;
   background-color: transparent;
