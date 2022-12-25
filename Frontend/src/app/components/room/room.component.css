@@ -4,6 +4,22 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
+
+  animation-name: fade-in;
+  animation-duration: 1s;
+}
+
+.time {
+  margin: 3vh auto;
+  width: max(6vw, 125px);
+
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+
+  padding: 5px;
+
+  border-bottom: 1px solid black;
 }
 
 .menu {
@@ -11,53 +27,15 @@
   flex-direction: column;
 
   position: fixed;
-  top: 45vh;
-  left: 10vw;
+  top: 70vh;
+  left: 7.5vw;
 
   animation-name: fade-in;
   animation-duration: 1s;
 }
 
-.sections {
-  display: flex;
-  flex-direction: column;
-
-  font-style: italic;
-
-  height: 25vh;
-
-  justify-content: space-between;
-}
-
-.section {
-  display: flex;
-
-  width: 17.5vw;
-  height: 5vh;
-
-  align-items: center;
-
-  border-radius: 15px;
-  border: 1px solid black;
-
-  position: relative;
-  margin-left: 2.5vw;
-  padding-left: 2.5vw;
-
-  animation-name: toggle-right;
-  animation-duration: 0.1s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-
-.section:hover {
-  background-color: beige;
-  cursor: pointer;
-
-  animation-name: toggle-left;
-  animation-duration: 0.25s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
+.hidden {
+  animation: fade-out 2s forwards;
 }
 
 i {
@@ -77,25 +55,43 @@ i {
   100%  { opacity: 1; }
 }
 
+@keyframes fade-out {
+  0%    { opacity: 1; }
+  100%  { opacity: 0; }
+}
+
+.hacking {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 32px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
 .hacker {
   position: fixed;
   top: 45vh;
-  left: 40vw;
+  left: 30vw;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  height: 7.5vh;
-  width: 20vw;
+  height: 12.5vh;
+  width: 40vw;
 }
 
 .enter-btn {
-  width: 5vw;
-  height: 2.5vh;
-  background-color: beige;
+  width: max(10vw, 150px);
+  height: 5vh;
+  padding: 5px;
+
+  background-color: white;
   border: 1px solid black;
   border-radius: 5px;
+
+  font-size: 16px;
 
   margin-left: auto;
   margin-right: auto;
@@ -103,45 +99,7 @@ i {
 
 .enter-btn:hover {
   cursor: pointer;
-  transform: scale(1.1);
-}
-
-.password {
-  background-color: beige;
-  border: 1px solid black;
-  border-radius: 5px;
-
-  padding: 5px;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.password h1 {
-  color: black;
-  font-size: 16px;
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid black; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  padding: 0 5px;
-  letter-spacing: .05em; /* Adjust as needed */
-  animation:
-    typing 3s steps(40, end),
-    blink-caret .5s step-end infinite;
-}
-
-/* The typing effect */
-@keyframes typing {
-  0% { width: 0% }
-  30% { width: 0% }
-  100% { width: 100% }
-}
-
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: black; }
+  box-shadow: 5px 5px black;
 }
 
 .explore {
@@ -162,8 +120,11 @@ i {
   padding-left: max(15px, 1vw);
   padding-right: max(15px, 1vw);
 
-  border-radius: 15px;
+  border-radius: 5px;
   border: 1px solid black;
+
+  animation-name: fade-in;
+  animation-duration: 2s;
 }
 
 .explore > i {
@@ -173,12 +134,13 @@ i {
 .explore:hover {
   background-color: beige;
   cursor: pointer;
+  box-shadow: 5px 5px black;
 }
 
 .gradient-text {
   margin-left: 2.5vw;
 
-  background-image: linear-gradient(45deg, blue, #845ec2, green, #d65db1, #d65d00, green, lightgreen);
+  background-image: linear-gradient(45deg, blue, #845ec2, #d65db1, lightgreen);
   background-clip: text;
 
   color: transparent;
@@ -195,71 +157,4 @@ i {
 @keyframes bg-animation {
   0% { background-position: left }
   100% { background-position: right }
-}
-
-.hamburger {
-  position: fixed;
-  top: 5vh;
-  right: 5vw;
-
-  display: block;
-  width: 2vw;
-  appearance: none;
-  background: none;
-  outline: none;
-  border: none;
-
-  animation-name: fade-in;
-  animation-duration: 1s;
-
-  cursor: pointer;
-}
-
-.navigation {
-  position: fixed;
-  top: 10vh;
-  right: -10vw;
-  display: flex;
-  flex-direction: column;
-  transition: 0.25s;
-  opacity: 0;
-
-  cursor: grab;
-}
-
-.navigation.is-active {
-  right: 5vw;
-  opacity: 1;
-}
-
-.burger-section {
-  text-align: end;
-  height: 5vh;
-}
-
-.burger-section:hover {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.hamburger .bar, .hamburger:after, .hamburger:before {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 5px;
-  background-color: black;
-  margin: 6px 0px;
-  transition: 0.5s;
-}
-
-.hamburger.is-active:before {
-  transform: rotate(-45deg) translate(-8px, 7px);
-}
-
-.hamburger.is-active:after {
-  transform: rotate(45deg) translate(-8px, -8px);
-}
-
-.hamburger.is-active .bar {
-  opacity: 0;
 }

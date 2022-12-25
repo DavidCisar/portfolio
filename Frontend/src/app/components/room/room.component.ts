@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import * as THREE from 'three';
 import { InteractionManager } from 'three.interactive';
-//import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import GSAP from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Resources from './Utils/Resources';
@@ -51,9 +50,6 @@ export class RoomComponent {
   // Timeline
   public timeline: any;
 
-  // OrbitControl
-  //public orbitControl: OrbitControls;
-
   // Renderer
   public renderer: THREE.WebGLRenderer;
 
@@ -69,10 +65,8 @@ export class RoomComponent {
   public hideMenu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public enteredPortfolio: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public onExplore: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public loaded = false;
-
-  // Hamburger Menu
-  public menu_btn: any;
+  public loaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public addedEventlistenerToRoom: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Resources
   public resources: Resources;
@@ -81,11 +75,53 @@ export class RoomComponent {
   public trees: any;
   public actualTrees: any;
   public backgroundPlane: THREE.Mesh;
+  public actualParticles: any;
+  public particles: THREE.Mesh[] = [];
 
+  // Intro
+  public intro = 'Welcome to my Portfolio';
+  public introCharacters: string[] = [];
+  public introCounter = 0;
+  public introDone = false;
+
+  // Time
+  public timeHour = new Date().getHours();
+  public timeMinute = new Date().getMinutes();
+  public timeSecond = new Date().getSeconds();
+  public timeOfDay = 0;
 
   constructor(private router: Router) {
     this.resources = new Resources();
     GSAP.registerPlugin(ScrollTrigger);
+
+    let introInterval = setInterval(() => {
+      for (let i = 0; i < this.introCounter; i++) {
+        this.introCharacters[i] = this.intro.charAt(i);
+      }
+      for (let i = this.introCounter; i < this.intro.length; i++) {
+        this.introCharacters[i] = Math.random().toString(36).charAt(2);
+      }
+      if (document.getElementById('hacking')) {
+        document.getElementById('hacking')!.innerText = this.introCharacters.join('');
+      }
+    }, 50);
+
+    let introRevealInterval = setInterval(() => {
+      if (!this.introDone) {
+        this.introCounter++;
+        if (this.introCounter == this.intro.length) {
+          this.introDone = true;
+        }
+      }
+    }, 125);
+
+    let timeUpdate = setInterval(() => {
+      this.timeHour = new Date().getHours();
+      this.timeMinute = new Date().getMinutes();
+      this.timeSecond = new Date().getSeconds();
+
+      this.timeOfDay = (this.timeHour * 3600 + this.timeMinute * 60 + this.timeSecond) / 86400;
+    }, 1000);
   }
 
   ngAfterViewInit(): void {
@@ -111,14 +147,14 @@ export class RoomComponent {
     // Renderer
     this.setRenderer();
 
-    // OrbitControl
-    //this.orbitControl = new OrbitControls( this.orthographicCamera, this.renderer.domElement )
-
     // Scene
     this.resources.on('ready', () => {
       this.room = this.resources.getRoom();
       this.actualRoom = this.room.scene;
       this.actualRoom.position.y = -1.5;
+
+      this.actualParticles = this.resources.getParticles().scene;
+      this.actualParticles.position.y = -1.5;
 
       this.trees = this.resources.getTrees();
       this.actualTrees = this.trees.scene;
@@ -135,50 +171,15 @@ export class RoomComponent {
 
       this.interactionManager.add(this.actualRoom);
       this.actualRoom.addEventListener('click', (event: any) => {
-        if (this.loaded) {
+        if (this.loaded.getValue()) {
           this.exploreRoom();
         }
       });
 
-      this.actualRoom.children.forEach((child: any) => {
-        if (child.name === 'Portfolio') {
-          this.portfolio = child;
-          let portfolioColor: any;
-          this.interactionManager.add(child);
-          child.addEventListener('click', (event: any) => {
-            if (this.onExplore) {
-              this.router.navigate(['portfolio']);
-            }
-            });
-          child.addEventListener('mouseover', (event: any) => {
-            portfolioColor = event.target.material.color.getHex();
-            event.target.material.color.set(0xC89D7C);
-            document.body.style.cursor = 'pointer';
-            });
-          child.addEventListener('mouseout', (event: any) => {
-            event.target.material.color.setHex(portfolioColor);
-            document.body.style.cursor = 'grab';
-            });
-        }
-
-        if (child.name === 'CV') {
-          this.cv = child;
-          let cvColor: any;
-          this.interactionManager.add(child);
-          child.addEventListener('click', (event: any) => {
-            if (this.onExplore) {
-              this.router.navigate(['about']);
-            }
-            });
-          child.addEventListener('mouseover', (event: any) => {
-            cvColor = event.target.material.color.getHex();
-            event.target.material.color.set(0xC89D7C);
-            document.body.style.cursor = 'pointer';
-            });
-          child.addEventListener('mouseout', (event: any) => {
-            event.target.material.color.setHex(cvColor);
-            document.body.style.cursor = 'grab';
-            });
+      this.actualParticles.children.forEach((child: any) => {
+        if (child.name.includes('Particle')) {
+          child.material = new THREE.MeshNormalMaterial();
+          this.particles.push(child);
         }
       });
 
@@ -197,8 +198,8 @@ export class RoomComponent {
   }
 
   createPerspectiveCamera() {
-    this.perspectiveCamera = new THREE.PerspectiveCamera(37.5, this.aspect, 0.1, 1000);
-    this.perspectiveCamera.position.set(0, 10, 20);
+    this.perspectiveCamera = new THREE.PerspectiveCamera(35, this.aspect, 0.1, 1000);
+    this.perspectiveCamera.position.set(0, 12.5, 25);
     this.perspectiveCamera.rotateX(-0.45)
     this.scene.add(this.perspectiveCamera);
   }
@@ -213,6 +214,7 @@ export class RoomComponent {
 
   setShadows() {
     this.backgroundPlane.receiveShadow = true;
+
     this.actualRoom.children.forEach((child: any) => {
       child.castShadow = true;
       child.receiveShadow = true;
@@ -223,16 +225,6 @@ export class RoomComponent {
         });
       }
     });
-    this.actualTrees.children.forEach((child: any) => {
-      child.castShadow = true;
-      child.receiveShadow = true;
-      if (child instanceof THREE.Group) {
-        child.children.forEach((groupChild: any) => {
-          groupChild.castShadow = true;
-          groupChild.receiveShadow = true;
-        })
-      }
-    })
   }
 
   setRenderer() {
@@ -261,41 +253,109 @@ export class RoomComponent {
   }
 
   setModel() {
-    this.scene.add(this.actualRoom);
-    this.scene.add(this.actualTrees);
     this.scene.add(this.backgroundPlane);
+    this.scene.add(this.actualRoom);
+    this.scene.add(this.actualParticles);
+    this.scene.add(this.actualTrees);
   }
 
   setLights() {
     this.sunlight = new THREE.DirectionalLight('#FFFFFF', 3);
     this.sunlight.castShadow = true;
-    this.sunlight.shadow.camera.far = 100;
     this.sunlight.shadow.mapSize.set(2048, 2048);
     this.sunlight.shadow.normalBias = 0.05;
-    this.sunlight.position.set(-1, 5, 3);
-    this.sunlight.lookAt(new THREE.Vector3(5, 0, -50));
+    this.sunlight.position.set(-1, 5, 2);
     this.scene.add(this.sunlight);
 
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 3);
-    ambientLight.position.set(0, 2.5, 0);
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 2);
+    ambientLight.position.set(0, 2, 2);
     this.scene.add(ambientLight);
-
-/*     const light = new THREE.PointLight( 0xffffff, 5, 100 );
-        light.position.set( 0, 2, -3 );
-        this.scene.add( light ); */
   }
 
   enterPortfolio() {
-    this.enteredPortfolio.next(true);
     this.startTime = Date.now();
-    this.currentTime = this.startTime;
+    this.enteredPortfolio.next(true);
   }
 
   exploreRoom() {
     this.onExplore.next(true);
-    this.menu_btn = null;
+    let exploreElement = document.getElementById('menu');
+    if (exploreElement != null) {
+      exploreElement.classList.add('hidden');
+    }
+
+    let timeElement = document.getElementById('time');
+    if (timeElement != null) {
+      timeElement.classList.add('hidden');
+    }
+
     this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
-    //this.update();
+    this.interactionManager.update();
+
+    if (!this.addedEventlistenerToRoom.getValue()) {
+    this.actualRoom.children.forEach((child: any) => {
+      if (child.name === 'Portfolio') {
+        this.portfolio = child;
+        let portfolioColor: any;
+        this.interactionManager.add(child);
+        child.addEventListener('click', (event: any) => {
+          if (this.onExplore.getValue()) {
+            this.router.navigate(['portfolio']);
+          }
+          });
+        child.addEventListener('mouseover', (event: any) => {
+          portfolioColor = event.target.material.color.getHex();
+          event.target.material.color.set(0xC89D7C);
+          document.body.style.cursor = 'pointer';
+          });
+        child.addEventListener('mouseout', (event: any) => {
+          event.target.material.color.setHex(portfolioColor);
+          document.body.style.cursor = 'grab';
+          });
+      }
+
+      if (child.name === 'CV') {
+        this.cv = child;
+        let cvColor: any;
+        this.interactionManager.add(child);
+        child.addEventListener('click', (event: any) => {
+          if (this.onExplore.getValue()) {
+            this.router.navigate(['about']);
+          }
+          });
+        child.addEventListener('mouseover', (event: any) => {
+          cvColor = event.target.material.color.getHex();
+          event.target.material.color.set(0xC89D7C);
+          document.body.style.cursor = 'pointer';
+          });
+        child.addEventListener('mouseout', (event: any) => {
+          event.target.material.color.setHex(cvColor);
+          document.body.style.cursor = 'grab';
+          });
+      }
+
+      if (child.name === 'Skills') {
+        this.cv = child;
+        let cvColor: any;
+        this.interactionManager.add(child);
+        child.addEventListener('click', (event: any) => {
+          if (this.onExplore.getValue()) {
+            this.router.navigate(['skills']);
+          }
+          });
+        child.addEventListener('mouseover', (event: any) => {
+          cvColor = event.target.material.color.getHex();
+          event.target.material.color.set(0xC89D7C);
+          document.body.style.cursor = 'pointer';
+          });
+        child.addEventListener('mouseout', (event: any) => {
+          event.target.material.color.setHex(cvColor);
+          document.body.style.cursor = 'grab';
+          });
+      }
+    });
+    this.addedEventlistenerToRoom.next(true);
+    }
 
     let menu = document.getElementById("menu")
     if (menu) {
@@ -305,7 +365,25 @@ export class RoomComponent {
 
   goBack() {
     this.onExplore.next(false);
-    //this.update();
+    let exploreElement = document.getElementById('menu');
+    if (exploreElement != null) {
+      exploreElement.classList.remove('hidden');
+    }
+
+    let timeElement = document.getElementById('time');
+    if (timeElement != null) {
+      timeElement.classList.remove('hidden');
+    }
+  }
+
+  animateParticles() {
+    let counter = -15;
+    for (let particle of this.particles) {
+      particle.rotation.x += 0.0005 * counter * 0.25;
+      particle.rotation.y -= 0.00075 * counter * 0.25;
+      particle.rotation.z += 0.00025 * counter * 0.25;
+      counter++;
+    }
   }
 
   onMouseMove() {
@@ -336,34 +414,29 @@ export class RoomComponent {
       this.lerp.ease
     );
 
-    if (!this.menu_btn && !this.onExplore) {
-      this.menu_btn = document.querySelector('.hamburger');
-      if (this.menu_btn) {
-        this.menu_btn.addEventListener('click', function() {
-          document.querySelector('.hamburger')!.classList.toggle('is-active');
-          document.querySelector('.navigation')!.classList.toggle('is-active');
-          });
-      }
-    }
-
     if (this.actualRoom && this.enteredPortfolio.getValue()) {
       this.interactionManager.update();
+
+      this.animateParticles();
 
       if (this.onExplore.getValue()) {
         this.perspectiveCamera.rotation.y = (-1) * this.lerp.current * 0.025;
       } else {
-        this.actualRoom.rotation.y = this.lerp.current * 0.05;
+        this.actualRoom.rotation.y = this.lerp.current * 0.025;
+        this.actualParticles.rotation.y = this.lerp.current * 0.05;
+        this.actualTrees.rotation.y = this.lerp.current * 0.035
       }
       if (this.elapsedTime > 2500 && !this.onExplore.getValue()) {
-        this.setPath(-4.5, 10, 20, 2, this.perspectiveCamera); // this.orthographicCamera);
+        this.setPath(0, 10, 20, 2, this.perspectiveCamera); // this.orthographicCamera);
       }
       if (this.elapsedTime > 4000) {
         this.hideMenu.next(false);
       }
       if (this.elapsedTime > 6000) {
-        this.loaded = true;
+        this.loaded.next(true);
       }
     }
+
     if (this.camera) {
       this.renderer.render(this.scene, this.camera);
     }

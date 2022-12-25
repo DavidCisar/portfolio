@@ -1,27 +1,18 @@
 <div *ngIf="!enteredPortfolio.getValue()" class="hacker">
-  <div class="password">
-    <h1>*********************</h1>
-  </div>
+  <div id="hacking" class="hacking hero"></div>
   <button type="button" class="enter-btn" (click)="enterPortfolio()">Enter portfolio</button>
+</div>
+
+<div class="time" id="time">
+  {{ timeHour }} : {{ timeMinute }} : {{ timeSecond }}
 </div>
 
 <div [hidden]="!enteredPortfolio.getValue()">
   <router-outlet></router-outlet>
   <canvas #canvas id="canvas"></canvas>
 
-  <div *ngIf="!hideMenu.getValue() && !onExplore.getValue()" class="menu" id="menu">
-    <h1 class="hero gradient-text" (click)="exploreRoom()">EXPLORE</h1>
-  </div>
-
-  <div *ngIf="!hideMenu.getValue() && !onExplore.getValue()">
-    <button class="hamburger">
-      <div class="bar"></div>
-    </button>
-    <nav class="navigation">
-      <div class="burger-section" routerLink="about">About me</div>
-      <div class="burger-section" routerLink="skills">Technology Stack</div>
-      <div class="burger-section" routerLink="portfolio">Check the Portfolio</div>
-    </nav>
+  <div *ngIf="!hideMenu.getValue()" class="menu" id="menu">
+    <h1 class="big-hero gradient-text" (click)="exploreRoom()">EXPLORE</h1>
   </div>
 
   <div *ngIf="onExplore.getValue()" class="explore" (click)="goBack()">
@@ -29,4 +20,8 @@
     ||
     <p>Go back</p>
   </div>
+</div>
+
+<div class="cookies">
+  <h3></h3>
 </div>
