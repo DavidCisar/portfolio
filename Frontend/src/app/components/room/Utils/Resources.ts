@@ -86,6 +86,14 @@ export default class Resources extends EventEmitter {
     }
   }
 
+  getParticles() {
+    for (const item of this.items) {
+      if (item.name === "particles") {
+        return item.file;
+      }
+    }
+  }
+
   getVideo() {
     return this.videoTexture;
   }
