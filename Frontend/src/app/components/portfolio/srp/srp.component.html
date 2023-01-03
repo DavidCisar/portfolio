@@ -1,10 +1,44 @@
 <div class="portfolio-container">
   <div class="inner-portfolio-container">
-    <h1 class="hero">Sponsor-Ring Platform</h1>
-    <div>Beschreibung</div>
-    <div>Technologien, Frameworks etc.</div>
-    <div>Zeitliches Interval</div>
-    <div>Website oder GitHub</div>
-    <div>Bilder</div>
+    <div class="go-back" [routerLink]="['/portfolio']">
+      <p>
+        Go back
+      </p>
+    </div>
+    <h1 class="hero">Sponsor-RING Platform</h1>
+    <div class="description">
+      <h3>Description</h3>
+      <p style="text-align: justify"><br>
+        Having success in finding suitable sponsoring partnerships highly depends on
+        the ability to communicate with companies that are willing to provide sponsorship and are not feasible without
+        these existing contacts to individuals in positions of responsibility.
+        <br><br>
+        Sponsor-RING is a platform that helps to match clubs seeking funding and companies to work out a perfect fit,
+        consisting of an attractive solution package for both involved entities. Sponsor-RING is a startup, which emerged
+        from a business plan competition of the University of Bayreuth and is managed by a mix of students and professionals.
+        <br><br>
+        The development process followed a dedicated and iterative software development cycle: Elaboration of the requirements,
+        Entity-Relationship-models, UI-Mocking, Software Development, Team Reviews and Testing (Unit & E2E Testing).
+        <br><br>
+        The platform is a classic full-stack project utilizing a single-page application build in Angular as the frontend
+        that communicates with RESTful API-Endpoints build with Spring in the backend. As a database, we’re using a PostgreSQL database.
+        Access to dedicated parts of the application is restricted and secured with JWT.
+        <br><br>
+      </p>
+    </div>
+    <div class="project-info">
+      <div class="center-text">
+        <h3>Technologies</h3>
+        Java, Spring, TypeScript/JavaScript, <br> Angular, PostgreSQL
+      </div>
+      <div class="center-text">
+        <h3>Timeframe</h3>
+        November 2022 - January 2023
+      </div>
+      <div class="center-text">
+        <h3>Access</h3>
+        <a href="https://www.sponsor-ring.de" target="_blank">www.sponsor-ring.de</a>
+      </div>
+    </div>
   </div>
 </div>

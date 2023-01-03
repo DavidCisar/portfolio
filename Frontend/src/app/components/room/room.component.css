@@ -35,11 +35,7 @@
 }
 
 .hidden {
-  animation: fade-out 2s forwards;
-}
-
-i {
-  margin-right: 1vw;
+  animation: fade-out 3s forwards;
 }
 
 @keyframes toggle-left {
@@ -57,7 +53,8 @@ i {
 
 @keyframes fade-out {
   0%    { opacity: 1; }
-  100%  { opacity: 0; }
+  99%   { z-index: 1; }
+  100%  { opacity: 0; z-index: -2;}
 }
 
 .hacking {
@@ -103,8 +100,6 @@ i {
 }
 
 .explore {
-  display: flex;
-  justify-content: space-between;
   position: fixed;
 
   top: 5vh;
@@ -112,9 +107,10 @@ i {
 
   background-color: white;
 
-  width: max(130px, 10vw);
-  height: 5vh;
+  width: max(75px, 5vw);
+  padding: 5px;
 
+  text-align: center;
   align-items: center;
 
   padding-left: max(15px, 1vw);
@@ -127,10 +123,6 @@ i {
   animation-duration: 2s;
 }
 
-.explore > i {
-  margin-right: 0;
-}
-
 .explore:hover {
   background-color: beige;
   cursor: pointer;
@@ -140,7 +132,7 @@ i {
 .gradient-text {
   margin-left: 2.5vw;
 
-  background-image: linear-gradient(45deg, blue, #845ec2, #d65db1, lightgreen);
+  background-image: linear-gradient(45deg, lightgreen, #d65db1, #ff6f91, lightgreen);
   background-clip: text;
 
   color: transparent;
@@ -150,7 +142,7 @@ i {
 }
 
 .gradient-text:hover {
-  background-image: linear-gradient(45deg, lightgreen, #d65db1, #ff6f91, lightgreen);
+  background-image: linear-gradient(45deg, blue, #845ec2, #d65db1, lightgreen);
   cursor: pointer;
 }
 

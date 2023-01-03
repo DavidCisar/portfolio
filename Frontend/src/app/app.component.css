@@ -1,21 +1,3 @@
-.full-container {
-  width: 100vw;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.content-container {
-  display: flex;
-  flex-direction: column;
-
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  margin-left: 10vw;
-  margin-right: 10vw;
-}
-
 .footer {
   display: flex;
   flex-direction: row;
@@ -31,7 +13,7 @@
 
   background-color: transparent;
 
-  font-size: 12px;
+  font-size: 0.625vw;
 
   padding-left: 5vw;
   padding-right: 5vw;
@@ -60,20 +42,16 @@
   justify-content: space-between;
 }
 
-.fa-brands:hover {
-  transform: scale(1.25);
-}
-
-.logo {
-  position: fixed;
-  top: 5vh;
-  left: 5vw;
-  width: 5vw;
-  height: 5vh;
-}
-
 .icons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.footer-logo {
+  height: 2vh;
+}
+
+.footer-logo:hover {
+  transform: scale(1.25);
 }

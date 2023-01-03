@@ -14,18 +14,18 @@ export default [
     short: 'btf'
   },
   {
-    name: 'Web3 platform for the Bond Token Factory',
+      name: 'Sponsor-RING Platform',
+      status: 'Pre-Live',
+      type: 'Start-Up',
+      field: 'Fullstack Development',
+      short: 'srp'
+    },
+  {
+    name: 'Web3 Interface - Bond Token Factory',
     status: 'Ongoing',
     type: 'Personal',
-    field: 'Fullstack Development',
+    field: 'Frontend Blockchain Development',
     short: 'pbtf'
-  },
-  {
-    name: 'Sponsor-RING Platform',
-    status: 'Ongoing',
-    type: 'Start-Up',
-    field: 'Fullstack Development',
-    short: 'srp'
   },
   {
     name: 'Cryptocurrency Dashboard',

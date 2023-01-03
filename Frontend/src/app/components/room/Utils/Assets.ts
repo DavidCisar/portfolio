@@ -2,7 +2,7 @@ export default [
   {
     name: 'room',
     type: 'glbModel',
-    path: './assets/three/models/orthographicRoom.glb'
+    path: './assets/three/models/room.glb'
   },
   {
     name: 'trees',

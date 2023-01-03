@@ -1,7 +1,12 @@
 <div class="portfolio-container">
   <div class="inner-portfolio-container">
+    <div class="go-back" [routerLink]="['/portfolio']">
+      <p>
+        Go back
+      </p>
+    </div>
     <h1 class="hero">Bond Token Factory</h1>
-    <div>
+    <div class="description">
       <h3>Description</h3>
       <p style="text-align: justify"><br>The Bond Token Factory has been developed in the context of my master thesis “Mind the Funding Gap: Development of a Blockchain-based Bond Token
       for Small and Medium-sized Enterprises”. In the past decades, multiple non-bank market-based financing alternatives vainly have been proposed
@@ -29,9 +34,19 @@
       <br><br>
       </p>
     </div>
-    <div>Technologien, Frameworks etc.</div>
-    <div>Zeitliches Interval</div>
-    <div>Website oder GitHub</div>
-    <div>Bilder</div>
+    <div class="project-info">
+      <div class="center-text">
+        <h3>Technologies</h3>
+        Solidity, Hardhat, Truffle Suite, JavaScript, Mocha
+      </div>
+      <div class="center-text">
+        <h3>Timeframe</h3>
+        March - September, 2021
+      </div>
+      <div class="center-text">
+        <h3>GitLab</h3>
+        <a href="https://gitlab.com/DavidCisar/blockchainbonds" target="_blank">Blockchain bonds</a>
+      </div>
+    </div>
   </div>
 </div>

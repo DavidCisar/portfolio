@@ -58,34 +58,47 @@
   position: fixed;
 
   top: 12vh;
-  left: 40vw;
+  margin: 0 auto;
 
   text-align: center;
   font-style: italic;
 }
 
 .circles {
+  display: flex;
+  justify-content: space-between;
   position: fixed;
   top: 12vh;
   left: 12vw;
   z-index: 9999;
+  width: max(5vw, 50px);
+}
+
+.hero {
+  font-size: max(5vw, 36px);
 }
 
 .red {
-  color: red;
-  margin-right: 10px;
+  background-color: red;
 }
 
 .orange {
-  color: orange;
-  margin-right: 10px;
+  background-color: orange;
 }
 
 .green {
-  color: lightgreen;
+  background-color: lightgreen;
 }
 
-i:hover {
+.circle {
+  width: max(1vw, 10px);
+  height: max(1vw, 10px);
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.circle:hover {
+  cursor: pointer;
   transform: scale(1.1);
 }
 

@@ -1,10 +1,49 @@
 <div class="portfolio-container">
   <div class="inner-portfolio-container">
-    <h1 class="hero">Web3 Platform for the Bond Token Factory</h1>
-    <div>Beschreibung</div>
-    <div>Technologien, Frameworks etc.</div>
-    <div>Zeitliches Interval</div>
-    <div>Website oder GitHub</div>
-    <div>Bilder</div>
+    <div class="go-back" [routerLink]="['/portfolio']">
+      <p>
+        Go back
+      </p>
+    </div>
+    <h1 class="hero">Web3 Interface - BTF</h1>
+    <div class="description">
+      <h3>Description</h3>
+      <p style="text-align: justify"><br>
+        While business logic in form of Smart Contracts is deployed on blockchain protocols such as Ethereum, Polygon or likewise,
+        interaction with the above-mentioned takes place through so called web3 applications. Compared to classic websites,
+        web3 apps additionally communicate with blockchain protocols to receive from or store data on the protocol.
+        This project resembles the user interface for accessing the Bond Token Factory.
+        <br><br>
+        In particular, the application gives users the ability to access the information stored in the bond token factory.
+        Possible data might be currently available bond tokens, user balances, prices, as well as historic data.
+        The application allows users - investors and companies respectively - to register with their wallet addresses.
+        <br><br>
+        After being verified, companies are able to setup a bond token issuance based on the publication document, which
+        gets reviewed and may finally be approved for minting. Potential investors may directly invest into ongoing bond
+        token sales if their account is KYC-approved. Users have access to their portfolio, including current bond token
+        holdings and received bond interest. Companies are able to access investor related information like holding periods
+        to calculate recurrent interest payments, balances etc. Bond token transfers are automatically registered and stored in the crypto securities register.
+        <br><br>
+        As for now, investors are only able to purchase bond tokens from the bond token factory, but are not able to
+        transfer these through a decentralized exchange (DEX), which currently is being build.
+        All smart contracts are deployed on test networks ONLY, as the main goal of this prototype is to demonstrate the
+        potential of blockchain-based bonds and give insights into how this technology works.
+        <br><br>
+      </p>
+    </div>
+    <div class="project-info">
+      <div class="center-text">
+        <h3>Technologies</h3>
+        TypeScript/JavaScript, Angular, Ethers.js
+      </div>
+      <div class="center-text">
+        <h3>Timeframe</h3>
+        September, 2021 - Today
+      </div>
+      <div class="center-text">
+        <h3>GitHub</h3>
+        <a href="https://gitlab.com/DavidCisar/blockchainbonds" target="_blank">Blockchain bonds</a>
+      </div>
+    </div>
   </div>
 </div>

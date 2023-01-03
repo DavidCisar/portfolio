@@ -20,6 +20,8 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { RoomComponent } from './components/room/room.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ImprintComponent } from './components/imprint/imprint.component';
 import { BtfComponent } from './components/portfolio/btf/btf.component';
 import { CdComponent } from './components/portfolio/cd/cd.component';
 import { PbtfComponent } from './components/portfolio/pbtf/pbtf.component';
@@ -41,6 +43,8 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
     AboutComponent,
     HomeComponent,
     RoomComponent,
+    PrivacyComponent,
+    ImprintComponent,
     BtfComponent,
     CdComponent,
     PbtfComponent,

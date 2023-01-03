@@ -3,6 +3,8 @@ import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { SkillsComponent } from './components/skills/skills.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ImprintComponent } from './components/imprint/imprint.component';
 import { BtfComponent } from './components/portfolio/btf/btf.component';
 import { CdComponent } from './components/portfolio/cd/cd.component';
 import { PbtfComponent } from './components/portfolio/pbtf/pbtf.component';
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: 'skills', component: SkillsComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'privacy', component: PrivacyComponent},
   { path: 'portfolio', component: PortfolioComponent, pathMatch: 'full' },
   { path: 'portfolio/btf', component: BtfComponent },
   { path: 'portfolio/cd', component: CdComponent },

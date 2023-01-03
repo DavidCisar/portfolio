@@ -1,0 +1,45 @@
+.portfolio-container {
+  position: fixed;
+  top: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+
+  z-index: 2;
+}
+
+.inner-portfolio-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80vh;
+  width: 80vw;
+
+  margin: 10vh 10vw;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.center-text {
+  text-align: center;
+  width: 30%;
+}
+
+.go-back {
+  width: max(5vw, 80px);
+
+  position: fixed;
+  top: 9vh;
+  left: calc(89vw - max(5vw, 80px));
+}
+
+.hero {
+  margin-bottom: 2.5vh;
+}

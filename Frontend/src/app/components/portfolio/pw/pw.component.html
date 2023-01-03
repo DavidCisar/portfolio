@@ -1,10 +1,42 @@
 <div class="portfolio-container">
   <div class="inner-portfolio-container">
-    <h1 class="hero">Portfolio Website</h1>
-    <div>Beschreibung</div>
-    <div>Technologien, Frameworks etc.</div>
-    <div>Zeitliches Interval</div>
-    <div>Website oder GitHub</div>
-    <div>Bilder</div>
+    <div class="go-back" [routerLink]="['/portfolio']">
+      <p>
+        Go back
+      </p>
+    </div>
+    <h1 class="hero">3D Portfolio Website</h1>
+    <div class="description">
+      <h3>Description</h3>
+      <p style="text-align: justify"><br>
+        Thank you for visiting my portfolio website! I worked on this project entirely in my free time, trying to combine
+        my interest in 3D modeling and frontend development within a professional portfolio website.
+        <br><br>
+        As a “Quereinsteiger” without an academic background in computer science, it is utterly important to prove your
+        expertise through showcasing selected realized projects. To satisfy this, I built this creative portfolio website,
+        which not only displays information about me, my skillset or recently build projects.
+        <br><br>
+        It explicitly allows guests like you to experience an immersive interaction within a more or less cozy 3D model,
+        rather than just receiving information.
+        <br><br>
+        The portfolio website is a pure frontend project build with Angular. With the help of the open-source 3D modeling
+        software Blender and the selected corresponding web framework Three.js, I built an immersive 3D portfolio website
+        that invites guests to interact with the model by exploring this virtual three-dimensional room.
+        <br><br>
+        As you might have noticed, I'm an enthusiastic web3 and blockchain developer in my free time.
+        Since these technologies like tokenization are used more and more professionally,
+        I intend to develop myself further and acquire new tools and areas of application.
+      </p>
+    </div>
+    <div class="project-info">
+      <div class="center-text">
+        <h3>Technologies</h3>
+        Angular, TypeScript/JavaScript, Blender, Three.js
+      </div>
+      <div class="center-text">
+        <h3>Timeframe</h3>
+        August - December, 2022
+      </div>
+    </div>
   </div>
 </div>

@@ -2,12 +2,12 @@
   <div class="folder">
     <div class="foldertop">
       <div class="circles">
-        <i class="fa-solid fa-circle-dot red circle" [routerLink]="['/']"></i>
-        <i class="fa-solid fa-circle-dot orange circle"></i>
-        <i class="fa-solid fa-circle-dot green circle"></i>
+        <div class="red circle" [routerLink]="['/']"></div>
+        <div class="orange circle"></div>
+        <div class="green circle"></div>
       </div>
       <div class="foldername">
-        <div class="hero">Portfolio</div>
+        <div class="hero">Personal Portfolio</div>
       </div>
     </div>
     <div class="table">
@@ -22,9 +22,7 @@
           <td>{{ project.name }}</td>
           <td>{{ project.field }}</td>
           <td>{{ project.type }}</td>
-          <td *ngIf="project.status === 'Done'"><i class="fa-solid fa-check"></i></td>
-          <td *ngIf="project.status === 'Ongoing'"><i class="fa-solid fa-spinner"></i></td>
-          <td *ngIf="project.status === 'Planned'"><i class="fa-solid fa-list-check"></i></td>
+          <td>{{ project.status }}</td>
         </tr>
       </table>
     </div>
