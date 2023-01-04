@@ -1,0 +1,20 @@
+.privacy-container {
+  margin-top: 5vh;
+  padding: 5vh 20vw;
+
+  box-sizing: border-box;
+  height: 85vh;
+  font-size: 16px;
+  text-align: justify;
+  overflow-y: auto;
+
+  z-index: 1000;
+}
+
+.privacy-container::-webkit-scrollbar {
+  display: none;              /* Safari and Chrome */
+}
+
+.blurr {
+  background-color: rgba(255, 255, 255, 0.5);
+}
