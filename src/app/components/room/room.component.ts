@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { InteractionManager } from 'three.interactive';
 import GSAP from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Resources from './Utils/Resources';
+import Resources from './resources';
 
 @Component({
   selector: 'app-room',
