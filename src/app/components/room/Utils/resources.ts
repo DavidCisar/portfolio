@@ -1,12 +1,25 @@
 import { EventEmitter } from 'events';
-import Assets from './assets';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
 export default class Resources extends EventEmitter {
 
-  public assets = Assets;
+  public assets = [{
+                      name: 'room',
+                      type: 'glbModel',
+                      path: './assets/three/models/room.glb'
+                    },
+                    {
+                      name: 'trees',
+                      type: 'glbModel',
+                      path: './assets/three/models/trees.glb'
+                    },
+                    {
+                      name: 'particles',
+                      type: 'glbModel',
+                      path: './assets/three/models/particles.glb'
+                    }];
   public items: any[] = [];
   public queue: any;
   public loaded: number;
