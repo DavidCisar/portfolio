@@ -307,7 +307,6 @@ export class RoomComponent {
 
     if (!this.addedEventlistenerToRoom.getValue()) {
     this.actualRoom.children.forEach((child: any) => {
-      console.log(child.name);
       if (child.name === 'Portfolio') {
         this.portfolio = child;
         let portfolioColor: any;

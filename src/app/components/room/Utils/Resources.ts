@@ -39,7 +39,6 @@ export default class Resources extends EventEmitter {
           this.singleAssetLoaded(asset.name, file);
         })
       } else if (asset.type === 'videoTexture') {
-      console.log("is video texture")
         this.video = document.createElement('video');
         this.video.src = asset.path;
         this.video.playsInLine = true;

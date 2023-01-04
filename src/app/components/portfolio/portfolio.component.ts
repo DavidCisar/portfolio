@@ -1,5 +1,4 @@
 import { Component, OnInit, Input} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import Projects from './Projects';
 
@@ -12,7 +11,7 @@ export class PortfolioComponent implements OnInit {
 
   public projects: any;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.projects = Projects;
   }
 

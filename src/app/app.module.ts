@@ -1,16 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,13 +18,6 @@ import { CdComponent } from './components/portfolio/cd/cd.component';
 import { PbtfComponent } from './components/portfolio/pbtf/pbtf.component';
 import { PwComponent } from './components/portfolio/pw/pw.component';
 import { SrpComponent } from './components/portfolio/srp/srp.component';
-
-import { AuthenticationService } from './service/authentication.service';
-import { NotificationService } from './service/notification.service';
-import { AuthenticationGuard } from './guard/authentication.guard';
-import { AuthInterceptor } from './interceptor/auth.interceptor';
-
-import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -53,21 +37,10 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatChipsModule,
     AppRoutingModule,
   ],
-  providers: [NotificationService, AuthenticationGuard, AuthenticationService, JwtHelperService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

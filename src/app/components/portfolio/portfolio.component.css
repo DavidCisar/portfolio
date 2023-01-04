@@ -54,16 +54,6 @@
   align-items: center;
 }
 
-.foldername {
-  position: fixed;
-
-  top: 12vh;
-  margin: 0 auto;
-
-  text-align: center;
-  font-style: italic;
-}
-
 .circles {
   display: flex;
   justify-content: space-between;
@@ -76,6 +66,18 @@
 
 .hero {
   font-size: max(5vw, 36px);
+  position: fixed;
+
+  top: 12vh;
+  margin-left: 30vw;
+
+  text-align: center;
+  font-style: italic;
+
+  animation-name: folder;
+  animation-duration: 0.5s;
+
+  z-index: 3;
 }
 
 .red {
@@ -95,6 +97,8 @@
   height: max(1vw, 10px);
   border: 1px solid black;
   border-radius: 50%;
+
+  z-index: 4;
 }
 
 .circle:hover {
