@@ -15,7 +15,7 @@ export class AppComponent {
     this.arrow = document.getElementById('arrow') as HTMLElement;
     window.addEventListener('scroll', () => {
       let y = window.scrollY;
-      if (y > 150 && this.arrow != null) {
+      if (y > 100 && this.arrow != null) {
         this.arrow.classList.add('disappear');
       } else {
         this.arrow.classList.remove('disappear');

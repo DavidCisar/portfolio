@@ -242,7 +242,7 @@ a {
 }
 
 .disappear {
-  animation: fade-out 1s forwards;
+  animation: fade-out 2s forwards;
 }
 
 @keyframes toggle-left {
