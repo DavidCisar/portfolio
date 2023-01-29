@@ -241,6 +241,10 @@ a {
   animation: fade-out 3s forwards;
 }
 
+.disappear {
+  animation: fade-out 1s forwards;
+}
+
 @keyframes toggle-left {
   100%  {width: 20vw;}
 }
@@ -398,8 +402,8 @@ a {
   flex-direction: column;
   justify-content: space-between;
   height: 5vh;
+  font-weight: 600;
 }
-
 
 @media (max-width: 767px) {
   .hacking {
