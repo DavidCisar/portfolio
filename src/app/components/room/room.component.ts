@@ -286,7 +286,7 @@ export class RoomComponent {
 
     // Wait, push the other two blocks away and then zoom in
 
-    this.setPath(0, 17.5, 7.5, 2, this.perspectiveCamera);
+    this.setPath(0, 17.5, 5.5, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
       x: -0.25,
       y: 0,
@@ -309,7 +309,7 @@ export class RoomComponent {
 
     // Wait, push the other two blocks away and then zoom in
 
-    this.setPath(0, 10, 7.5, 2, this.perspectiveCamera);
+    this.setPath(0, 10, 5.5, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
       x: -0.25,
       y: 0,
@@ -332,7 +332,7 @@ export class RoomComponent {
 
     // Wait, push the other two blocks away and then zoom in
 
-    this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
+    this.setPath(0, 5, 5.5, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
       x: -0.25,
       y: 0,
