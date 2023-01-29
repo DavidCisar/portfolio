@@ -1,66 +1,21 @@
-<div *ngIf="!enteredPortfolio.getValue()" class="hacker">
-  <div id="hacking" class="hacking hero"></div>
-  <button type="button" class="enter-btn" (click)="enterPortfolio()">Enter portfolio</button>
-</div>
-
-<div class="time" id="time">
-  {{ timeHour }} : {{ timeMinute }} : {{ timeSecond }}
-</div>
-
-<div [hidden]="!enteredPortfolio.getValue()">
-  <router-outlet></router-outlet>
-  <canvas #canvas id="canvas"></canvas>
-
-  <div *ngIf="!hideMenu.getValue()" class="menu" id="menu">
-    <h1 class="big-hero gradient-text" (click)="exploreRoom()">EXPLORE</h1>
+<div class="room-container">
+  <div *ngIf="!enteredPortfolio.getValue()" class="hacker center">
+    <div id="hacking-1" class="hacking hero center"></div>
+    <div id="hacking-2" class="hacking hero center"></div>
+    <button *ngIf="introDone.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()">Enter portfolio</button>
   </div>
 
-  <div *ngIf="onExplore.getValue()" class="explore" (click)="goBack()">
-    <p>Go back</p>
-  </div>
-</div>
+  <div [hidden]="!enteredPortfolio.getValue()">
+    <canvas #canvas id="canvas"></canvas>
 
-<div class="footer">
-  <div class="footerleft">
-    <div>
-      <a routerLink="/imprint" (click)="enterPortfolio()">
-        Imprint
-      </a>
+    <div *ngIf="!hideMenu.getValue()" class="menu rotate" id="menu">
+      <h1 class="rotate-hero gradient-text" (click)="exploreTech()">TECH</h1>
+      <h1 class="rotate-hero gradient-text" (click)="exploreAbout()">ABOUT</h1>
+      <h1 class="rotate-hero gradient-text" (click)="exploreMore()">MORE</h1>
     </div>
-    <div>
-      <a routerLink="/privacy" (click)="enterPortfolio()">
-        Privacy
-      </a>
+
+    <div *ngIf="onExplore.getValue()" class="explore" (click)="goBack()">
+      <p>Go back</p>
     </div>
-  </div>
-  <div class="icons">
-    <div>
-      <a href="https://gitlab.com/DavidCisar" title="GitLab Profile" target="_blank">
-        <img class="footer-logo" src="./assets/images/gitlab.svg" alt="gitlab">
-      </a>
-    </div>
-    <div>
-      <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" title="LinkedIn Profile" target="_blank">
-        <img class="footer-logo" src="./assets/images/linkedin.svg" alt="linkedin">
-      </a>
-    </div>
-    <div>
-      <a href="https://www.instagram.com/davidcisar/" title="Instagram Profile" target="_blank">
-        <img class="footer-logo" src="./assets/images/instagram.svg" alt="instagram">
-      </a>
-    </div>
-    <div>
-      <a href="https://medium.com/@davidcisar" title="Medium Profile" target="_blank">
-        <img class="footer-logo" src="./assets/images/medium.svg" alt="medium">
-      </a>
-    </div>
-    <div>
-      <a href="mailto:info@dcisar.io" title="Mail to info@dcisar.io">
-        <img class="footer-logo" src="./assets/images/paper-plane.png" alt="mail">
-      </a>
-    </div>
-  </div>
-  <div class="footerright">
-    Copyright © David Cisar, 2023
   </div>
 </div>

@@ -1,5 +1,76 @@
 <div class="full-container">
+  <div class="container fixed">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="container">
+    <app-room></app-room>
+    <div class="more">
+      <div class="arrow">
+        <div>
+          More
+        </div>
+        <div class="center">
+            <img class="footer-logo" src="./assets/images/arrow.png" (click)="scrollTo('about')">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="about" class="container">
+      <h1 class="hero gradient-text">
+        I'm a Fullstack <br>Software Developer
+      </h1>
 
-  <app-room></app-room>
+  </div>
+  <div class="container">
+    <h1 class="hero gradient-text">Skills</h1>
 
+  </div>
+  <div class="container">
+    <h1 class="hero gradient-text">Projects</h1>
+
+  </div>
+  <div class="footer">
+    <div class="footerleft">
+      <div>
+        <a routerLink="/imprint">
+          Imprint
+        </a>
+      </div>
+      <div>
+        <a routerLink="/privacy">
+          Privacy
+        </a>
+      </div>
+    </div>
+    <div class="icons">
+      <div>
+        <a href="https://github.com/DavidCisar" title="GitHub Profile" target="_blank">
+          <img class="footer-logo" src="./assets/images/github.svg" alt="github">
+        </a>
+      </div>
+      <div>
+        <a href="https://www.linkedin.com/in/david-cisar-308b6b199/" title="LinkedIn Profile" target="_blank">
+          <img class="footer-logo" src="./assets/images/linkedin.svg" alt="linkedin">
+        </a>
+      </div>
+      <div>
+        <a href="https://www.instagram.com/davidcisar/" title="Instagram Profile" target="_blank">
+          <img class="footer-logo" src="./assets/images/instagram.svg" alt="instagram">
+        </a>
+      </div>
+      <div>
+        <a href="https://medium.com/@davidcisar" title="Medium Profile" target="_blank">
+          <img class="footer-logo" src="./assets/images/medium.svg" alt="medium">
+        </a>
+      </div>
+      <div>
+        <a href="mailto:info@dcisar.io" title="Mail to info@dcisar.io">
+          <img class="footer-logo" src="./assets/images/paper-plane.png" alt="mail">
+        </a>
+      </div>
+    </div>
+    <div class="footerright">
+      Copyright © 2023 - David Cisar
+    </div>
+  </div>
 </div>

@@ -65,26 +65,26 @@ export class RoomComponent {
   public hideMenu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public enteredPortfolio: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public onExplore: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public loaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public addedEventlistenerToRoom: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public lookingAtPortfolio: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public portfolioAll: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public setInitialCameraPosition: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Resources
   public resources: Resources;
   public room: any;
   public actualRoom: any;
-  public trees: any;
-  public actualTrees: any;
-  public backgroundPlane: THREE.Mesh;
-  public actualParticles: any;
-  public particles: THREE.Mesh[] = [];
 
   // Intro
-  public intro = 'Welcome to my Portfolio';
-  public introCharacters: string[] = [];
-  public introCounter = 0;
-  public introDone = false;
+  public introTop = 'Hey I\'m David!';
+  public introCharactersTop: string[] = [];
+  public introCounterTop = 0;
+  public introDoneTop = false;
+  public introBottom = 'Welcome to my Portfolio';
+  public introCharactersBottom: string[] = [];
+  public introCounterBottom = 0;
+  public introDoneBottom = false;
+  public introDone: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Time
   public timeHour: string = '';
@@ -96,23 +96,42 @@ export class RoomComponent {
     GSAP.registerPlugin(ScrollTrigger);
 
     let introInterval = setInterval(() => {
-      for (let i = 0; i < this.introCounter; i++) {
-        this.introCharacters[i] = this.intro.charAt(i);
+      for (let i = 0; i < this.introCounterTop; i++) {
+        this.introCharactersTop[i] = this.introTop.charAt(i);
       }
-      for (let i = this.introCounter; i < this.intro.length; i++) {
-        this.introCharacters[i] = Math.random().toString(36).charAt(2);
+      for (let i = this.introCounterTop; i < this.introTop.length; i++) {
+        this.introCharactersTop[i] = Math.random().toString(36).charAt(2);
       }
-      if (document.getElementById('hacking')) {
-        document.getElementById('hacking')!.innerText = this.introCharacters.join('');
+      if (document.getElementById('hacking-1')) {
+        document.getElementById('hacking-1')!.innerText = this.introCharactersTop.join('');
+      }
+
+      for (let i = 0; i < this.introCounterBottom; i++) {
+        this.introCharactersBottom[i] = this.introBottom.charAt(i);
+      }
+      for (let i = this.introCounterBottom; i < this.introBottom.length; i++) {
+        this.introCharactersBottom[i] = Math.random().toString(36).charAt(2);
+      }
+      if (document.getElementById('hacking-2')) {
+        document.getElementById('hacking-2')!.innerText = this.introCharactersBottom.join('');
       }
     }, 50);
 
     let introRevealInterval = setInterval(() => {
-      if (!this.introDone) {
-        this.introCounter++;
-        if (this.introCounter == this.intro.length) {
-          this.introDone = true;
+      if (!this.introDoneTop) {
+        this.introCounterTop++;
+        if (this.introCounterTop == this.introTop.length) {
+          this.introDoneTop = true;
         }
+      }
+      if (!this.introDoneBottom) {
+        this.introCounterBottom++;
+        if (this.introCounterBottom == this.introBottom.length) {
+          this.introDoneBottom = true;
+        }
+      }
+      if (!this.introDone.getValue() && this.introDoneTop && this.introDoneBottom) {
+        this.introDone.next(true);
       }
     }, 125);
 
@@ -166,14 +185,6 @@ export class RoomComponent {
     this.resources.on('ready', () => {
       this.room = this.resources.getRoom();
       this.actualRoom = this.room.scene;
-      this.actualRoom.position.y = -1.5;
-
-      this.actualParticles = this.resources.getParticles().scene;
-      this.actualParticles.position.y = -1.5;
-
-      this.trees = this.resources.getTrees();
-      this.actualTrees = this.trees.scene;
-      this.actualTrees.position.y = -1.5;
 
       this.camera = this.perspectiveCamera;
 
@@ -184,14 +195,6 @@ export class RoomComponent {
         true
       );
 
-      this.actualParticles.children.forEach((child: any) => {
-        if (child.name.includes('Particle')) {
-          child.material = new THREE.MeshNormalMaterial();
-          this.particles.push(child);
-        }
-      });
-
-      this.createBackground();
       this.setModel();
       this.setLights();
 
@@ -207,29 +210,17 @@ export class RoomComponent {
 
   createPerspectiveCamera() {
     this.perspectiveCamera = new THREE.PerspectiveCamera(35, this.aspect, 0.1, 1000);
-    this.perspectiveCamera.position.set(0, 12.5, 25);
-    this.perspectiveCamera.rotateX(-0.45);
+    this.perspectiveCamera.position.set(0, 50, 0);
+    this.perspectiveCamera.rotateX(-Math.PI/2);
     this.scene.add(this.perspectiveCamera);
   }
 
-  createBackground() {
-    const planeGeometry = new THREE.PlaneGeometry(200, 200);
-    const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x90EE90 });
-    this.backgroundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-    this.backgroundPlane.position.y = -2;
-    this.backgroundPlane.rotateX(-0.785 * 2);
-  }
-
   setShadows() {
-    this.backgroundPlane.receiveShadow = true;
-
     this.actualRoom.children.forEach((child: any) => {
       child.castShadow = true;
-      child.receiveShadow = true;
       if (child instanceof THREE.Group) {
         child.children.forEach((groupChild: any) => {
           groupChild.castShadow = true;
-          groupChild.receiveShadow = true;
         });
       }
     });
@@ -261,23 +252,24 @@ export class RoomComponent {
   }
 
   setModel() {
-    this.scene.add(this.backgroundPlane);
     this.scene.add(this.actualRoom);
-    this.scene.add(this.actualParticles);
-    this.scene.add(this.actualTrees);
+    this.scene.background = new THREE.Color('#060B19');
   }
 
   setLights() {
     this.sunlight = new THREE.DirectionalLight('#FFFFFF', 3);
-    this.sunlight.castShadow = true;
     this.sunlight.shadow.mapSize.set(2048, 2048);
     this.sunlight.shadow.normalBias = 0.05;
     this.sunlight.position.set(-1, 5, 2);
     this.scene.add(this.sunlight);
 
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 2);
-    ambientLight.position.set(0, 2, 2);
+    const ambientLight = new THREE.PointLight(0xFF0000, 5, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
+    ambientLight.position.set(0, 4, -2);
     this.scene.add(ambientLight);
+
+    const livingRoomLight = new THREE.PointLight(0x00FFFF, 5, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
+    livingRoomLight.position.set(0, 20, 0);
+    this.scene.add(livingRoomLight);
   }
 
   enterPortfolio() {
@@ -285,24 +277,67 @@ export class RoomComponent {
     this.enteredPortfolio.next(true);
   }
 
-  exploreRoom() {
+  exploreMore() {
     this.onExplore.next(true);
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
     }
 
-    let timeElement = document.getElementById('time');
-    if (timeElement != null) {
-      timeElement.classList.add('hidden');
+    // Wait, push the other two blocks away and then zoom in
+
+    this.setPath(0, 17.5, 7.5, 2, this.perspectiveCamera);
+    GSAP.timeline().to(this.perspectiveCamera.rotation, {
+      x: -0.25,
+      y: 0,
+      duration: 2
+    });
+    this.interactionManager.update();
+
+    let menu = document.getElementById("menu")
+    if (menu) {
+      menu.style["animationDuration"] = '1s';
     }
+  }
+
+  exploreAbout() {
+    this.onExplore.next(true);
+    let exploreElement = document.getElementById('menu');
+    if (exploreElement != null) {
+      exploreElement.classList.add('hidden');
+    }
+
+    // Wait, push the other two blocks away and then zoom in
+
+    this.setPath(0, 10, 7.5, 2, this.perspectiveCamera);
+    GSAP.timeline().to(this.perspectiveCamera.rotation, {
+      x: -0.25,
+      y: 0,
+      duration: 2
+    });
+    this.interactionManager.update();
+
+    let menu = document.getElementById("menu")
+    if (menu) {
+      menu.style["animationDuration"] = '1s';
+    }
+  }
+
+  exploreTech() {
+    this.onExplore.next(true);
+    let exploreElement = document.getElementById('menu');
+    if (exploreElement != null) {
+      exploreElement.classList.add('hidden');
+    }
+
+    // Wait, push the other two blocks away and then zoom in
 
     this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
-                x: -0.4,
-                y: 0,
-                duration: 2
-                });
+      x: -0.25,
+      y: 0,
+      duration: 2
+      });
     this.interactionManager.update();
 
     if (!this.addedEventlistenerToRoom.getValue()) {
@@ -432,27 +467,23 @@ export class RoomComponent {
       if (timeElement != null) {
         timeElement.classList.remove('hidden');
       }
-      this.setPath(0, 10, 20, 3, this.perspectiveCamera);
-      GSAP.timeline().to(this.perspectiveCamera.rotation, {
-        x: -0.45,
-        y: 0,
-        duration: 1
+      if (window.innerWidth <= 767) {
+        this.setPath(0, 20, 50, 1, this.perspectiveCamera);
+        GSAP.timeline().to(this.perspectiveCamera.rotation, {
+          x: -0.2,
+          y: 0,
+          duration: 2
         });
+      } else {
+        this.setPath(0, 18, 42.5, 1, this.perspectiveCamera);
+        GSAP.timeline().to(this.perspectiveCamera.rotation, {
+          x: -0.2,
+          y: 0,
+          duration: 2
+        })
+      }
     }
     this.router.navigate(['/']);
-  }
-
-  animateParticles() {
-    let counter = -15;
-    for (let particle of this.particles) {
-      if (counter == 0) {
-        counter++;
-      }
-      particle.rotation.x += 0.0005 * counter * 0.25;
-      particle.rotation.y -= 0.00075 * counter * 0.25;
-      particle.rotation.z += 0.00025 * counter * 0.25;
-      counter++;
-    }
   }
 
   onMouseMove() {
@@ -494,26 +525,36 @@ export class RoomComponent {
     if (this.actualRoom && this.enteredPortfolio.getValue()) {
       this.interactionManager.update();
 
-      this.animateParticles();
-
       if (this.onExplore.getValue()) {
         if (!this.lookingAtPortfolio.getValue()){
-          this.perspectiveCamera.rotation.y = (-1) * this.lerpX.current * 0.025;
-          this.perspectiveCamera.rotation.x = (-1) * this.lerpY.current * 0.1 -0.4;
+          this.perspectiveCamera.rotation.y = (-1) * this.lerpX.current * 0.25;
+          this.perspectiveCamera.rotation.x = (-1) * this.lerpY.current * 0.5 - 0.25;
         }
       } else {
-        this.actualRoom.rotation.y = this.lerpX.current * 0.025;
-        this.actualParticles.rotation.y = this.lerpX.current * 0.05;
-        this.actualTrees.rotation.y = this.lerpX.current * 0.035
+        this.actualRoom.rotation.y = this.lerpX.current * 0.05;
       }
-      if (this.elapsedTime > 2500 && !this.onExplore.getValue()) {
-        this.setPath(0, 10, 20, 2, this.perspectiveCamera);
+
+      if (this.elapsedTime > 2500 && !this.onExplore.getValue() && !this.setInitialCameraPosition.getValue()) {
+        console.log("Going to initial position of camera")
+        if (window.innerWidth <= 767) {
+          this.setPath(0, 20, 50, 3, this.perspectiveCamera);
+          GSAP.timeline().to(this.perspectiveCamera.rotation, {
+            x: -0.2,
+            y: 0,
+            duration: 3
+          });
+        } else {
+          this.setPath(0, 18, 42.5, 3, this.perspectiveCamera);
+          GSAP.timeline().to(this.perspectiveCamera.rotation, {
+            x: -0.2,
+            y: 0,
+            duration: 3
+          })
+        }
+        this.setInitialCameraPosition.next(true);
       }
-      if (this.elapsedTime > 4000) {
+      if (this.elapsedTime > 5500) {
         this.hideMenu.next(false);
-      }
-      if (this.elapsedTime > 5000) {
-        this.loaded.next(true);
       }
     }
 

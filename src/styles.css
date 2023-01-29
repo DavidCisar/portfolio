@@ -1,11 +1,24 @@
-body {
-  font-size: max (1vw, 8px);
+*{
+  margin: 0;
+  padding: 0;
 
   color: white;
 
-  cursor: grab;
+  font-family: Georgia, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
+body {
+  font-size: max (1vw, 8px);
+  color: white;
+  cursor: grab;
   overflow-x: hidden;
+  width: 100vw;
+  height: fit-content;
+  background-color: rgb(6, 11, 25);
+  overflow-x: hidden;
+
   -ms-overflow-style: none;   /* Internet Explorer 10+ */
   scrollbar-width: none;      /* Firefox */
 }
@@ -18,35 +31,34 @@ a {
   text-decoration: none;
 }
 
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .full-container {
   width: 100vw;
-  height: 100%;
+  height: fit-content;
 
   display: flex;
   flex-direction: column;
 }
 
-.content-container {
+.room-container {
   display: flex;
   flex-direction: column;
-
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  width: 100vw;
+  height: 100vh;
 }
 
 .blurr {
-  position: fixed;
-  top: 0;
-
   width: 100vw;
   height: 100vh;
 
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
 
-  z-index: 2;
+  z-index: 6;
 }
 
 .headline {
@@ -61,9 +73,17 @@ a {
 }
 
 .hero {
-  font-size: max(5vw, 72px);
-  margin-bottom: 5vh;
+  font-size: 72px;
   background-color: transparent;
+}
+
+.rotate-hero {
+  font-size: 36px;
+  background-color: transparent;
+}
+
+.rotate-hero:hover {
+  transform: scale(1.05);
 }
 
 .big-hero {
@@ -77,25 +97,14 @@ a {
   background-color: transparent;
 }
 
-*{
-  margin: 0;
-  padding: 0;
-
-  color: black;
-
-  font-family: Georgia, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .go-back {
   width: max(5vw, 75px);
   padding: 5px;
 
   margin: 1vh auto;
 
-  background-color: white;
-  border: 1px solid black;
+  background-color: rgb(6, 11, 25);
+  border: 1px solid white;
   border-radius: 5px;
 
   font-size: 16px;
@@ -138,18 +147,30 @@ a {
   display: none;              /* Safari and Chrome */
 }
 
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  margin-bottom: 15vh;
+  text-align: center;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
-  position: fixed;
-  bottom: 0;
+  align-items: center;
 
   box-sizing: border-box;
 
   width: 100vw;
   height: 1.5vh;
+  color: white;
 
   background-color: transparent;
 
@@ -157,7 +178,7 @@ a {
 
   padding-left: 5vw;
   padding-right: 5vw;
-  padding-top: 0.5vh;
+  padding-top: 4vh;
   padding-bottom: 4vh;
 
   z-index: 999;
@@ -166,32 +187,241 @@ a {
 .footerleft {
   display: flex;
   justify-content: space-between;
-  width: max(10vw, 175px);
+  width: 175px;
 }
 
 .footerright {
   display: flex;
   justify-content: flex-end;
-  width: max(10vw, 175px);
+  width: 175px;
 }
 
 .icons {
   display: flex;
+  width: 400px;
 
-  width: 15vw;
-  justify-content: space-between;
-}
-
-.icons {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .footer-logo {
-  height: 2vh;
+  height: 20px;
 }
 
 .footer-logo:hover {
   transform: scale(1.25);
 }
+
+#canvas {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  animation-name: fade-in;
+  animation-duration: 1s;
+  z-index: -1;
+}
+
+.menu {
+  position: absolute;
+  top: 50vh;
+  left: 32.5vw;
+  width: 65vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  animation-name: fade-in;
+  animation-duration: 1s;
+  z-index: 5;
+}
+
+.hidden {
+  animation: fade-out 3s forwards;
+}
+
+@keyframes toggle-left {
+  100%  {width: 20vw;}
+}
+
+@keyframes toggle-right {
+  100%  {width: 17.5vw;}
+}
+
+@keyframes fade-in {
+  0%    { opacity: 0; }
+  100%  { opacity: 1; }
+}
+
+@keyframes fade-out {
+  0%    { opacity: 1; }
+  99%   { z-index: 1; }
+  100%  { opacity: 0; z-index: -2;}
+}
+
+.hacking {
+  font-size: 32px;
+  color: white;
+  text-align: center;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-family: monospace;
+  overflow: hidden;
+  height: 50px;
+}
+
+.hacker {
+  margin-top: 40vh;
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.enter-btn {
+  width: 150px;
+  height: 40px;
+  box-sizing: border-box;
+
+  background-color: rgb(6, 11, 25);
+  border: 1px solid white;
+  border-radius: 5px;
+
+  margin-top: 10px;
+
+  font-size: 18px;
+  color: white;
+  z-index: 5;
+  animation-name: fade-in;
+  animation-duration: 1s;
+}
+
+.enter-btn:hover {
+  cursor: pointer;
+  box-shadow: 2px 2px white;
+}
+
+.explore {
+  position: absolute;
+
+  top: 5vh;
+  left: 10vw;
+
+  background-color: rgb(6, 11, 25);
+
+  width: max(75px, 5vw);
+  padding: 5px;
+
+  text-align: center;
+  align-items: center;
+
+  padding-left: max(15px, 1vw);
+  padding-right: max(15px, 1vw);
+
+  border-radius: 5px;
+  border: 1px solid white;
+
+  animation-name: fade-in;
+  animation-duration: 2s;
+  z-index: 5;
+}
+
+.explore:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px white;
+}
+
+.rotate {
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.gradient-text {
+  margin-left: 2.5vw;
+
+  background-image: linear-gradient(45deg, #d65db1 25%, #ff6f91);
+  background-clip: text;
+
+  color: transparent;
+
+  background-size: 150%;
+  animation: bg-animation 10s infinite alternate;
+}
+
+@keyframes bg-animation {
+  0% { background-position: left }
+  100% { background-position: right }
+}
+
+@media (max-width: 1000px) {
+  .footer {
+    flex-direction: column;
+  }
+
+  .footerleft, .footerright {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footerleft {
+    letter-spacing: 2px;
+    justify-content: space-between;
+    width: 60vw;
+  }
+
+  .footerright {
+    padding-bottom: 50px;
+    letter-spacing: 2px;
+    justify-content: center;
+    width: 75vw;
+  }
+
+  .icons {
+    margin: 25px auto;
+    width: 75vw;
+  }
+}
+
+.more {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  top: 94vh;
+  left: calc(50vw - 100px);
+  width: 200px;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 5vh;
+}
+
+
+@media (max-width: 767px) {
+  .hacking {
+    font-size: 16px;
+    width: 90vw;
+    height: fit-content;
+    text-wrap: break-word;
+  }
+
+  .hacker {
+    margin-top: 45vh;
+    height: fit-content;
+  }
+
+  .enter-btn {
+    font-size: 16px;
+    background-color: rgb(6, 11, 25);
+    margin-top: 25px;
+    padding: 5px 10px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 2px;
+  }
+}
+
