@@ -17,7 +17,9 @@ export class AppComponent {
       let y = window.scrollY;
       if (y > 100 && this.arrow != null) {
         this.arrow.classList.add('disappear');
+        this.arrow.classList.remove('fade-in');
       } else {
+        this.arrow.classList.add('fade-in');
         this.arrow.classList.remove('disappear');
       }
     })
