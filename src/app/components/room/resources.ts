@@ -6,17 +6,24 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 export default class Resources extends EventEmitter {
 
   public assets = [{
-                      name: 'room',
+                      name: 'room_top',
                       type: 'glbModel',
-                      path: './assets/three/models/portfolio.glb'
+                      path: './assets/three/models/portfolio_v2_room_top.glb'
+                    },
+                    {
+                      name: 'room_center',
+                      type: 'glbModel',
+                      path: './assets/three/models/portfolio_v2_room_center.glb'
+                    },
+                    {
+                      name: 'room_bottom',
+                      type: 'glbModel',
+                      path: './assets/three/models/portfolio_v2_room_bottom.glb'
                     }];
   public items: any[] = [];
   public queue: any;
   public loaded: number;
   public loaders: any;
-
-  public video: any;
-  public videoTexture: any;
 
   constructor() {
     super();
@@ -41,23 +48,6 @@ export default class Resources extends EventEmitter {
         this.loaders.gltfLoader.load(asset.path, (file: any) => {
           this.singleAssetLoaded(asset.name, file);
         })
-      } else if (asset.type === 'videoTexture') {
-        this.video = document.createElement('video');
-        this.video.src = asset.path;
-        this.video.playsInLine = true;
-        this.video.muted = true;
-        this.video.autoplay = true;
-        this.video.loop = true;
-        this.video.play();
-
-        this.videoTexture = new THREE.VideoTexture(this.video);
-        this.videoTexture.flipY = true;
-        this.videoTexture.minFilter = THREE.NearestFilter;
-        this.videoTexture.magFilter = THREE.NearestFilter;
-        this.videoTexture.generateMipMaps = false;
-        this.videoTexture.encoding = THREE.sRGBEncoding;
-
-        this.singleAssetLoaded(asset.name, this.videoTexture);
       }
     }
   }
@@ -72,31 +62,27 @@ export default class Resources extends EventEmitter {
     }
   }
 
-  getRoom() {
+  getTopRoom() {
     for (const item of this.items) {
-      if (item.name === "room") {
+      if (item.name === "room_top") {
         return item.file;
       }
     }
   }
 
-  getTrees() {
+  getCenterRoom() {
     for (const item of this.items) {
-      if (item.name === "trees") {
+      if (item.name === "room_center") {
         return item.file;
       }
     }
   }
 
-  getParticles() {
+  getBottomRoom() {
     for (const item of this.items) {
-      if (item.name === "particles") {
+      if (item.name === "room_bottom") {
         return item.file;
       }
     }
-  }
-
-  getVideo() {
-    return this.videoTexture;
   }
 }

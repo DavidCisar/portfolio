@@ -15,7 +15,7 @@ export class AppComponent {
     this.arrow = document.getElementById('arrow') as HTMLElement;
     window.addEventListener('scroll', () => {
       let y = window.scrollY;
-      if (y > 100 && this.arrow != null) {
+      if (y > 50 && this.arrow != null) {
         this.arrow.classList.add('disappear');
         this.arrow.classList.remove('fade-in');
       } else {

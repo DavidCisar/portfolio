@@ -72,8 +72,15 @@ export class RoomComponent {
 
   // Resources
   public resources: Resources;
-  public room: any;
-  public actualRoom: any;
+  public room_top: any;
+  public room_center: any;
+  public room_bottom: any;
+  public actualTopRoom: any;
+  public actualCenterRoom: any;
+  public actualBottomRoom: any;
+  public actualTopRoomPosition: any;
+  public actualCenterRoomPosition: any;
+  public actualBottomRoomPosition: any;
 
   // Intro
   public introTop = 'Hey I\'m David!';
@@ -115,7 +122,7 @@ export class RoomComponent {
       if (document.getElementById('hacking-2')) {
         document.getElementById('hacking-2')!.innerText = this.introCharactersBottom.join('');
       }
-    }, 50);
+    }, 45);
 
     let introRevealInterval = setInterval(() => {
       if (!this.introDoneTop) {
@@ -133,7 +140,7 @@ export class RoomComponent {
       if (!this.introDone.getValue() && this.introDoneTop && this.introDoneBottom) {
         this.introDone.next(true);
       }
-    }, 125);
+    }, 100);
 
     let timeUpdate = setInterval(() => {
       let timeHour = new Date().getHours();
@@ -175,6 +182,25 @@ export class RoomComponent {
       this.resize();
     });
 
+    window.addEventListener('scroll', () => {
+      let exploreElement = document.getElementById('menu');
+      let y = window.scrollY;
+      if (this.actualTopRoom && this.actualCenterRoom && this.actualBottomRoom && y >50) {
+        this.actualTopRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
+        this.actualCenterRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
+        this.actualBottomRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
+      }
+      if (exploreElement != null) {
+        if (y > 50) {
+          exploreElement.classList.add('disappear');
+          exploreElement.classList.remove('fade-in');
+        } else {
+          exploreElement.classList.add('fade-in');
+          exploreElement.classList.remove('disappear');
+        }
+      }
+    });
+
     // Camera
     this.createPerspectiveCamera();
 
@@ -183,8 +209,17 @@ export class RoomComponent {
 
     // Scene
     this.resources.on('ready', () => {
-      this.room = this.resources.getRoom();
-      this.actualRoom = this.room.scene;
+      this.room_top = this.resources.getTopRoom();
+      this.actualTopRoom = this.room_top.scene;
+      this.actualTopRoomPosition = this.actualTopRoom.position;
+
+      this.room_center = this.resources.getCenterRoom();
+      this.actualCenterRoom = this.room_center.scene;
+      this.actualCenterRoomPosition = this.actualCenterRoom.position;
+
+      this.room_bottom = this.resources.getBottomRoom();
+      this.actualBottomRoom = this.room_bottom.scene;
+      this.actualBottomRoomPosition = this.actualBottomRoom.position;
 
       this.camera = this.perspectiveCamera;
 
@@ -216,11 +251,34 @@ export class RoomComponent {
   }
 
   setShadows() {
-    this.actualRoom.children.forEach((child: any) => {
+    this.actualTopRoom.children.forEach((child: any) => {
       child.castShadow = true;
+      child.receiveShadow = true;
       if (child instanceof THREE.Group) {
         child.children.forEach((groupChild: any) => {
           groupChild.castShadow = true;
+          groupChild.receiveShadow = true;
+        });
+      }
+    });
+    this.actualCenterRoom.children.forEach((child: any) => {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      if (child instanceof THREE.Group) {
+        child.children.forEach((groupChild: any) => {
+          groupChild.castShadow = true;
+          groupChild.receiveShadow = true;
+        });
+      }
+    });
+
+    this.actualBottomRoom.children.forEach((child: any) => {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      if (child instanceof THREE.Group) {
+        child.children.forEach((groupChild: any) => {
+          groupChild.castShadow = true;
+          groupChild.receiveShadow = true;
         });
       }
     });
@@ -252,24 +310,34 @@ export class RoomComponent {
   }
 
   setModel() {
-    this.scene.add(this.actualRoom);
+    this.scene.add(this.actualTopRoom);
+    this.scene.add(this.actualCenterRoom);
+    this.scene.add(this.actualBottomRoom);
     this.scene.background = new THREE.Color('#060B19');
   }
 
   setLights() {
-    this.sunlight = new THREE.DirectionalLight('#FFFFFF', 3);
+    this.sunlight = new THREE.DirectionalLight('#FFFFFF', 0.15);
     this.sunlight.shadow.mapSize.set(2048, 2048);
     this.sunlight.shadow.normalBias = 0.05;
     this.sunlight.position.set(-1, 5, 2);
     this.scene.add(this.sunlight);
 
-    const ambientLight = new THREE.PointLight(0xFF0000, 5, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
-    ambientLight.position.set(0, 4, -2);
+    const ambientLight = new THREE.PointLight(0xFF6863, 3, 10); //new THREE.AmbientLight(0xFFFFFF, 2);
+    ambientLight.position.set(0, 2, -1);
     this.scene.add(ambientLight);
 
-    const livingRoomLight = new THREE.PointLight(0x00FFFF, 5, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
-    livingRoomLight.position.set(0, 20, 0);
+    const aboutLight = new THREE.PointLight(0xFFA500, 3, 10); //new THREE.AmbientLight(0xFFFFFF, 2);
+    aboutLight.position.set(0, 10, -1);
+    this.scene.add(aboutLight);
+
+    const livingRoomLight = new THREE.PointLight(0x00FFFF, 3, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
+    livingRoomLight.position.set(0, 16, -2);
     this.scene.add(livingRoomLight);
+
+    const blinkLight = new THREE.PointLight(0xFF0000, 3, 5); //new THREE.AmbientLight(0xFFFFFF, 2);
+    blinkLight.position.set(0, 25, 0);
+    this.scene.add(blinkLight);
   }
 
   enterPortfolio() {
@@ -277,18 +345,21 @@ export class RoomComponent {
     this.enteredPortfolio.next(true);
   }
 
-  exploreMore() {
-    this.onExplore.next(true);
+  delay(time: any) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+
+  async exploreMore() {
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
     }
 
-    // Wait, push the other two blocks away and then zoom in
-
-    this.setPath(0, 17.5, 10, 2, this.perspectiveCamera);
+    this.setPath(0, -10, 0, 2, this.actualBottomRoom);
+    this.setPath(0, -10, 0, 2, this.actualCenterRoom);
+    this.setPath(0, 16.5, 20, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
-      x: -0.25,
+      x: 0,
       y: 0,
       duration: 2
     });
@@ -298,21 +369,22 @@ export class RoomComponent {
     if (menu) {
       menu.style["animationDuration"] = '1s';
     }
+
+    await this.delay(2000);
+    this.onExplore.next(true);
   }
 
-  exploreAbout() {
-    this.onExplore.next(true);
+  async exploreAbout() {
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
     }
 
-    // Wait, push the other two blocks away and then zoom in
-
-    // FIXME MOBILE muss weiter weg
-    this.setPath(0, 10, 10, 2, this.perspectiveCamera);
+    this.setPath(0, 20, 0, 2, this.actualTopRoom);
+    this.setPath(0, -20, 0, 2, this.actualBottomRoom);
+    this.setPath(0, 10, 20, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
-      x: -0.25,
+      x: 0,
       y: 0,
       duration: 2
     });
@@ -322,134 +394,41 @@ export class RoomComponent {
     if (menu) {
       menu.style["animationDuration"] = '1s';
     }
+
+    await this.delay(2000);
+    this.onExplore.next(true);
   }
 
-  exploreTech() {
-    this.onExplore.next(true);
+  async exploreTech() {
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
     }
 
-    // Wait, push the other two blocks away and then zoom in
-
-    this.setPath(0, 5, 10, 2, this.perspectiveCamera);
+    this.setPath(0, 20, 0, 2, this.actualTopRoom);
+    this.setPath(0, 20, 0, 2, this.actualCenterRoom);
+    this.setPath(0, 3, 20, 2, this.perspectiveCamera);
     GSAP.timeline().to(this.perspectiveCamera.rotation, {
-      x: -0.25,
+      x: 0,
       y: 0,
       duration: 2
       });
     this.interactionManager.update();
 
-    if (!this.addedEventlistenerToRoom.getValue()) {
-    this.actualRoom.children.forEach((child: any) => {
-      if (child.name === 'Portfolio') {
-        this.portfolio = child;
-        let portfolioColor: any;
-        this.interactionManager.add(child);
-        child.addEventListener('click', (event: any) => {
-          if (this.onExplore.getValue()) {
-            if (!this.portfolioAll.getValue()) {
-              this.router.navigate(['portfolio']);
-            } else {
-              this.setPath(0.75, 0.75, -0.6, 2, this.perspectiveCamera);
-              GSAP.timeline().to(this.perspectiveCamera.rotation, {
-                x: 0,
-                y: -0.785,
-                duration: 2
-                });
-              this.portfolioAll.next(false);
-              this.lookingAtPortfolio.next(true);
-            }
-          }
-          });
-        child.addEventListener('mouseover', (event: any) => {
-          portfolioColor = event.target.material.color.getHex();
-          event.target.material.color.set(0x800080);
-          document.body.style.cursor = 'pointer';
-          });
-        child.addEventListener('mouseout', (event: any) => {
-          event.target.material.color.setHex(portfolioColor);
-          document.body.style.cursor = 'grab';
-          });
-      }
-
-      if (child.name === 'CV') {
-        this.cv = child;
-        let cvColor: any;
-        this.interactionManager.add(child);
-        child.addEventListener('click', (event: any) => {
-          if (this.onExplore.getValue()) {
-            this.router.navigate(['about']);
-          }
-          });
-        child.addEventListener('mouseover', (event: any) => {
-          cvColor = event.target.material.color.getHex();
-          event.target.material.color.set(0x800080);
-          document.body.style.cursor = 'pointer';
-          });
-        child.addEventListener('mouseout', (event: any) => {
-          event.target.material.color.setHex(cvColor);
-          document.body.style.cursor = 'grab';
-          });
-      }
-
-      child.children.forEach((groupChild: any) => {
-        if (child.name === 'CV') {
-          this.cv = child;
-          let cvColor: any;
-          this.interactionManager.add(child);
-          child.addEventListener('click', (event: any) => {
-          if (this.onExplore.getValue()) {
-            this.router.navigate(['about']);
-          }
-          });
-          child.addEventListener('mouseover', (event: any) => {
-          cvColor = event.target.material.color.getHex();
-          event.target.material.color.set(0x800080);
-          document.body.style.cursor = 'pointer';
-          });
-          child.addEventListener('mouseout', (event: any) => {
-          event.target.material.color.setHex(cvColor);
-          document.body.style.cursor = 'grab';
-          });
-        }
-      });
-
-      if (child.name === 'Skills') {
-        this.cv = child;
-        let cvColor: any;
-        this.interactionManager.add(child);
-        child.addEventListener('click', (event: any) => {
-          if (this.onExplore.getValue()) {
-            this.router.navigate(['skills']);
-          }
-          });
-        child.addEventListener('mouseover', (event: any) => {
-          cvColor = event.target.material.color.getHex();
-          event.target.material.color.set(0x800080);
-          document.body.style.cursor = 'pointer';
-          });
-        child.addEventListener('mouseout', (event: any) => {
-          event.target.material.color.setHex(cvColor);
-          document.body.style.cursor = 'grab';
-          });
-      }
-    });
-    this.addedEventlistenerToRoom.next(true); // FIXME on goBack()
-    }
-
     let menu = document.getElementById("menu")
     if (menu) {
       menu.style["animationDuration"] = '1s';
     }
+
+    await this.delay(2000);
+    this.onExplore.next(true);
   }
 
   goBack() {
     if (this.lookingAtPortfolio.getValue()) {
       this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
       GSAP.timeline().to(this.perspectiveCamera.rotation, {
-            x: -0.4,
+            x: -0.2,
             y: 0,
             duration: 2
             });
@@ -468,6 +447,11 @@ export class RoomComponent {
       if (timeElement != null) {
         timeElement.classList.remove('hidden');
       }
+
+      this.setPath(0, 0, 0, 2, this.actualTopRoom);
+      this.setPath(0, 0, 0, 2, this.actualCenterRoom);
+      this.setPath(0, 0, 0, 2, this.actualBottomRoom);
+
       if (window.innerWidth <= 767) {
         this.setPath(0, 20, 50, 1, this.perspectiveCamera);
         GSAP.timeline().to(this.perspectiveCamera.rotation, {
@@ -491,8 +475,8 @@ export class RoomComponent {
     window.addEventListener("mousemove", (e) => {
       this.rotationX = ((e.clientX - window.innerWidth / 2) * 2) / window.innerWidth;
       this.lerpX.target = this.rotationX;
-      this.rotationY = ((e.clientY - window.innerHeight / 2)) / window.innerHeight;
-      this.lerpY.target = this.rotationY;
+      /* this.rotationY = ((e.clientY - window.innerHeight / 2)) / window.innerHeight;
+      this.lerpY.target = this.rotationY; */
     });
   }
 
@@ -517,26 +501,20 @@ export class RoomComponent {
       this.lerpX.ease
     );
 
-    this.lerpY.current = GSAP.utils.interpolate(
+    /* this.lerpY.current = GSAP.utils.interpolate(
       this.lerpY.current,
       this.lerpY.target,
       this.lerpY.ease
-    );
+    ); */
 
-    if (this.actualRoom && this.enteredPortfolio.getValue()) {
+    if (this.actualTopRoom && this.actualCenterRoom && this.actualBottomRoom && this.enteredPortfolio.getValue()) {
       this.interactionManager.update();
 
-      if (this.onExplore.getValue()) {
-        if (!this.lookingAtPortfolio.getValue()){
-          this.perspectiveCamera.rotation.y = (-1) * this.lerpX.current * 0.25;
-          this.perspectiveCamera.rotation.x = (-1) * this.lerpY.current * 0.5 - 0.25;
-        }
-      } else {
-        this.actualRoom.rotation.y = this.lerpX.current * 0.05;
-      }
+      this.actualTopRoom.rotation.y = this.lerpX.current * 0.1;
+      this.actualCenterRoom.rotation.y = this.lerpX.current * 0.15;
+      this.actualBottomRoom.rotation.y = this.lerpX.current * 0.125;
 
       if (this.elapsedTime > 2500 && !this.onExplore.getValue() && !this.setInitialCameraPosition.getValue()) {
-        console.log("Going to initial position of camera")
         if (window.innerWidth <= 767) {
           this.setPath(0, 20, 50, 3, this.perspectiveCamera);
           GSAP.timeline().to(this.perspectiveCamera.rotation, {
