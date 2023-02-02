@@ -69,6 +69,7 @@ export class RoomComponent {
   public lookingAtPortfolio: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public portfolioAll: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public setInitialCameraPosition: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public compactRooms: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   // Resources
   public resources: Resources;
@@ -189,6 +190,28 @@ export class RoomComponent {
         this.actualTopRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
         this.actualCenterRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
         this.actualBottomRoom.rotation.x = -Math.PI / ((2*(y-50+400))/(y-50 + 0.001));
+        if (!this.compactRooms.getValue()) {
+          this.setPath(0, 0, 0, 2, this.actualTopRoom);
+          this.setPath(0, 0, 0, 2, this.actualCenterRoom);
+          this.setPath(0, 0, 0, 2, this.actualBottomRoom);
+          if (window.innerWidth <= 767) {
+            this.setPath(0, 20, 50, 1, this.perspectiveCamera);
+
+            GSAP.timeline().to(this.perspectiveCamera.rotation, {
+              x: -0.2,
+              y: 0,
+              duration: 2
+            });
+          } else {
+            this.setPath(0, 18, 42.5, 1, this.perspectiveCamera);
+            GSAP.timeline().to(this.perspectiveCamera.rotation, {
+              x: -0.2,
+              y: 0,
+              duration: 2
+            })
+          }
+          this.compactRooms.next(true);
+        }
       }
       if (exploreElement != null) {
         if (y > 50) {
@@ -350,6 +373,7 @@ export class RoomComponent {
   }
 
   async exploreMore() {
+    this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
@@ -375,6 +399,7 @@ export class RoomComponent {
   }
 
   async exploreAbout() {
+    this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
@@ -400,6 +425,7 @@ export class RoomComponent {
   }
 
   async exploreTech() {
+    this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
     if (exploreElement != null) {
       exploreElement.classList.add('hidden');
