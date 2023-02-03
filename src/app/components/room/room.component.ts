@@ -170,6 +170,7 @@ export class RoomComponent {
 
   ngAfterViewInit(): void {
     document.body.style.overflowY = "hidden";
+
     this.scene = new THREE.Scene();
 
     // Sizes
@@ -187,10 +188,9 @@ export class RoomComponent {
     });
 
     window.addEventListener('scroll', () => {
+      let y = window.scrollY;
       let exploreElement = document.getElementById('menu');
       let arrow = document.getElementById('arrow');
-
-      let y = window.scrollY;
 
       if (this.actualTopRoom && this.actualCenterRoom && this.actualBottomRoom && this.setInitialCameraPosition.getValue()) {
         this.actualTopRoom.rotation.x = -Math.PI / ((2*(y+800))/(y + 0.001));
@@ -397,8 +397,10 @@ export class RoomComponent {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
-    if (exploreElement != null) {
+    let arrow = document.getElementById('arrow');
+    if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
+      arrow.classList.add('hidden');
     }
 
     this.setPath(0, -10, 0, 2, this.actualBottomRoom);
@@ -411,11 +413,6 @@ export class RoomComponent {
     });
     this.interactionManager.update();
 
-    let menu = document.getElementById("menu")
-    if (menu) {
-      menu.style["animationDuration"] = '2s';
-    }
-
     await this.delay(2000);
     this.onExplore.next(true);
   }
@@ -424,8 +421,10 @@ export class RoomComponent {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
-    if (exploreElement != null) {
+    let arrow = document.getElementById('arrow');
+    if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
+      arrow.classList.add('hidden');
     }
 
     this.setPath(0, 20, 0, 2, this.actualTopRoom);
@@ -438,11 +437,6 @@ export class RoomComponent {
     });
     this.interactionManager.update();
 
-    let menu = document.getElementById("menu")
-    if (menu) {
-      menu.style["animationDuration"] = '2s';
-    }
-
     await this.delay(2000);
     this.onExplore.next(true);
   }
@@ -451,8 +445,12 @@ export class RoomComponent {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
     let exploreElement = document.getElementById('menu');
-    if (exploreElement != null) {
-      exploreElement.classList.add('hidden');
+    let arrow = document.getElementById('arrow');
+
+    if (exploreElement != null && arrow != null) {
+      console.log("Both elements are present!!!");
+      exploreElement.classList.add('disappear');
+      arrow.classList.add('disappear');
     }
 
     this.setPath(0, 20, 0, 2, this.actualTopRoom);
@@ -465,57 +463,39 @@ export class RoomComponent {
       });
     this.interactionManager.update();
 
-    let menu = document.getElementById("menu")
-    if (menu) {
-      menu.style["animationDuration"] = '2s';
-    }
-
     await this.delay(2000);
     this.onExplore.next(true);
   }
 
   async goBack() {
-    if (this.lookingAtPortfolio.getValue()) {
-      this.setPath(0, 5, 7.5, 2, this.perspectiveCamera);
+    this.onExplore.next(false);
+
+    this.setPath(0, 0, 0, 2, this.actualTopRoom);
+    this.setPath(0, 0, 0, 2, this.actualCenterRoom);
+    this.setPath(0, 0, 0, 2, this.actualBottomRoom);
+
+    if (window.innerWidth <= 767) {
+      this.setPath(0, 20, 50, 1, this.perspectiveCamera);
       GSAP.timeline().to(this.perspectiveCamera.rotation, {
-            x: -0.2,
-            y: 0,
-            duration: 2
-            });
-      setTimeout(() => {
-        this.lookingAtPortfolio.next(false);
-        this.portfolioAll.next(true);
-      }, 2000)
+        x: -0.2,
+        y: 0,
+        duration: 2
+      });
     } else {
-      this.onExplore.next(false);
-      let exploreElement = document.getElementById('menu');
-      if (exploreElement != null) {
-        exploreElement.classList.remove('hidden');
-      }
-
-      this.setPath(0, 0, 0, 2, this.actualTopRoom);
-      this.setPath(0, 0, 0, 2, this.actualCenterRoom);
-      this.setPath(0, 0, 0, 2, this.actualBottomRoom);
-
-      if (window.innerWidth <= 767) {
-        this.setPath(0, 20, 50, 1, this.perspectiveCamera);
-        GSAP.timeline().to(this.perspectiveCamera.rotation, {
-          x: -0.2,
-          y: 0,
-          duration: 2
-        });
-      } else {
-        this.setPath(0, 18, 42.5, 1, this.perspectiveCamera);
-        GSAP.timeline().to(this.perspectiveCamera.rotation, {
-          x: -0.2,
-          y: 0,
-          duration: 2
-        })
-      }
+      this.setPath(0, 18, 42.5, 1, this.perspectiveCamera);
+      GSAP.timeline().to(this.perspectiveCamera.rotation, {
+        x: -0.2,
+        y: 0,
+        duration: 2
+      })
     }
+
     let exploreElement = document.getElementById('menu');
-    if (exploreElement != null) {
+    let arrow = document.getElementById('arrow');
+
+    if (exploreElement != null && arrow != null) {
       exploreElement.classList.remove('hidden');
+      arrow.classList.remove('disappear');
     }
 
     await this.delay(2500);
