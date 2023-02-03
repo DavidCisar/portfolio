@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,27 +6,5 @@ import { Component, AfterViewInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  public arrow: HTMLElement;
-
   constructor() {}
-
-  ngAfterViewInit() {
-    this.arrow = document.getElementById('arrow') as HTMLElement;
-    window.addEventListener('scroll', () => {
-      let y = window.scrollY;
-      if (y > 50 && this.arrow != null) {
-        this.arrow.classList.add('disappear');
-        this.arrow.classList.remove('fade-in');
-      } else {
-        this.arrow.classList.add('fade-in');
-        this.arrow.classList.remove('disappear');
-      }
-    })
-  }
-
-  scrollTo(element: any): void {
-    (document.getElementById(element) as HTMLElement).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-  }
-
 }

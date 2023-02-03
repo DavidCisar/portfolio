@@ -17,5 +17,16 @@
     <div *ngIf="onExplore.getValue()" class="explore" (click)="goBack()">
       <p>Go back</p>
     </div>
+
+    <div [hidden]="!enteredPortfolio.getValue()" class="more">
+      <div id="arrow" class="arrow fade-in">
+        <div>
+          More
+        </div>
+        <div class="center">
+          <img class="footer-logo" src="./assets/images/arrow.png" (click)="scrollTo('about')">
+        </div>
+      </div>
+    </div>
   </div>
 </div>

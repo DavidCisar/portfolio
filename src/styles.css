@@ -232,13 +232,13 @@ a {
   flex-direction: row;
   justify-content: space-between;
 
-  animation-name: fade-in;
-  animation-duration: 1s;
+  animation-name: fade-in-menu;
+  animation-duration: 0.5s;
   z-index: 5;
 }
 
 .hidden {
-  animation: fade-out 3s forwards;
+  animation: fade-out-menu 3s forwards;
 }
 
 .fade-in {
@@ -263,10 +263,22 @@ a {
   100%  { opacity: 1; }
 }
 
+@keyframes fade-in-menu {
+  0%    { opacity: 0; left: 25vw; }
+  100%  { opacity: 1; }
+}
+
 @keyframes fade-out {
   0%    { opacity: 1; }
   99%   { z-index: 1; }
   100%  { opacity: 0; z-index: -2;}
+}
+
+@keyframes fade-out-menu {
+  0%    { opacity: 1; }
+  30%   { opacity: 0.1; }
+  99%   { z-index: 1; }
+  100%  { opacity: 0; z-index: -2; left: 15vw; }
 }
 
 .hacking {
