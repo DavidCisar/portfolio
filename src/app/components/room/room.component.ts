@@ -400,7 +400,7 @@ export class RoomComponent {
     let arrow = document.getElementById('arrow');
     if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
-      arrow.classList.add('hidden');
+      arrow.classList.add('disappear');
     }
 
     this.setPath(0, -10, 0, 2, this.actualBottomRoom);
@@ -424,7 +424,7 @@ export class RoomComponent {
     let arrow = document.getElementById('arrow');
     if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
-      arrow.classList.add('hidden');
+      arrow.classList.add('disappear');
     }
 
     this.setPath(0, 20, 0, 2, this.actualTopRoom);
@@ -448,8 +448,7 @@ export class RoomComponent {
     let arrow = document.getElementById('arrow');
 
     if (exploreElement != null && arrow != null) {
-      console.log("Both elements are present!!!");
-      exploreElement.classList.add('disappear');
+      exploreElement.classList.add('hidden');
       arrow.classList.add('disappear');
     }
 
