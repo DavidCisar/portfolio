@@ -86,11 +86,11 @@ export class RoomComponent {
   public actualBottomRoomPosition: any;
 
   // Intro
-  public introTop = 'Hey I\'m David!';
+  public introTop = 'Hey I\'m David';
   public introCharactersTop: string[] = [];
   public introCounterTop = 0;
   public introDoneTop = false;
-  public introBottom = 'Welcome to my Portfolio';
+  public introBottom = 'Welcome to my Portfolio!';
   public introCharactersBottom: string[] = [];
   public introCounterBottom = 0;
   public introDoneBottom = false;
@@ -105,36 +105,70 @@ export class RoomComponent {
     this.resources = new Resources();
     GSAP.registerPlugin(ScrollTrigger);
 
+    let visibleTopLetterIndex: number[] = [];
+    let hiddenTopLetterIndex: number[] = [];
+    let visibleBottomLetterIndex: number[] = [];
+    let hiddenBottomLetterIndex: number[] = [];
+
+    for (let i = 0; i < this.introTop.length; i++) {
+      hiddenTopLetterIndex.push(i);
+    }
+
+    for (let i = 0; i < this.introBottom.length; i++) {
+      hiddenBottomLetterIndex.push(i);
+    }
+
     let introInterval = setInterval(() => {
-      for (let i = 0; i < this.introCounterTop; i++) {
-        this.introCharactersTop[i] = this.introTop.charAt(i);
-      }
-      for (let i = this.introCounterTop; i < this.introTop.length; i++) {
-        this.introCharactersTop[i] = Math.random().toString(36).charAt(2);
+
+      // TOP HACKING
+      for (let i = 0; i < this.introTop.length; i++) {
+        if (!visibleTopLetterIndex.includes(i)) {
+          this.introCharactersTop[i] = Math.random().toString(36).charAt(2);
+        } else {
+          this.introCharactersTop[i] = this.introTop.charAt(i);
+        }
       }
       if (document.getElementById('hacking-1')) {
         document.getElementById('hacking-1')!.innerText = this.introCharactersTop.join('');
       }
 
-      for (let i = 0; i < this.introCounterBottom; i++) {
-        this.introCharactersBottom[i] = this.introBottom.charAt(i);
-      }
-      for (let i = this.introCounterBottom; i < this.introBottom.length; i++) {
-        this.introCharactersBottom[i] = Math.random().toString(36).charAt(2);
+      // BOTTOM HACKING
+      for (let i = 0; i < this.introBottom.length; i++) {
+        if (!visibleBottomLetterIndex.includes(i)) {
+          this.introCharactersBottom[i] = Math.random().toString(36).charAt(2);
+        } else {
+          this.introCharactersBottom[i] = this.introBottom.charAt(i);
+        }
       }
       if (document.getElementById('hacking-2')) {
         document.getElementById('hacking-2')!.innerText = this.introCharactersBottom.join('');
       }
     }, 45);
 
-    let introRevealInterval = setInterval(() => {
+    let introTopRevealInterval = setInterval(() => {
       if (!this.introDoneTop) {
+        // Math random aus den hidden
+        let randomTopIndex = hiddenTopLetterIndex[Math.floor(Math.random() * (hiddenTopLetterIndex.length))];
+        visibleTopLetterIndex.push(randomTopIndex);
+        let removeIndex = hiddenTopLetterIndex.indexOf(randomTopIndex);
+        if (removeIndex > -1) {
+          hiddenTopLetterIndex.splice(removeIndex, 1);
+        }
         this.introCounterTop++;
         if (this.introCounterTop == this.introTop.length) {
           this.introDoneTop = true;
         }
       }
+    }, 200);
+
+    let introBottomRevealInterval = setInterval(() => {
       if (!this.introDoneBottom) {
+        let randomBottomIndex = hiddenBottomLetterIndex[Math.floor(Math.random() * (hiddenBottomLetterIndex.length))];
+        visibleBottomLetterIndex.push(randomBottomIndex);
+        let removeIndex = hiddenBottomLetterIndex.indexOf(randomBottomIndex);
+        if (removeIndex > -1) {
+          hiddenBottomLetterIndex.splice(removeIndex, 1);
+        }
         this.introCounterBottom++;
         if (this.introCounterBottom == this.introBottom.length) {
           this.introDoneBottom = true;
@@ -143,29 +177,7 @@ export class RoomComponent {
       if (!this.introDone.getValue() && this.introDoneTop && this.introDoneBottom) {
         this.introDone.next(true);
       }
-    }, 100);
-
-    let timeUpdate = setInterval(() => {
-      let timeHour = new Date().getHours();
-      let timeMinute = new Date().getMinutes();
-      let timeSecond = new Date().getSeconds();
-      this.lightStrength =
-        Math.max(0.3, ((timeHour * 3600 + timeMinute * 60 + timeSecond - 43200) * (timeHour * 3600 + timeMinute * 60 + timeSecond - 43200) * (-1) + (86400 * 86400)) / (86400 * 86400));
-
-      this.timeHour = timeHour.toString();
-      this.timeMinute = timeMinute.toString();
-      this.timeSecond = timeSecond.toString();
-
-      if (this.timeHour.length == 1) {
-        this.timeHour = '0' + this.timeHour;
-      };
-      if (this.timeMinute.length == 1) {
-        this.timeMinute = '0' + this.timeMinute;
-      };
-      if (this.timeSecond.length == 1) {
-        this.timeSecond = '0' + this.timeSecond;
-      };
-    }, 1000);
+    }, 110);
   }
 
   ngAfterViewInit(): void {
