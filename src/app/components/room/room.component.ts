@@ -177,7 +177,7 @@ export class RoomComponent {
       if (!this.introDone.getValue() && this.introDoneTop && this.introDoneBottom) {
         this.introDone.next(true);
       }
-    }, 110);
+    }, 55);
   }
 
   ngAfterViewInit(): void {
