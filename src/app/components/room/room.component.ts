@@ -25,7 +25,6 @@ export class RoomComponent {
   public height: any;
   public aspect: any;
   public pixelRatio: any;
-  public frustrum: any;
 
   // Time
   public startTime = 0;
@@ -239,13 +238,13 @@ export class RoomComponent {
       if (exploreElement != null && arrow != null) {
         if (y > 50) {
           if (!this.scrolledFar.getValue()) {
-            exploreElement.classList.add('disappear');
+            exploreElement.classList.add('hidden');
             arrow.classList.add('disappear');
             this.scrolledFar.next(true);
           }
         } else {
           if (this.scrolledFar.getValue()) {
-            exploreElement.classList.remove('disappear');
+            exploreElement.classList.remove('hidden');
             arrow.classList.remove('disappear');
             this.scrolledFar.next(false);
           }
@@ -405,9 +404,10 @@ export class RoomComponent {
     return new Promise(resolve => setTimeout(resolve, time));
   }
 
-  async exploreMore() {
+  exploreMore() {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
+    this.onExplore.next(true);
     let exploreElement = document.getElementById('menu');
     let arrow = document.getElementById('arrow');
     if (exploreElement != null && arrow != null) {
@@ -424,14 +424,12 @@ export class RoomComponent {
       duration: 2
     });
     this.interactionManager.update();
-
-    await this.delay(2000);
-    this.onExplore.next(true);
   }
 
-  async exploreAbout() {
+  exploreAbout() {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
+    this.onExplore.next(true);
     let exploreElement = document.getElementById('menu');
     let arrow = document.getElementById('arrow');
     if (exploreElement != null && arrow != null) {
@@ -448,14 +446,12 @@ export class RoomComponent {
       duration: 2
     });
     this.interactionManager.update();
-
-    await this.delay(2000);
-    this.onExplore.next(true);
   }
 
-  async exploreTech() {
+  exploreTech() {
     document.body.style.overflowY = "hidden";
     this.compactRooms.next(false);
+    this.onExplore.next(true);
     let exploreElement = document.getElementById('menu');
     let arrow = document.getElementById('arrow');
 
@@ -473,13 +469,20 @@ export class RoomComponent {
       duration: 2
       });
     this.interactionManager.update();
-
-    await this.delay(2000);
-    this.onExplore.next(true);
   }
 
   async goBack() {
     this.onExplore.next(false);
+    this.hideMenu.next(false);
+
+    let exploreElement = document.getElementById('menu');
+    let arrow = document.getElementById('arrow');
+    console.log(exploreElement);
+    console.log(arrow);
+
+    if (exploreElement != null) {
+      exploreElement.classList.remove('hidden');
+    }
 
     this.setPath(0, 0, 0, 2, this.actualTopRoom);
     this.setPath(0, 0, 0, 2, this.actualCenterRoom);
@@ -499,14 +502,6 @@ export class RoomComponent {
         y: 0,
         duration: 2
       })
-    }
-
-    let exploreElement = document.getElementById('menu');
-    let arrow = document.getElementById('arrow');
-
-    if (exploreElement != null && arrow != null) {
-      exploreElement.classList.remove('hidden');
-      arrow.classList.remove('disappear');
     }
 
     await this.delay(2500);
