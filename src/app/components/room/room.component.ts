@@ -158,7 +158,7 @@ export class RoomComponent {
           this.introDoneTop = true;
         }
       }
-    }, 200);
+    }, 100);
 
     let introBottomRevealInterval = setInterval(() => {
       if (!this.introDoneBottom) {
@@ -413,7 +413,6 @@ export class RoomComponent {
     if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
       arrow.classList.add('disappear');
-      arrow.style["animationDuration"] = '1s';
     }
 
     this.setPath(0, -10, 0, 2, this.actualBottomRoom);
@@ -436,7 +435,6 @@ export class RoomComponent {
     if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
       arrow.classList.add('disappear');
-      arrow.style["animationDuration"] = '1s';
     }
 
     this.setPath(0, 20, 0, 2, this.actualTopRoom);
@@ -460,7 +458,6 @@ export class RoomComponent {
     if (exploreElement != null && arrow != null) {
       exploreElement.classList.add('hidden');
       arrow.classList.add('disappear');
-      arrow.style["animationDuration"] = '1s';
     }
 
     this.setPath(0, 20, 0, 2, this.actualTopRoom);

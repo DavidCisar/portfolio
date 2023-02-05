@@ -2,7 +2,7 @@
   <div *ngIf="!enteredPortfolio.getValue()" class="hacker center">
     <div id="hacking-1" class="hacking hero center"></div>
     <div id="hacking-2" class="hacking hero center"></div>
-    <button *ngIf="introDone.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()">Enter portfolio</button>
+    <button *ngIf="introDone.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()"><b>Enter portfolio</b></button>
   </div>
 
   <div *ngIf="!enteredPortfolio.getValue()" class="room-footer">
@@ -60,7 +60,7 @@
     </div>
 
     <div *ngIf="onExplore.getValue()" class="go-back center" (click)="goBack()">
-      <p>Go back</p>
+      <p><b>Go back</b></p>
     </div>
 
     <div *ngIf="enteredPortfolio.getValue() && !onExplore.getValue()" class="more">
