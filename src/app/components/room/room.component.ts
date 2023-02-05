@@ -71,6 +71,7 @@ export class RoomComponent {
   public compactRooms: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public scrolledFar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public setOverflowVisible: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public hideIntroVar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Resources
   public resources: Resources;
@@ -469,6 +470,10 @@ export class RoomComponent {
       duration: 2
       });
     this.interactionManager.update();
+  }
+
+  hideIntro () {
+    this.hideIntroVar.next(true);
   }
 
   async goBack() {

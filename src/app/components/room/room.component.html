@@ -2,18 +2,18 @@
   <div *ngIf="!enteredPortfolio.getValue()" class="hacker center">
     <div id="hacking-1" class="hacking hero center"></div>
     <div id="hacking-2" class="hacking hero center"></div>
-    <button *ngIf="introDone.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()"><b>Enter portfolio</b></button>
+    <button *ngIf="introDone.getValue() && !hideIntroVar.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()"><b>Enter portfolio</b></button>
   </div>
 
-  <div *ngIf="!enteredPortfolio.getValue()" class="room-footer">
+  <div *ngIf="!enteredPortfolio.getValue() && introDone.getValue()" class="room-footer ">
     <div class="footerleft">
       <div>
-        <a routerLink="/imprint">
+        <a routerLink="/imprint" (click)="hideIntro()">
           Imprint
         </a>
       </div>
       <div>
-        <a routerLink="/privacy">
+        <a routerLink="/privacy" (click)="hideIntro()">
           Privacy
         </a>
       </div>

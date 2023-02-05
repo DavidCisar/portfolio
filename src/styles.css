@@ -51,16 +51,6 @@ a {
   height: 100vh;
 }
 
-.blurr {
-  width: 100vw;
-  height: 100vh;
-
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-
-  z-index: 6;
-}
-
 .headline {
   font-size: max(5.5vw, 80px);
   font-weight: bold;
@@ -119,27 +109,6 @@ a {
   animation-name: fade-in;
   animation-duration: 4s;
   z-index: 10;
-}
-
-.enter-btn {
-  width: 200px;
-  height: 40px;
-  box-sizing: border-box;
-
-  margin-top: 10px;
-
-  font-size: 18px;
-  color: transparent;
-  z-index: 5;
-  animation-name: fade-in;
-  animation-duration: 2s;
-
-  box-shadow: 2px 1000px 1px rgba(6, 11, 25, 1) inset;
-  border: solid 3px transparent;
-  border-radius: 5px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgb(182, 244, 146), rgb(51, 139, 147));
-  background-origin: border-box;
-  background-clip: content-box, border-box;
 }
 
 .go-back:hover {
@@ -229,6 +198,9 @@ a {
   width: 100vw;
   height: 1.5vh;
   color: white;
+
+  animation-name: fade-in;
+  animation-duration: 2s;
 
   background-color: transparent;
 
@@ -374,6 +346,7 @@ a {
 }
 
 .enter-btn {
+  position: relative;
   width: 200px;
   height: 40px;
   box-sizing: border-box;
@@ -382,9 +355,8 @@ a {
 
   font-size: 18px;
   color: transparent;
-  z-index: 5;
   animation-name: fade-in;
-  animation-duration: 2s;
+  animation-duration: 4s;
 
   box-shadow: 2px 1000px 1px rgba(6, 11, 25, 1) inset;
   border: solid 3px transparent;
@@ -392,6 +364,7 @@ a {
   background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgb(182, 244, 146), rgb(51, 139, 147));
   background-origin: border-box;
   background-clip: content-box, border-box;
+  z-index: 5;
 }
 
 .enter-btn:hover {
@@ -451,6 +424,10 @@ a {
 
 @media (max-width: 1000px) {
   .footer {
+    flex-direction: column;
+  }
+
+  .room-footer {
     flex-direction: column;
   }
 

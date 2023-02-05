@@ -1,20 +1,23 @@
 .privacy-container {
-  margin-top: 5vh;
-  padding: 5vh 20vw;
+  position: relative;
+  margin-top: 10vh;
+  padding: 2.5vh 20vw 0vh 20vw;
+  height: 82.5vh;
 
   box-sizing: border-box;
-  height: 85vh;
   font-size: 16px;
   text-align: justify;
   overflow-y: auto;
 
-  z-index: 1000;
+  background-color: rgb(6, 11, 25);
+
+  z-index: 10;
 }
 
 .privacy-container::-webkit-scrollbar {
   display: none;              /* Safari and Chrome */
 }
 
-.blurr {
-  background-color: rgba(255, 255, 255, 0.5);
+.go-back {
+  bottom: 92.5vh;
 }
