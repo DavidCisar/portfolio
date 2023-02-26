@@ -422,6 +422,94 @@ a {
   100% { background-position: right }
 }
 
+.more {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  top: 94vh;
+  left: calc(50vw - 100px);
+  width: 200px;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 5vh;
+  font-weight: 600;
+}
+
+.about-content {
+  width: 50vw;
+  margin: 5vh auto;
+}
+
+.skill-section {
+  margin-top: 50px;
+  width: 700px;
+
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  border-radius: 25px;
+  box-sizing: border-box;
+
+  padding: 25px 50px;
+}
+
+.skill-hero {
+  font-size: 2rem;
+  background-color: transparent;
+  margin-bottom: 25px;
+}
+
+.skill-btn {
+  display: inline-block;
+  background: white;
+
+  font-size: 12px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+
+  border: 1px solid black;
+  border-radius: 5px;
+
+  padding: 5px 20px;
+  margin: 10px;
+  width: fit-content;
+}
+
+<!-- MEDIA QUERIES -->
+
+@media (max-width: 767px) {
+  .hacking {
+    font-size: 16px;
+    width: 90vw;
+    height: fit-content;
+    text-wrap: break-word;
+    background-image: linear-gradient(45deg, #d65db1 25%, #ff6f91);
+    background-clip: text;
+
+    color: transparent;
+  }
+
+  .hacker {
+    margin-top: 45vh;
+    height: fit-content;
+  }
+
+  .enter-btn {
+    font-size: 16px;
+    background-color: rgb(6, 11, 25);
+    margin-top: 25px;
+    padding: 5px 10px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 2px;
+  }
+}
+
 @media (max-width: 1000px) {
   .footer {
     flex-direction: column;
@@ -452,52 +540,6 @@ a {
   .icons {
     margin: 25px auto;
     width: 75vw;
-  }
-}
-
-.more {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  position: absolute;
-  top: 94vh;
-  left: calc(50vw - 100px);
-  width: 200px;
-}
-
-.arrow {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 5vh;
-  font-weight: 600;
-}
-
-@media (max-width: 767px) {
-  .hacking {
-    font-size: 16px;
-    width: 90vw;
-    height: fit-content;
-    text-wrap: break-word;
-    background-image: linear-gradient(45deg, #d65db1 25%, #ff6f91);
-    background-clip: text;
-
-    color: transparent;
-  }
-
-  .hacker {
-    margin-top: 45vh;
-    height: fit-content;
-  }
-
-  .enter-btn {
-    font-size: 16px;
-    background-color: rgb(6, 11, 25);
-    margin-top: 25px;
-    padding: 5px 10px;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 2px;
   }
 }
 

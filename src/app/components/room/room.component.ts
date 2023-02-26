@@ -391,7 +391,7 @@ export class RoomComponent {
     livingRoomLight.position.set(-1, 16, -2);
     this.scene.add(livingRoomLight);
 
-    const blinkLight = new THREE.PointLight(0xFF0000, 3, 5); //new THREE.AmbientLight(0xFFFFFF, 2);
+    const blinkLight = new THREE.PointLight(0xFFFFFF, 3, 100); //new THREE.AmbientLight(0xFFFFFF, 2);
     blinkLight.position.set(0, 25, 0);
     this.scene.add(blinkLight);
   }
