@@ -1,5 +1,8 @@
 <div class="room-container">
   <div *ngIf="!enteredPortfolio.getValue()" class="hacker center">
+    <div class="head center">
+      <app-head-component></app-head-component>
+    </div>
     <div id="hacking-1" class="hacking hero center"></div>
     <div id="hacking-2" class="hacking hero center"></div>
     <button *ngIf="introDone.getValue() && !hideIntroVar.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()"><b>Enter portfolio</b></button>

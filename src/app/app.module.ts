@@ -18,6 +18,7 @@ import { CdComponent } from './components/portfolio/cd/cd.component';
 import { PbtfComponent } from './components/portfolio/pbtf/pbtf.component';
 import { PwComponent } from './components/portfolio/pw/pw.component';
 import { SrpComponent } from './components/portfolio/srp/srp.component';
+import { HeadComponentComponent } from './components/head-component/head-component.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SrpComponent } from './components/portfolio/srp/srp.component';
     CdComponent,
     PbtfComponent,
     PwComponent,
-    SrpComponent
+    SrpComponent,
+    HeadComponentComponent
   ],
   imports: [
     BrowserModule,

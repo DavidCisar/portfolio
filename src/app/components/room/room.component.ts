@@ -37,7 +37,6 @@ export class RoomComponent {
 
   // Light
   public sunlight: THREE.DirectionalLight;
-  public lightStrength: number = 0.3;
 
   // Camera
   public camera: any;
@@ -143,7 +142,7 @@ export class RoomComponent {
       if (document.getElementById('hacking-2')) {
         document.getElementById('hacking-2')!.innerText = this.introCharactersBottom.join('');
       }
-    }, 45);
+    }, 90);
 
     let introTopRevealInterval = setInterval(() => {
       if (!this.introDoneTop) {
@@ -159,7 +158,7 @@ export class RoomComponent {
           this.introDoneTop = true;
         }
       }
-    }, 100);
+    }, 200);
 
     let introBottomRevealInterval = setInterval(() => {
       if (!this.introDoneBottom) {

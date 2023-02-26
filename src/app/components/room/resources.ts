@@ -19,6 +19,11 @@ export default class Resources extends EventEmitter {
                       name: 'room_bottom',
                       type: 'glbModel',
                       path: './assets/three/models/portfolio_v2_room_bottom.glb'
+                    },
+                    {
+                      name: 'head',
+                      type: 'glbModel',
+                      path: './assets/three/models/head.glb'
                     }];
   public items: any[] = [];
   public queue: any;
@@ -81,6 +86,14 @@ export default class Resources extends EventEmitter {
   getBottomRoom() {
     for (const item of this.items) {
       if (item.name === "room_bottom") {
+        return item.file;
+      }
+    }
+  }
+
+  getHead() {
+    for (const item of this.items) {
+      if (item.name === "head") {
         return item.file;
       }
     }
