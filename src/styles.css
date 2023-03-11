@@ -111,7 +111,6 @@ a {
 
 .go-back:hover {
   cursor: pointer;
-  cursor: pointer;
   box-shadow: none;
   transform: scale(1.05);
 }
@@ -357,7 +356,7 @@ a {
 
 .enter-btn {
   position: relative;
-  width: 200px;
+  width: 225px;
   height: 40px;
   box-sizing: border-box;
 
@@ -554,6 +553,8 @@ a {
     width: 75vw;
   }
 }
+
+<!-- Icon Scroll animation -->
 
 .icon-scroll, .icon-scroll:before {
   position: absolute;
