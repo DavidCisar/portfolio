@@ -5,7 +5,7 @@
     </div>
     <div id="hacking-1" class="hacking hero center"></div>
     <div id="hacking-2" class="hacking hero center"></div>
-    <button *ngIf="introDone.getValue() && !hideIntroVar.getValue()" type="button" class="enter-btn center" (click)="enterPortfolio()"><b>Enter portfolio</b></button>
+    <button *ngIf="introDone.getValue() && !hideIntroVar.getValue()" class="enter-btn center" (click)="enterPortfolio()" id="hacking-3"></button>
   </div>
 
   <div *ngIf="!enteredPortfolio.getValue() && introDone.getValue()" class="room-footer ">
@@ -68,12 +68,7 @@
 
     <div *ngIf="enteredPortfolio.getValue() && !onExplore.getValue()" class="more">
       <div id="arrow" class="arrow fade-in-arrow">
-        <div>
-          More
-        </div>
-        <div class="center">
-          <img class="footer-logo" src="./assets/images/arrow.png" (click)="scrollTo('about')">
-        </div>
+        <div class='icon-scroll'></div>
       </div>
     </div>
   </div>

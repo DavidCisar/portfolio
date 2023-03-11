@@ -31,6 +31,7 @@ export class RoomComponent {
   public currentTime = 0;
   public elapsedTime = 0;
   public deltaTime = 16;
+  public introTime = 0;
 
   // Scene
   public scene: THREE.Scene;
@@ -95,6 +96,11 @@ export class RoomComponent {
   public introDoneBottom = false;
   public introDone: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  public introButton = 'Enter Portfolio';
+  public introCharactersButton: string[] = [];
+  public introCounterButton = 0;
+  public introDoneButton = false;
+
   // Time
   public timeHour: string = '';
   public timeMinute: string = '';
@@ -108,6 +114,8 @@ export class RoomComponent {
     let hiddenTopLetterIndex: number[] = [];
     let visibleBottomLetterIndex: number[] = [];
     let hiddenBottomLetterIndex: number[] = [];
+    let visibleButtonLetterIndex: number[] = [];
+    let hiddenButtonLetterIndex: number[] = [];
 
     for (let i = 0; i < this.introTop.length; i++) {
       hiddenTopLetterIndex.push(i);
@@ -115,6 +123,10 @@ export class RoomComponent {
 
     for (let i = 0; i < this.introBottom.length; i++) {
       hiddenBottomLetterIndex.push(i);
+    }
+
+    for (let i = 0; i < this.introButton.length; i++) {
+      hiddenButtonLetterIndex.push(i);
     }
 
     let introInterval = setInterval(() => {
@@ -142,6 +154,20 @@ export class RoomComponent {
       if (document.getElementById('hacking-2')) {
         document.getElementById('hacking-2')!.innerText = this.introCharactersBottom.join('');
       }
+
+      // BUTTON HACKING
+      for (let i = 0; i < this.introButton.length; i++) {
+        if (!visibleButtonLetterIndex.includes(i)) {
+          this.introCharactersButton[i] = Math.random().toString(36).charAt(2);
+        } else {
+          this.introCharactersButton[i] = this.introButton.charAt(i);
+        }
+      }
+      if (document.getElementById('hacking-3')) {
+        document.getElementById('hacking-3')!.innerText = this.introCharactersButton.join('');
+      }
+
+      this.introTime += 90;
     }, 90);
 
     let introTopRevealInterval = setInterval(() => {
@@ -162,6 +188,7 @@ export class RoomComponent {
 
     let introBottomRevealInterval = setInterval(() => {
       if (!this.introDoneBottom) {
+        // Math random aus den hidden
         let randomBottomIndex = hiddenBottomLetterIndex[Math.floor(Math.random() * (hiddenBottomLetterIndex.length))];
         visibleBottomLetterIndex.push(randomBottomIndex);
         let removeIndex = hiddenBottomLetterIndex.indexOf(randomBottomIndex);
@@ -173,8 +200,40 @@ export class RoomComponent {
           this.introDoneBottom = true;
         }
       }
+    }, 55);
+
+    let introButtonRevealInterval = setInterval(() => {
+      if (!this.introDoneButton) {
+        // Math random aus den hidden
+        let randomButtonIndex = hiddenButtonLetterIndex[Math.floor(Math.random() * (hiddenButtonLetterIndex.length))];
+        visibleButtonLetterIndex.push(randomButtonIndex);
+        let removeIndex = hiddenButtonLetterIndex.indexOf(randomButtonIndex);
+        if (removeIndex > -1) {
+          hiddenButtonLetterIndex.splice(removeIndex, 1);
+        }
+        this.introCounterButton++;
+        if (this.introCounterButton == this.introButton.length) {
+          this.introDoneButton = true;
+        }
+      }
+    }, 55);
+
+    let introTotalInterval = setInterval(() => {
       if (!this.introDone.getValue() && this.introDoneTop && this.introDoneBottom) {
         this.introDone.next(true);
+      }
+
+      if (this.introTime > 5000 && this.introDoneTop && this.introDoneBottom) {
+        this.introTime = 0;
+
+        this.introCounterButton = 0;
+        this.introDoneButton = false;
+
+        for (let i = 0; i < this.introButton.length; i++) {
+          hiddenButtonLetterIndex.push(i);
+        }
+
+        visibleButtonLetterIndex = [];
       }
     }, 55);
   }

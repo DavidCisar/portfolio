@@ -96,12 +96,10 @@ a {
 
   margin: 1vh auto;
 
-  box-shadow: 2px 1000px 1px rgba(6, 11, 25, 1) inset;
   border: solid 3px transparent;
   border-radius: 5px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgb(182, 244, 146), rgb(51, 139, 147));
+  background-image: linear-gradient(101deg, rgb(182, 244, 146), lightblue, pink);
   background-origin: border-box;
-  background-clip: content-box, border-box;
 
   font-size: 16px;
   text-align: center;
@@ -336,7 +334,7 @@ a {
 
 .hacking {
   font-size: 32px;
-  background-image: linear-gradient(101deg, rgb(182, 244, 146), rgb(51, 139, 147));
+  background-image: linear-gradient(110deg, rgb(182, 244, 146), lightblue, pink);
   background-clip: text;
 
   color: transparent;
@@ -366,22 +364,24 @@ a {
   margin-top: 10px;
 
   font-size: 18px;
-  color: transparent;
+  color: black;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: monospace;
   animation-name: fade-in;
   animation-duration: 4s;
 
-  box-shadow: 2px 1000px 1px rgba(6, 11, 25, 1) inset;
   border: solid 3px transparent;
   border-radius: 5px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, rgb(182, 244, 146), rgb(51, 139, 147));
+  background-image: linear-gradient(101deg, rgb(182, 244, 146), lightblue, pink);
   background-origin: border-box;
-  background-clip: content-box, border-box;
   z-index: 5;
 }
 
 .enter-btn:hover {
   cursor: pointer;
   box-shadow: none;
+  transform: scale(1.05);
 }
 
 .explore {
@@ -555,3 +555,39 @@ a {
   }
 }
 
+.icon-scroll, .icon-scroll:before {
+  position: absolute;
+  left: 50%;
+}
+
+.icon-scroll {
+  width: 20px;
+  height: 35px;
+  margin-left: -10px;
+  top: 50%;
+  margin-top: -17.5px;
+  box-shadow: inset 0 0 0 1px #fff;
+  border-radius: 25px;
+
+  border: solid 3px transparent;
+  background-image: linear-gradient(101deg, rgb(182, 244, 146), lightblue, pink);
+  background-origin: border-box;
+}
+
+.icon-scroll:before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  margin-left: -2px;
+  top: 4px;
+  border-radius: 4px;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-name: scroll;
+}
+
+@keyframes scroll {
+  0% { opacity: 1;}
+  100% { opacity: 0; transform: translateY(23px);}
+}
